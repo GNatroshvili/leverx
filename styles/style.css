@@ -509,3 +509,11 @@
   bottom: 50px;
   align-self: center;
 }
+
+.employee-card,
+.search-input-and-button-wrapper,
+.empty-employees-wrapper,
+.employee-header,
+.employee-list-cards-wrapper {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
