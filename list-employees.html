@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/layout.css" />
+    <title>LeverX Employee Services</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-wrapper container">
+        <div class="header-title">
+          <a class="company-name" href="./index.html">Leverx</a>
+          <p class="page-service">EMPLOYEE SERVICES</p>
+        </div>
+        <div>
+          <button class="page-title">Address Book</button>
+        </div>
+        <div class="header-actions">
+          <div class="support-and-user-wrapper">
+            <div class="support-btn">
+              <img src="./assets/question-mark.png" alt="support-icon" />
+              <p class="support-btn-text">Support</p>
+            </div>
+            <div class="user-data">
+              <img src="./assets/user.png" alt="user-icon" />
+              <p class="username">Joe Doe</p>
+            </div>
+          </div>
+          <div class="logout-btn">
+            <img src="./assets/logout.png" alt="logout-icon" />
+          </div>
+        </div>
+        <input type="checkbox" id="burger-toggle" class="burger-checkbox" />
+        <div class="menu-backdrop"></div>
+        <label for="burger-toggle" class="burger-menu-wrapper">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </label>
+        <nav class="mobile-nav">
+          <div class="nav-wrapper">
+            <img src="./assets/avatar.png" alt="avatar" class="burger-avatar" />
+            <div class="nav-actions-wrapper">
+              <p>Joe Doe</p>
+              <a href="" class="sign-out-link">Sign Out</a>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <p class="nav-address-book">Address Book</p>
+          <div class="list-divider-line"></div>
+          <div class="visible-support-btn">
+            <img src="./assets/question-mark.png" alt="support-icon" />
+            <p class="support-btn-text">Support</p>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="mobile-search-wrapper">
+      <img src="./assets/search-icon.png" alt="search-icon" />
+      <p class="mobile-search-input">Open search panel</p>
+    </div>
+    <div class="main-page-wrapper container">
+      <div class="search-wrapper">
+        <div class="search-options-wrapper">
+          <button class="basic-btn" href="index.html">BASIC SEARCH</button>
+          <a class="search-option-btn" href="advanced-search.html"
+            >ADVANCED SEARCH</a
+          >
+        </div>
+        <div class="search-input-and-button-wrapper">
+          <div class="search-input-wrapper">
+            <input type="text" class="search-input" placeholder="Search" />
+            <img
+              src="./assets/search-icon.png"
+              alt="search-icon"
+              class="search-icon"
+            />
+          </div>
+          <div class="search-btn-wrapper">
+            <a href="not-found.html" class="search-btn">Search</a>
+          </div>
+        </div>
+      </div>
+      <div class="employee-wrapper">
+        <div class="employee-manage">
+          <div>
+            <p class="employee-count">9 employees displayed</p>
+          </div>
+          <div class="employee-manage-options-wrapper">
+            <a href="index.html">
+              <img src="./assets/grid.png" alt="grid-icon" />
+            </a>
+            <a href="list-employees.html">
+              <img src="./assets/blue-list.png" alt="list-icon" />
+            </a>
+          </div>
+        </div>
+        <div class="employee-header">
+          <div class="photo-and-name-wrapper">
+            <div class="photo-wrapper">
+              <img src="./assets/circle.png" alt="circle-icon" />
+              <p class="font-style">Photo</p>
+            </div>
+            <div class="name-wrapper">
+              <img src="./assets/name.png" alt="name-icon" />
+              <p>Name</p>
+            </div>
+          </div>
+          <div class="department-and-room-wrapper">
+            <div class="department-wrapper">
+              <img src="./assets/briefcase.png" alt="briefcase-icon" />
+              <p class="font-style">Department</p>
+            </div>
+            <div class="room-wrapper">
+              <img src="./assets/door.png" alt="door-icon" />
+              <p class="font-style">Room</p>
+            </div>
+          </div>
+        </div>
+        <div class="employee-list-cards-wrapper">
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <div class="employee-list-card">
+            <div class="list-avatar-and-name-wrapper">
+              <div>
+                <img
+                  src="./assets/avatar.png"
+                  alt="user-avatar"
+                  class="list-avatar"
+                />
+              </div>
+              <div>
+                <p>Joe Doe</p>
+              </div>
+            </div>
+            <div class="list-role-and-room-wrapper">
+              <div>
+                <p>Web & Mobile</p>
+              </div>
+              <div>
+                <p>#444</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="employee-cards-wrapper hidden">
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-card">
+            <div class="employee-data-wrapper">
+              <img src="./assets/avatar.png" alt="user-avatar" class="avatar" />
+              <p class="employee-name">Joe Doe</p>
+            </div>
+            <div class="divider-line"></div>
+            <div class="work-role-and-room-wrapper">
+              <div class="work-role-wrapper">
+                <img src="./assets/briefcase.png" alt="briefcase-icon" />
+                <p class="work-role">Web & Mobile</p>
+              </div>
+              <div class="room-number-wrapper">
+                <img src="./assets/door.png" alt="door-icon" />
+                <p class="room-number">#444</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
