@@ -1,0 +1,49 @@
+.input-label {
+  margin-bottom: 8px;
+}
+
+.Building-input-wrapper {
+  display: flex;
+}
+
+.contact-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.advanced-phone-wrapper {
+  width: 100%;
+}
+
+.advanced-skype-wrapper {
+  width: 100%;
+}
+
+.advanced-search-input {
+  width: 100%;
+  padding: 14px 10px 10px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.advanced-search-input:focus {
+  border: 1.5px solid #007bff;
+}
+
+.dropdown {
+  padding-right: 20px;
+}
+
+.Building-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.Building-input-wrapper > div:first-child {
+  flex: 7;
+}
+
+.Building-input-wrapper > div:last-child {
+  flex: 3;
+}
