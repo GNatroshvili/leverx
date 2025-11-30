@@ -91,14 +91,41 @@
             <p class="employee-count">0 employees displayed</p>
           </div>
           <div class="employee-manage-options-wrapper">
-            <a href="index.html">
-              <img src="./assets/blue-grid.png" alt="grid-icon" />
+            <a href="#" id="grid-view-btn">
+              <img
+                src="./assets/blue-grid.png"
+                alt="grid-icon"
+                id="grid-icon"
+              />
             </a>
-            <a href="list-employees.html">
-              <img src="./assets/list.png" alt="list-icon" />
+            <a href="#" id="list-view-btn">
+              <img src="./assets/list.png" alt="list-icon" id="list-icon" />
             </a>
           </div>
         </div>
+        <div class="employee-header" style="display: none">
+          <div class="photo-and-name-wrapper">
+            <div class="photo-wrapper">
+              <img src="./assets/circle.png" alt="circle-icon" />
+              <p class="font-style">Photo</p>
+            </div>
+            <div class="name-wrapper">
+              <img src="./assets/name.png" alt="name-icon" />
+              <p>Name</p>
+            </div>
+          </div>
+          <div class="department-and-room-wrapper">
+            <div class="department-wrapper">
+              <img src="./assets/briefcase.png" alt="briefcase-icon" />
+              <p class="font-style">Department</p>
+            </div>
+            <div class="room-wrapper">
+              <img src="./assets/door.png" alt="door-icon" />
+              <p class="font-style">Room</p>
+            </div>
+          </div>
+        </div>
+        <div class="employee-list-cards-wrapper" style="display: none"></div>
         <div class="employee-cards-wrapper"></div>
       </div>
     </div>
