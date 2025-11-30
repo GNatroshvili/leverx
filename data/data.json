@@ -2,7 +2,7 @@
   {
     "_id": "d6d206e5-2ca4-443d-8404-dc05284e2d15",
     "isRemoteWork": true,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Luffy",
     "last_name": "Monkey",
     "first_native_name": "Luffy",
@@ -35,7 +35,7 @@
   {
     "_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "isRemoteWork": false,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Nami",
     "last_name": "Swan",
     "first_native_name": "Nami",
@@ -68,7 +68,7 @@
   {
     "_id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
     "isRemoteWork": true,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Zoro",
     "last_name": "Roronoa",
     "first_native_name": "Zoro",
@@ -101,7 +101,7 @@
   {
     "_id": "c3d4e5f6-a789-0123-cdef-123456789012",
     "isRemoteWork": false,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Sanji",
     "last_name": "Vinsmoke",
     "first_native_name": "Sanji",
@@ -134,7 +134,7 @@
   {
     "_id": "d4e5f6a7-8901-2345-def1-234567890123",
     "isRemoteWork": true,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Robin",
     "last_name": "Nico",
     "first_native_name": "Robin",
@@ -167,7 +167,7 @@
   {
     "_id": "e5f6a789-0123-4567-ef12-345678901234",
     "isRemoteWork": false,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Usopp",
     "last_name": "Sniper",
     "first_native_name": "Usopp",
@@ -200,7 +200,7 @@
   {
     "_id": "f6a78901-2345-6789-f123-456789012345",
     "isRemoteWork": true,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Franky",
     "last_name": "Cyborg",
     "first_native_name": "Franky",
@@ -233,7 +233,7 @@
   {
     "_id": "a7890123-4567-8901-2345-678901234567",
     "isRemoteWork": false,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Brook",
     "last_name": "Soul",
     "first_native_name": "Brook",
@@ -266,7 +266,7 @@
   {
     "_id": "89012345-6789-0123-4567-890123456789",
     "isRemoteWork": true,
-    "user_avatar": "https://url.com/image.png",
+    "user_avatar": "./assets/avatar.png",
     "first_name": "Jinbe",
     "last_name": "Knight",
     "first_native_name": "Jinbe",
