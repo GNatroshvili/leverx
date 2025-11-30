@@ -7,8 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const listViewBtn = document.getElementById("list-view-btn");
   const gridIcon = document.getElementById("grid-icon");
   const listIcon = document.getElementById("list-icon");
+  const searchInput = document.getElementById("search-input");
+  const searchBtn = document.getElementById("search-btn");
 
   let employeesData = [];
+  let currentView = "grid";
+  let filteredEmployees = [];
 
   // this is a fucntion to render grid view
   function renderGridView(employees) {
@@ -81,9 +85,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // this is function to perform search
+  function searchEmployees(query) {
+    if (!query.trim()) {
+      filteredEmployees = employeesData;
+    } else {
+      const searchTerm = query.toLowerCase().trim();
+      filteredEmployees = employeesData.filter((emp) => {
+        const id = emp._id.toLowerCase();
+        const firstName = emp.first_name.toLowerCase();
+        const lastName = emp.last_name.toLowerCase();
+        const fullName = `${firstName} ${lastName}`;
+
+        return (
+          id.includes(searchTerm) ||
+          firstName.includes(searchTerm) ||
+          lastName.includes(searchTerm) ||
+          fullName.includes(searchTerm)
+        );
+      });
+    }
+
+    if (currentView === "grid") {
+      renderGridView(filteredEmployees);
+    } else {
+      renderListView(filteredEmployees);
+    }
+
+    employeeCount.textContent = `${filteredEmployees.length} employees displayed`;
+  }
+
   // this function is used to switch to grid view from list view
   function showGridView() {
     currentView = "grid";
+    renderGridView(
+      filteredEmployees.length > 0 ? filteredEmployees : employeesData
+    );
     gridWrapper.style.display = "grid";
     listWrapper.style.display = "none";
     employeeHeader.style.display = "none";
@@ -99,6 +136,9 @@ document.addEventListener("DOMContentLoaded", () => {
     employeeHeader.style.display = "flex";
     gridIcon.src = "./assets/grid.png";
     listIcon.src = "./assets/blue-list.png";
+    renderListView(
+      filteredEmployees.length > 0 ? filteredEmployees : employeesData
+    );
   }
 
   gridViewBtn.addEventListener("click", (e) => {
@@ -109,7 +149,22 @@ document.addEventListener("DOMContentLoaded", () => {
   listViewBtn.addEventListener("click", (e) => {
     e.preventDefault();
     showListView();
-    renderListView(employeesData);
+  });
+
+  // here add search button click event
+  searchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const searchQuery = searchInput.value;
+    searchEmployees(searchQuery);
+  });
+
+  // here add search on enter key press
+  searchInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const searchQuery = searchInput.value;
+      searchEmployees(searchQuery);
+    }
   });
 
   // here we using fetch api to render employee data dynamically
@@ -117,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((response) => response.json())
     .then((employees) => {
       employeesData = employees;
+      filteredEmployees = employees;
       renderGridView(employees);
       employeeCount.textContent = `${employees.length} employees displayed`;
     })
