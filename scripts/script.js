@@ -52,6 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
       headerEmployeeName.textContent = fullName;
       mobileEmployeeAvatar.src = employee.user_avatar;
       mobileEmployeeName.textContent = fullName;
+
+      // here we add click handler to header employee data to redirect to employee details
+      const headerEmployeeData = document.querySelector(".user-data");
+      if (headerEmployeeData) {
+        headerEmployeeData.style.cursor = "pointer";
+        headerEmployeeData.addEventListener("click", () => {
+          window.location.href = `employee-details.html?id=${employee._id}`;
+        });
+      }
     }
   }
 
@@ -80,6 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
+
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        window.location.href = `employee-details.html?id=${emp._id}`;
+      });
 
       gridWrapper.appendChild(card);
     });
@@ -115,6 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
+
+      listCard.style.cursor = "pointer";
+      listCard.addEventListener("click", () => {
+        window.location.href = `employee-details.html?id=${emp._id}`;
+      });
 
       listWrapper.appendChild(listCard);
 

@@ -29,6 +29,12 @@
         "type": "National visa type D",
         "start_date": 1652158800000,
         "end_date": 1683608400000
+      },
+      {
+        "issuing_country": "Georgia",
+        "type": "Work",
+        "start_date": 1683608400000,
+        "end_date": 1715144400000
       }
     ]
   },
@@ -62,6 +68,12 @@
         "type": "Tourist",
         "start_date": 1683608400000,
         "end_date": 1715144400000
+      },
+      {
+        "issuing_country": "Japan",
+        "type": "Business",
+        "start_date": 1715144400000,
+        "end_date": 1746680400000
       }
     ]
   },
@@ -95,6 +107,12 @@
         "type": "Work",
         "start_date": 1715144400000,
         "end_date": 1746680400000
+      },
+      {
+        "issuing_country": "Japan",
+        "type": "Permanent Resident",
+        "start_date": 1746680400000,
+        "end_date": 1778216400000
       }
     ]
   },
@@ -128,6 +146,12 @@
         "type": "Student",
         "start_date": 1746680400000,
         "end_date": 1778216400000
+      },
+      {
+        "issuing_country": "France",
+        "type": "Work",
+        "start_date": 1778216400000,
+        "end_date": 1809752400000
       }
     ]
   },
@@ -161,6 +185,12 @@
         "type": "Research",
         "start_date": 1778216400000,
         "end_date": 1809752400000
+      },
+      {
+        "issuing_country": "Germany",
+        "type": "Work",
+        "start_date": 1809752400000,
+        "end_date": 1841288400000
       }
     ]
   },
@@ -194,6 +224,12 @@
         "type": "Work",
         "start_date": 1809752400000,
         "end_date": 1841288400000
+      },
+      {
+        "issuing_country": "USA",
+        "type": "Renewal",
+        "start_date": 1841288400000,
+        "end_date": 1872824400000
       }
     ]
   },
@@ -227,6 +263,12 @@
         "type": "Work",
         "start_date": 1841288400000,
         "end_date": 1872824400000
+      },
+      {
+        "issuing_country": "USA",
+        "type": "Engineer",
+        "start_date": 1872824400000,
+        "end_date": 1904360400000
       }
     ]
   },
@@ -260,6 +302,12 @@
         "type": "Artist",
         "start_date": 1872824400000,
         "end_date": 1904360400000
+      },
+      {
+        "issuing_country": "Austria",
+        "type": "Long-term Artist",
+        "start_date": 1904360400000,
+        "end_date": 1935896400000
       }
     ]
   },
@@ -293,6 +341,12 @@
         "type": "Business",
         "start_date": 1904360400000,
         "end_date": 1935896400000
+      },
+      {
+        "issuing_country": "UK",
+        "type": "Tier 2 Work",
+        "start_date": 1935896400000,
+        "end_date": 1967432400000
       }
     ]
   }
