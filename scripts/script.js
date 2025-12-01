@@ -11,8 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBtn = document.getElementById("search-btn");
   const headerEmployeeAvatar = document.getElementById("employee-avatar");
   const headerEmployeeName = document.getElementById("employee-username");
-  const mobileEmployeeAvatar = document.getElementById("mobile-employee-avatar");
+  const mobileEmployeeAvatar = document.getElementById(
+    "mobile-employee-avatar"
+  );
   const mobileEmployeeName = document.getElementById("mobile-employee");
+  const emptyEmployeesWrapper = document.querySelector(
+    ".empty-employees-wrapper"
+  );
 
   let employeesData = [];
   let currentView = "grid";
@@ -121,10 +126,25 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    if (currentView === "grid") {
-      renderGridView(filteredEmployees);
+    if (filteredEmployees.length === 0) {
+      // here we hiding employee cards
+      gridWrapper.style.display = "none";
+      listWrapper.style.display = "none";
+      employeeHeader.style.display = "none";
+      emptyEmployeesWrapper.style.display = "flex";
     } else {
-      renderListView(filteredEmployees);
+      emptyEmployeesWrapper.style.display = "none";
+      if (currentView === "grid") {
+        renderGridView(filteredEmployees);
+        gridWrapper.style.display = "grid";
+        listWrapper.style.display = "none";
+        employeeHeader.style.display = "none";
+      } else {
+        renderListView(filteredEmployees);
+        gridWrapper.style.display = "none";
+        listWrapper.style.display = "block";
+        employeeHeader.style.display = "flex";
+      }
     }
 
     employeeCount.textContent = `${filteredEmployees.length} employees displayed`;
@@ -133,10 +153,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // this function is used to switch to grid view from list view
   function showGridView() {
     currentView = "grid";
-    renderGridView(
-      filteredEmployees.length > 0 ? filteredEmployees : employeesData
-    );
-    gridWrapper.style.display = "grid";
+    const dataToShow =
+      filteredEmployees.length > 0 ? filteredEmployees : employeesData;
+
+    if (dataToShow.length === 0) {
+      emptyEmployeesWrapper.style.display = "flex";
+      gridWrapper.style.display = "none";
+    } else {
+      emptyEmployeesWrapper.style.display = "none";
+      renderGridView(dataToShow);
+      gridWrapper.style.display = "grid";
+    }
+
     listWrapper.style.display = "none";
     employeeHeader.style.display = "none";
     gridIcon.src = "./assets/blue-grid.png";
@@ -146,14 +174,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // this function is used to switch to list view from grid view
   function showListView() {
     currentView = "list";
+    const dataToShow =
+      filteredEmployees.length > 0 ? filteredEmployees : employeesData;
+
+    if (dataToShow.length === 0) {
+      emptyEmployeesWrapper.style.display = "flex";
+      listWrapper.style.display = "none";
+      employeeHeader.style.display = "none";
+    } else {
+      emptyEmployeesWrapper.style.display = "none";
+      renderListView(dataToShow);
+      listWrapper.style.display = "block";
+      employeeHeader.style.display = "flex";
+    }
+
     gridWrapper.style.display = "none";
-    listWrapper.style.display = "block";
-    employeeHeader.style.display = "flex";
     gridIcon.src = "./assets/grid.png";
     listIcon.src = "./assets/blue-list.png";
-    renderListView(
-      filteredEmployees.length > 0 ? filteredEmployees : employeesData
-    );
   }
 
   gridViewBtn.addEventListener("click", (e) => {
