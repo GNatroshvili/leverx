@@ -105,6 +105,11 @@ header {
   padding: 8px 12px 8px 8px;
 }
 
+#employee-avatar {
+  width: 32px;
+  height: 32px;
+}
+
 @media only screen and (max-width: 1024px) {
   .user-data {
     display: none;

@@ -9,10 +9,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const listIcon = document.getElementById("list-icon");
   const searchInput = document.getElementById("search-input");
   const searchBtn = document.getElementById("search-btn");
+  const headerEmployeeAvatar = document.getElementById("employee-avatar");
+  const headerEmployeeName = document.getElementById("employee-username");
+  const mobileEmployeeAvatar = document.getElementById("mobile-employee-avatar");
+  const mobileEmployeeName = document.getElementById("mobile-employee");
 
   let employeesData = [];
   let currentView = "grid";
   let filteredEmployees = [];
+
+  // this is function to update header with employee info
+  function updateHeaderEmployee(employee) {
+    if (employee) {
+      const fullName = `${employee.first_name} ${employee.last_name}`;
+      headerEmployeeAvatar.src = employee.user_avatar;
+      headerEmployeeName.textContent = fullName;
+      mobileEmployeeAvatar.src = employee.user_avatar;
+      mobileEmployeeName.textContent = fullName;
+    }
+  }
 
   // this is a fucntion to render grid view
   function renderGridView(employees) {
@@ -173,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((employees) => {
       employeesData = employees;
       filteredEmployees = employees;
+      updateHeaderEmployee(employees[0]); // Update header with first employee
       renderGridView(employees);
       employeeCount.textContent = `${employees.length} employees displayed`;
     })
