@@ -118,6 +118,13 @@
   color: rgb(159, 156, 156);
 }
 
+.home-icon {
+  position: absolute;
+  width: 70px;
+  left: 160px;
+  top: 168px;
+}
+
 /* ///////////// burger ///// */
 
 .burger-avatar {
