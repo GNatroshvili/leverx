@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // this function is used to populate employee details on page
   function populateEmployeeDetails(employee) {
     if (!employee) {
-      console.error("Employee not found");
+      window.location.href = "404-not-found.html";
       return;
     }
 
