@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/employee-details.css" />
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/layout.css" />
+    <title>Employee Personal Data</title>
+  </head>
+  <body>
+    <header>
+      <div class="header-wrapper container">
+        <div class="header-title">
+          <a class="company-name" href="./index.html">Leverx</a>
+          <p class="page-service">EMPLOYEE SERVICES</p>
+        </div>
+        <div>
+          <button class="page-title">Address Book</button>
+        </div>
+        <div class="header-actions">
+          <div class="support-and-user-wrapper">
+            <div class="support-btn">
+              <img src="./assets/question-mark.png" alt="support-icon" />
+              <p class="support-btn-text">Support</p>
+            </div>
+            <div class="user-data">
+              <img
+                src="./assets/user.png"
+                alt="employee-avatar"
+                id="employee-avatar"
+              />
+              <p class="username" id="employee-username">Joe Doe</p>
+            </div>
+          </div>
+          <div class="logout-btn">
+            <img src="./assets/logout.png" alt="logout-icon" />
+          </div>
+        </div>
+        <input type="checkbox" id="burger-toggle" class="burger-checkbox" />
+        <div class="menu-backdrop"></div>
+        <label for="burger-toggle" class="burger-menu-wrapper">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </label>
+        <nav class="mobile-nav">
+          <div class="nav-wrapper">
+            <img
+              src="./assets/avatar.png"
+              alt="avatar"
+              class="burger-avatar"
+              id="mobile-employee-avatar"
+            />
+            <div class="nav-actions-wrapper">
+              <p id="mobile-employee">Joe Doe</p>
+              <a href="" class="sign-out-link">Sign Out</a>
+            </div>
+          </div>
+          <div class="list-divider-line"></div>
+          <p class="nav-address-book">Address Book</p>
+          <div class="list-divider-line"></div>
+          <div class="visible-support-btn">
+            <img src="./assets/question-mark.png" alt="support-icon" />
+            <p class="support-btn-text">Support</p>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+      <div class="employee-details-wrapper">
+        <img
+          src="./assets/left-arrow.png"
+          alt="left-arrow-icon"
+          class="left-arrow-icon"
+        />
+        <div class="employee-avatar-wrapper">
+          <img
+            src="./assets/avatar.png"
+            alt="employee-avatar"
+            class="employee-avatar"
+          />
+          <p>joe doe</p>
+          <p>monkey joe doe</p>
+          <button class="copy-link-btn">
+            <img src="./assets/copy.png" alt="link-icon" class="btn-icon" />
+            Copy link
+          </button>
+          <button class="edit-btn">
+            <img src="./assets/pencil.png" alt="edit-icon" class="btn-icon" />
+            EDIT
+          </button>
+        </div>
+        <div class="divider-line"></div>
+
+        <div class="employee-detailed-info-wrapper">
+          <p class="data-section-title">GENERAL INFO</p>
+          <div class="vertical-divider-line"></div>
+          <div class="data-column">
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/briefcase.png"
+                  alt="briefcase-icon"
+                  class="icon-size"
+                />
+                <p>Department</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/building.png"
+                  alt="building-icon"
+                  class="icon-size"
+                />
+                <p>Building</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/door.png"
+                  alt="door-icon"
+                  class="icon-size"
+                />
+                <p>Room</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/desk-number.png"
+                  alt="desk-icon"
+                  class="icon-size"
+                />
+                <p>Desk number</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/date-of-birth.png"
+                  alt="date-of-birth-icon"
+                  class="icon-size"
+                />
+                <p>Date of birth</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+            <div class="data-line-wrapper">
+              <div class="data-title-wrapper">
+                <img
+                  src="./assets/manager.png"
+                  alt="manager-icon"
+                  class="icon-size"
+                />
+                <p>manager</p>
+              </div>
+              <div class="data-title-value-wrapper">
+                <p>1234545667</p>
+              </div>
+            </div>
+          </div>
+          <div class="employee-contact-info-wrapper">
+            <p class="data-section-title">CONTACTS</p>
+            <div class="vertical-divider-line"></div>
+            <div class="data-column">
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/mobile-phone.png"
+                    alt="mobile-phone-icon"
+                    class="icon-size"
+                  />
+                  <p>Mobile phone</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/email.png"
+                    alt="email-icon"
+                    class="icon-size"
+                  />
+                  <p>Email</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/skype.png"
+                    alt="skype-icon"
+                    class="icon-size"
+                  />
+                  <p>Skype</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/c-number-1.png"
+                    alt="c-number-icon"
+                    class="icon-size"
+                  />
+                  <p>C-number</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="employee-travel-info-wrapper">
+            <p class="data-section-title">TRAVEL INFO</p>
+            <div class="vertical-divider-line"></div>
+            <div class="data-column">
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/citizienship.png"
+                    alt="citizienship-icon"
+                    class="icon-size"
+                  />
+                  <p>citizienship</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/visa.png"
+                    alt="briefcase-icon"
+                    class="visa-size"
+                  />
+                  <p>visa 1</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/date-of-birth.png"
+                    alt="date-of-birth-icon"
+                    class="icon-size"
+                  />
+                  <p>visa 1 validity period (expired)</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/visa.png"
+                    alt="visa-icon"
+                    class="icon-size"
+                  />
+                  <p>visa 2</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/date-of-birth.png"
+                    alt="date-of-birth-icon"
+                    class="icon-size"
+                  />
+                  <p>visa 2 validity period</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p>1234545667</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
