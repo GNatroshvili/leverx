@@ -86,6 +86,24 @@
   align-items: center;
   gap: 6px;
 }
+.gray-text {
+  color: rgb(181, 178, 178);
+}
+
+.blue-text {
+  color: #007bff;
+}
+
+.employee-full-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 18px;
+}
+
+.full-name {
+  color: rgb(181, 178, 178);
+}
 
 .icon-size {
   width: 20px;
@@ -123,7 +141,7 @@
 }
 
 .blue-text {
-    color: #007bff;
+  color: #007bff;
 }
 
 .home-icon {

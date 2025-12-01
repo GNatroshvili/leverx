@@ -76,21 +76,26 @@
           class="left-arrow-icon"
         />
         <div class="employee-avatar-wrapper">
-          <img
-            src="./assets/avatar.png"
-            alt="employee-avatar"
-            class="employee-avatar"
-            id="details-employee-avatar"
-          />
-          <img
-            src="./assets/home.png"
-            alt="home-icon"
-            class="home-icon"
-            id="details-remote-work-icon"
-            style="display: none"
-          />
-          <p id="details-employee-name">joe doe</p>
-          <p id="details-employee-native-name">monkey joe doe</p>
+          <div>
+            <img
+              src="./assets/avatar.png"
+              alt="employee-avatar"
+              class="employee-avatar"
+              id="details-employee-avatar"
+            />
+            <img
+              src="./assets/home.png"
+              alt="home-icon"
+              class="home-icon"
+              id="details-remote-work-icon"
+              style="display: none"
+            />
+          </div>
+          <div class="employee-full-name-wrapper">
+            <p id="details-employee-name">joe doe</p>
+            <p id="details-employee-native-name" class="full-name">monkey joe doe</p>
+          </div>
+
           <button class="copy-link-btn">
             <img src="./assets/copy.png" alt="link-icon" class="btn-icon" />
             Copy link
@@ -113,7 +118,7 @@
                   alt="briefcase-icon"
                   class="icon-size"
                 />
-                <p>Department</p>
+                <p class="gray-text">Department</p>
               </div>
               <div class="data-title-value-wrapper">
                 <p id="details-department">1234545667</p>
@@ -126,7 +131,7 @@
                   alt="building-icon"
                   class="icon-size"
                 />
-                <p>Building</p>
+                <p class="gray-text">Building</p>
               </div>
               <div class="data-title-value-wrapper">
                 <p id="details-building">1234545667</p>
@@ -139,7 +144,7 @@
                   alt="door-icon"
                   class="icon-size"
                 />
-                <p>Room</p>
+                <p class="gray-text">Room</p>
               </div>
               <div class="data-title-value-wrapper">
                 <p id="details-room">1234545667</p>
@@ -152,7 +157,7 @@
                   alt="desk-icon"
                   class="icon-size"
                 />
-                <p>Desk number</p>
+                <p class="gray-text">Desk number</p>
               </div>
               <div class="data-title-value-wrapper">
                 <p id="details-desk-number">1234545667</p>
@@ -165,7 +170,7 @@
                   alt="date-of-birth-icon"
                   class="icon-size"
                 />
-                <p>Date of birth</p>
+                <p class="gray-text">Date of birth</p>
               </div>
               <div class="data-title-value-wrapper">
                 <p id="details-date-of-birth">1234545667</p>
@@ -178,10 +183,10 @@
                   alt="manager-icon"
                   class="icon-size"
                 />
-                <p>manager</p>
+                <p class="gray-text">manager</p>
               </div>
               <div class="data-title-value-wrapper">
-                <p id="details-manager">1234545667</p>
+                <p id="details-manager" class="blue-text">1234545667</p>
               </div>
             </div>
           </div>
@@ -196,10 +201,10 @@
                     alt="mobile-phone-icon"
                     class="icon-size"
                   />
-                  <p>Mobile phone</p>
+                  <p class="gray-text">Mobile phone</p>
                 </div>
                 <div class="data-title-value-wrapper">
-                  <p id="details-phone">1234545667</p>
+                  <p id="details-phone" class="blue-text">1234545667</p>
                 </div>
               </div>
               <div class="data-line-wrapper">
@@ -209,10 +214,10 @@
                     alt="email-icon"
                     class="icon-size"
                   />
-                  <p>Email</p>
+                  <p class="gray-text">Email</p>
                 </div>
                 <div class="data-title-value-wrapper">
-                  <p id="details-email">1234545667</p>
+                  <p id="details-email" class="blue-text">1234545667</p>
                 </div>
               </div>
               <div class="data-line-wrapper">
@@ -222,10 +227,10 @@
                     alt="skype-icon"
                     class="icon-size"
                   />
-                  <p>Skype</p>
+                  <p class="gray-text">Skype</p>
                 </div>
                 <div class="data-title-value-wrapper">
-                  <p id="details-skype">1234545667</p>
+                  <p id="details-skype" class="blue-text">1234545667</p>
                 </div>
               </div>
               <div class="data-line-wrapper">
@@ -235,7 +240,7 @@
                     alt="c-number-icon"
                     class="icon-size"
                   />
-                  <p>C-number</p>
+                  <p class="gray-text">C-number</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-cnumber">1234545667</p>
@@ -254,7 +259,7 @@
                     alt="citizienship-icon"
                     class="icon-size"
                   />
-                  <p>citizienship</p>
+                  <p class="gray-text">citizienship</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-citizenship">1234545667</p>
@@ -267,7 +272,7 @@
                     alt="briefcase-icon"
                     class="visa-size"
                   />
-                  <p>visa 1</p>
+                  <p class="gray-text">visa 1</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-visa-1">1234545667</p>
@@ -280,7 +285,7 @@
                     alt="date-of-birth-icon"
                     class="icon-size"
                   />
-                  <p>visa 1 validity period</p>
+                  <p class="gray-text">visa 1 validity period</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-visa-1-period">1234545667</p>
@@ -293,7 +298,7 @@
                     alt="visa-icon"
                     class="icon-size"
                   />
-                  <p>visa 2</p>
+                  <p class="gray-text">visa 2</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-visa-2">1234545667</p>
@@ -306,7 +311,7 @@
                     alt="date-of-birth-icon"
                     class="icon-size"
                   />
-                  <p>visa 2 validity period</p>
+                  <p class="gray-text">visa 2 validity period</p>
                 </div>
                 <div class="data-title-value-wrapper">
                   <p id="details-visa-2-period">1234545667</p>
