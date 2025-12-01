@@ -26,9 +26,9 @@
   border: none;
   color: #9ea0a1;
   outline: none;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
-  margin-left: 60px;
+  padding-bottom: 30px;
 }
 
 .basic-btn {
@@ -49,7 +49,6 @@
   height: 52px;
   padding-bottom: 30px;
   border-bottom: 4px solid #5591ff;
-  padding-left: 60px;
 }
 
 .search-input-and-button-wrapper {
@@ -76,7 +75,6 @@
 .search-input:focus {
   border: 1.5px solid #007bff;
 }
-
 
 .search-icon {
   position: absolute;
@@ -521,4 +519,54 @@
 .employee-header,
 .employee-list-cards-wrapper {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.input-label {
+  margin-bottom: 8px;
+}
+
+.Building-input-wrapper {
+  display: flex;
+}
+
+.contact-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.advanced-phone-wrapper {
+  width: 100%;
+}
+
+.advanced-skype-wrapper {
+  width: 100%;
+}
+
+.advanced-search-input {
+  width: 100%;
+  padding: 14px 10px 10px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.advanced-search-input:focus {
+  border: 1.5px solid #007bff;
+}
+
+.dropdown {
+  padding-right: 20px;
+}
+
+.Building-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.Building-input-wrapper > div:first-child {
+  flex: 7;
+}
+
+.Building-input-wrapper > div:last-child {
+  flex: 3;
 }

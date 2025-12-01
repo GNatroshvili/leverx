@@ -75,12 +75,12 @@
     <div class="main-page-wrapper container">
       <div class="search-wrapper">
         <div class="search-options-wrapper">
-          <button class="basic-btn">BASIC SEARCH</button>
-          <a class="search-option-btn" href="advanced-search.html"
-            >ADVANCED SEARCH</a
-          >
+          <button class="basic-btn" id="basic-search-btn">BASIC SEARCH</button>
+          <button class="search-option-btn" id="advanced-search-btn">
+            ADVANCED SEARCH
+          </button>
         </div>
-        <div class="search-input-and-button-wrapper">
+        <div class="search-input-and-button-wrapper" id="basic-search-wrapper">
           <div class="search-input-wrapper">
             <input
               type="text"
@@ -96,6 +96,86 @@
           </div>
           <div class="search-btn-wrapper">
             <button class="search-btn" id="search-btn">Search</button>
+          </div>
+        </div>
+        <div
+          class="search-input-and-button-wrapper"
+          id="advanced-search-wrapper"
+          style="display: none"
+        >
+          <div class="search-input-wrapper">
+            <p class="input-label">Name</p>
+            <input
+              type="text"
+              class="advanced-search-input"
+              id="advanced-name-input"
+              placeholder="john smith"
+            />
+          </div>
+          <div>
+            <p class="input-label">Email</p>
+            <input
+              type="text"
+              class="advanced-search-input"
+              id="advanced-email-input"
+              placeholder="john.smith@example.com"
+            />
+          </div>
+          <div class="contact-input-wrapper">
+            <div class="advanced-phone-wrapper">
+              <p class="input-label">Phone</p>
+              <input
+                type="text"
+                class="advanced-search-input"
+                id="advanced-phone-input"
+                placeholder="Phone Number"
+              />
+            </div>
+            <div class="advanced-skype-wrapper">
+              <p class="input-label">Skype</p>
+              <input
+                type="text"
+                class="advanced-search-input"
+                id="advanced-skype-input"
+                placeholder="Skype ID"
+              />
+            </div>
+          </div>
+          <div class="Building-input-wrapper">
+            <div>
+              <p class="input-label">Building</p>
+              <select
+                class="advanced-search-input dropdown"
+                id="advanced-building-input"
+              >
+                <option value="">Any</option>
+              </select>
+            </div>
+            <div>
+              <p class="input-label">Room</p>
+              <input
+                type="text"
+                class="advanced-search-input"
+                id="advanced-room-input"
+                placeholder="303.1"
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <p class="input-label">Department</p>
+              <select
+                class="advanced-search-input dropdown"
+                id="advanced-department-input"
+              >
+                <option value="">Any</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-btn-wrapper">
+            <button class="search-btn" id="advanced-search-submit-btn">
+              Search
+            </button>
           </div>
         </div>
       </div>

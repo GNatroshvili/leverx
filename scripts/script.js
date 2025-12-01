@@ -18,10 +18,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const emptyEmployeesWrapper = document.querySelector(
     ".empty-employees-wrapper"
   );
+  const basicSearchBtn = document.getElementById("basic-search-btn");
+  const advancedSearchBtn = document.getElementById("advanced-search-btn");
+  const basicSearchWrapper = document.getElementById("basic-search-wrapper");
+  const advancedSearchWrapper = document.getElementById(
+    "advanced-search-wrapper"
+  );
+  const advancedNameInput = document.getElementById("advanced-name-input");
+  const advancedEmailInput = document.getElementById("advanced-email-input");
+  const advancedPhoneInput = document.getElementById("advanced-phone-input");
+  const advancedSkypeInput = document.getElementById("advanced-skype-input");
+  const advancedBuildingInput = document.getElementById(
+    "advanced-building-input"
+  );
+  const advancedRoomInput = document.getElementById("advanced-room-input");
+  const advancedDepartmentInput = document.getElementById(
+    "advanced-department-input"
+  );
+  const advancedSearchSubmitBtn = document.getElementById(
+    "advanced-search-submit-btn"
+  );
 
   let employeesData = [];
   let currentView = "grid";
   let filteredEmployees = [];
+  let currentSearchMode = "basic";
 
   // this is function to update header with employee info
   function updateHeaderEmployee(employee) {
@@ -219,6 +240,138 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // this function is used to switch to basic search mode
+  function showBasicSearch() {
+    currentSearchMode = "basic";
+    basicSearchWrapper.style.display = "flex";
+    advancedSearchWrapper.style.display = "none";
+    basicSearchBtn.classList.add("basic-btn");
+    basicSearchBtn.classList.remove("search-option-btn");
+    advancedSearchBtn.classList.add("search-option-btn");
+    advancedSearchBtn.classList.remove("advanced-btn");
+  }
+
+  // this function is used to switch to advanced search mode
+  function showAdvancedSearch() {
+    currentSearchMode = "advanced";
+    basicSearchWrapper.style.display = "none";
+    advancedSearchWrapper.style.display = "flex";
+    basicSearchBtn.classList.add("search-option-btn");
+    basicSearchBtn.classList.remove("basic-btn");
+    advancedSearchBtn.classList.add("advanced-btn");
+    advancedSearchBtn.classList.remove("search-option-btn");
+  }
+
+  // this function is used to populate building dropdown options
+  function populateBuildingOptions() {
+    const buildings = [...new Set(employeesData.map((emp) => emp.building))];
+    advancedBuildingInput.innerHTML = '<option value="">Any</option>';
+    buildings.forEach((building) => {
+      const option = document.createElement("option");
+      option.value = building;
+      option.textContent = building;
+      advancedBuildingInput.appendChild(option);
+    });
+  }
+
+  // this function is used to populate department dropdown options
+  function populateDepartmentOptions() {
+    const departments = [
+      ...new Set(employeesData.map((emp) => emp.department)),
+    ];
+    advancedDepartmentInput.innerHTML = '<option value="">Any</option>';
+    departments.forEach((department) => {
+      const option = document.createElement("option");
+      option.value = department;
+      option.textContent = department;
+      advancedDepartmentInput.appendChild(option);
+    });
+  }
+
+  // this function is used to perform advanced search
+  function searchAdvancedEmployees() {
+    const nameQuery = advancedNameInput.value.toLowerCase().trim();
+    const emailQuery = advancedEmailInput.value.toLowerCase().trim();
+    const phoneQuery = advancedPhoneInput.value.toLowerCase().trim();
+    const skypeQuery = advancedSkypeInput.value.toLowerCase().trim();
+    const buildingQuery = advancedBuildingInput.value.toLowerCase().trim();
+    const roomQuery = advancedRoomInput.value.toLowerCase().trim();
+    const departmentQuery = advancedDepartmentInput.value.toLowerCase().trim();
+
+    filteredEmployees = employeesData.filter((emp) => {
+      const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase();
+      const email = emp.email.toLowerCase();
+      const phone = emp.phone.toLowerCase();
+      const skype = emp.skype.toLowerCase();
+      const building = emp.building.toLowerCase();
+      const room = emp.room.toString().toLowerCase();
+      const department = emp.department.toLowerCase();
+
+      const nameMatch =
+        !nameQuery ||
+        fullName.includes(nameQuery) ||
+        emp.first_name.toLowerCase().includes(nameQuery) ||
+        emp.last_name.toLowerCase().includes(nameQuery);
+      const emailMatch = !emailQuery || email.includes(emailQuery);
+      const phoneMatch = !phoneQuery || phone.includes(phoneQuery);
+      const skypeMatch = !skypeQuery || skype.includes(skypeQuery);
+      const buildingMatch = !buildingQuery || building === buildingQuery;
+      const roomMatch = !roomQuery || room.includes(roomQuery);
+      const departmentMatch =
+        !departmentQuery || department === departmentQuery;
+
+      return (
+        nameMatch &&
+        emailMatch &&
+        phoneMatch &&
+        skypeMatch &&
+        buildingMatch &&
+        roomMatch &&
+        departmentMatch
+      );
+    });
+
+    if (filteredEmployees.length === 0) {
+      gridWrapper.style.display = "none";
+      listWrapper.style.display = "none";
+      employeeHeader.style.display = "none";
+      emptyEmployeesWrapper.style.display = "flex";
+    } else {
+      emptyEmployeesWrapper.style.display = "none";
+      if (currentView === "grid") {
+        renderGridView(filteredEmployees);
+        gridWrapper.style.display = "grid";
+        listWrapper.style.display = "none";
+        employeeHeader.style.display = "none";
+      } else {
+        renderListView(filteredEmployees);
+        gridWrapper.style.display = "none";
+        listWrapper.style.display = "block";
+        employeeHeader.style.display = "flex";
+      }
+    }
+
+    employeeCount.textContent = `${filteredEmployees.length} employees displayed`;
+  }
+
+  // here add basic search button click event
+  basicSearchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    showBasicSearch();
+  });
+
+  // here add advanced search button click event
+  advancedSearchBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    showAdvancedSearch();
+  });
+
+  // here add advanced search submit button click event
+  advancedSearchSubmitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    searchAdvancedEmployees();
+  });
+
   // here we using fetch api to render employee data dynamically
   fetch("./data/data.json")
     .then((response) => response.json())
@@ -226,6 +379,8 @@ document.addEventListener("DOMContentLoaded", () => {
       employeesData = employees;
       filteredEmployees = employees;
       updateHeaderEmployee(employees[0]); // Update header with first employee
+      populateBuildingOptions();
+      populateDepartmentOptions();
       renderGridView(employees);
       employeeCount.textContent = `${employees.length} employees displayed`;
     })
