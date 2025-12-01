@@ -44,6 +44,35 @@ document.addEventListener("DOMContentLoaded", () => {
   let filteredEmployees = [];
   let currentSearchMode = "basic";
 
+  // this function is used to get search parameters from url
+  function getSearchParamsFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      mode: urlParams.get("mode") || "basic",
+      query: urlParams.get("query") || "",
+      name: urlParams.get("name") || "",
+      email: urlParams.get("email") || "",
+      phone: urlParams.get("phone") || "",
+      skype: urlParams.get("skype") || "",
+      building: urlParams.get("building") || "",
+      room: urlParams.get("room") || "",
+      department: urlParams.get("department") || "",
+    };
+  }
+
+  // this function is used to update url with search parameters
+  function updateUrlWithSearchParams(params) {
+    const url = new URL(window.location);
+    Object.keys(params).forEach((key) => {
+      if (params[key]) {
+        url.searchParams.set(key, params[key]);
+      } else {
+        url.searchParams.delete(key);
+      }
+    });
+    window.history.pushState({}, "", url);
+  }
+
   // this is function to update header with employee info
   function updateHeaderEmployee(employee) {
     if (employee) {
@@ -165,6 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
     }
+
+    // update URL with search parameters
+    updateUrlWithSearchParams({
+      mode: "basic",
+      query: query,
+    });
 
     if (filteredEmployees.length === 0) {
       // here we hiding employee cards
@@ -317,6 +352,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const roomQuery = advancedRoomInput.value.toLowerCase().trim();
     const departmentQuery = advancedDepartmentInput.value.toLowerCase().trim();
 
+    // update URL with search parameters
+    updateUrlWithSearchParams({
+      mode: "advanced",
+      name: nameQuery,
+      email: emailQuery,
+      phone: phoneQuery,
+      skype: skypeQuery,
+      building: buildingQuery,
+      room: roomQuery,
+      department: departmentQuery,
+    });
+
     filteredEmployees = employeesData.filter((emp) => {
       const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase();
       const email = emp.email.toLowerCase();
@@ -400,8 +447,41 @@ document.addEventListener("DOMContentLoaded", () => {
       updateHeaderEmployee(employees[0]); // Update header with first employee
       populateBuildingOptions();
       populateDepartmentOptions();
-      renderGridView(employees);
-      employeeCount.textContent = `${employees.length} employees displayed`;
+
+      // check if there are search parameters in URL and restore search
+      const searchParams = getSearchParamsFromUrl();
+
+      if (
+        searchParams.mode === "advanced" &&
+        (searchParams.name ||
+          searchParams.email ||
+          searchParams.phone ||
+          searchParams.skype ||
+          searchParams.building ||
+          searchParams.room ||
+          searchParams.department)
+      ) {
+        // switch to advanced search mode
+        showAdvancedSearch();
+
+        advancedNameInput.value = searchParams.name;
+        advancedEmailInput.value = searchParams.email;
+        advancedPhoneInput.value = searchParams.phone;
+        advancedSkypeInput.value = searchParams.skype;
+        advancedBuildingInput.value = searchParams.building;
+        advancedRoomInput.value = searchParams.room;
+        advancedDepartmentInput.value = searchParams.department;
+
+        searchAdvancedEmployees();
+      } else if (searchParams.mode === "basic" && searchParams.query) {
+        searchInput.value = searchParams.query;
+
+        searchEmployees(searchParams.query);
+      } else {
+        // no search parameters, display all employees
+        renderGridView(employees);
+        employeeCount.textContent = `${employees.length} employees displayed`;
+      }
     })
     .catch((err) => console.error("Error loading employees:", err));
 });
