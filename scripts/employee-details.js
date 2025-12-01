@@ -61,6 +61,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return endDate < currentDate;
   }
 
+  // this function is used to update header with first employee
+  function updateHeaderEmployee(firstEmployee) {
+    if (firstEmployee) {
+      const fullName = `${firstEmployee.first_name} ${firstEmployee.last_name}`;
+      headerEmployeeAvatar.src = firstEmployee.user_avatar;
+      headerEmployeeName.textContent = fullName;
+      mobileEmployeeAvatar.src = firstEmployee.user_avatar;
+      mobileEmployeeName.textContent = fullName;
+    }
+  }
+
   // this function is used to populate employee details on page
   function populateEmployeeDetails(employee) {
     if (!employee) {
@@ -71,12 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const fullName = `${employee.first_name} ${employee.last_name}`;
     const nativeFullName = `${employee.first_native_name} ${employee.middle_native_name} ${employee.last_native_name}`;
     const managerName = `${employee.manager.first_name} ${employee.manager.last_name}`;
-
-    // update header
-    headerEmployeeAvatar.src = employee.user_avatar;
-    headerEmployeeName.textContent = fullName;
-    mobileEmployeeAvatar.src = employee.user_avatar;
-    mobileEmployeeName.textContent = fullName;
 
     // update employee avatar section
     detailsEmployeeAvatar.src = employee.user_avatar;
@@ -141,6 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("./data/data.json")
       .then((response) => response.json())
       .then((employees) => {
+        // always update header with first employee
+        updateHeaderEmployee(employees[0]);
+        
         const employee = employees.find((emp) => emp._id === employeeId);
         populateEmployeeDetails(employee);
       })
