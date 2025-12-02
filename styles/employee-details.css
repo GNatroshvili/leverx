@@ -210,7 +210,8 @@
   gap: var(--details-spacing-sm);
   background-color: var(--details-accent);
   border-radius: var(--details-radius-lg);
-  padding: var(--details-spacing-xs) var(--details-spacing-md) var(--details-spacing-xs) var(--details-spacing-xs);
+  padding: var(--details-spacing-xs) var(--details-spacing-md)
+    var(--details-spacing-xs) var(--details-spacing-xs);
   width: fit-content;
   position: absolute;
   bottom: 50px;

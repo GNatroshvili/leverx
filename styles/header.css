@@ -180,7 +180,7 @@ header {
   transition: transform 0.5s ease-in-out;
 }
 
-.burger-checkbox:checked ~ .mobile-nav {
+.mobile-nav.open {
   transform: translateX(0);
 }
 
@@ -201,15 +201,15 @@ header {
   transform-origin: center;
 }
 
-.burger-checkbox:checked ~ .burger-menu-wrapper .burger-line:nth-child(1) {
+.burger-menu-wrapper.open .burger-line:nth-child(1) {
   transform: translateY(9px) rotate(45deg);
 }
 
-.burger-checkbox:checked ~ .burger-menu-wrapper .burger-line:nth-child(2) {
+.burger-menu-wrapper.open .burger-line:nth-child(2) {
   opacity: 0;
 }
 
-.burger-checkbox:checked ~ .burger-menu-wrapper .burger-line:nth-child(3) {
+.burger-menu-wrapper.open .burger-line:nth-child(3) {
   transform: translateY(-9px) rotate(-45deg);
 }
 
@@ -226,7 +226,7 @@ header {
   pointer-events: none;
 }
 
-.burger-checkbox:checked ~ .menu-backdrop {
+.menu-backdrop.open {
   opacity: 1;
   pointer-events: auto;
 }

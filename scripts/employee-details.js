@@ -163,4 +163,42 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
     .catch((err) => console.error("Error loading employee data:", err));
+
+  // here we addd burger menu logic
+  const burgerMenuWrapper = document.querySelector(".burger-menu-wrapper");
+  const mobileNav = document.querySelector(".mobile-nav");
+  const menuBackdrop = document.querySelector(".menu-backdrop");
+
+  // toggle menu on burger icon click
+  if (burgerMenuWrapper) {
+    burgerMenuWrapper.addEventListener("click", function (e) {
+      burgerMenuWrapper.classList.toggle("open");
+      mobileNav.classList.toggle("open");
+      menuBackdrop.classList.toggle("open");
+      e.stopPropagation();
+    });
+  }
+
+  // close menu when clicking backdrop
+  if (menuBackdrop) {
+    menuBackdrop.addEventListener("click", function () {
+      burgerMenuWrapper.classList.remove("open");
+      mobileNav.classList.remove("open");
+      menuBackdrop.classList.remove("open");
+    });
+  }
+
+  if (mobileNav) {
+    mobileNav.addEventListener("click", function (e) {
+      if (
+        e.target.tagName === "A" ||
+        e.target.classList.contains("nav-address-book")
+      ) {
+        burgerMenuWrapper.classList.remove("open");
+        mobileNav.classList.remove("open");
+        menuBackdrop.classList.remove("open");
+        window.location.href = "index.html";
+      }
+    });
+  }
 });
