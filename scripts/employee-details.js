@@ -31,6 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailsVisa2 = document.getElementById("details-visa-2");
   const detailsVisa2Period = document.getElementById("details-visa-2-period");
   const leftArrowIcon = document.querySelector(".left-arrow-icon");
+  const addressBookBtn = document.querySelector(".page-title");
+
+  // add click handler to address book button
+  if (addressBookBtn) {
+    addressBookBtn.style.cursor = "pointer";
+    addressBookBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  }
 
   // this function is used to get employee id from url parameter
   function getEmployeeIdFromUrl() {

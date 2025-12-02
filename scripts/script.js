@@ -38,11 +38,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const advancedSearchSubmitBtn = document.getElementById(
     "advanced-search-submit-btn"
   );
+  const addressBookBtn = document.querySelector(".page-title");
 
   let employeesData = [];
   let currentView = "grid";
   let filteredEmployees = [];
   let currentSearchMode = "basic";
+
+  // add click handler to address book button
+  if (addressBookBtn) {
+    addressBookBtn.style.cursor = "pointer";
+    addressBookBtn.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  }
 
   // this function is used to get search parameters from url
   function getSearchParamsFromUrl() {
