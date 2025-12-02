@@ -142,18 +142,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // fetch employee data and populate details
   const employeeId = getEmployeeIdFromUrl();
 
-  if (employeeId) {
-    fetch("./data/data.json")
-      .then((response) => response.json())
-      .then((employees) => {
-        // always update header with first employee
-        updateHeaderEmployee(employees[0]);
+  fetch("./data/data.json")
+    .then((response) => response.json())
+    .then((employees) => {
+      // always update header with first employee
+      updateHeaderEmployee(employees[0]);
 
+      // Add click handler to header employee name and avatar
+      const headerEmployeeData = document.querySelector(".user-data");
+      if (headerEmployeeData) {
+        headerEmployeeData.style.cursor = "pointer";
+        headerEmployeeData.onclick = () => {
+          window.location.href = `employee-details.html?id=${employees[0]._id}`;
+        };
+      }
+
+      if (employeeId) {
         const employee = employees.find((emp) => emp._id === employeeId);
         populateEmployeeDetails(employee);
-      })
-      .catch((err) => console.error("Error loading employee data:", err));
-  } else {
-    console.error("No employee ID provided in URL");
-  }
+      }
+    })
+    .catch((err) => console.error("Error loading employee data:", err));
 });
