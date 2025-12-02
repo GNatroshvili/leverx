@@ -110,88 +110,91 @@
         <div class="divider-line"></div>
 
         <div class="employee-detailed-info-wrapper">
-          <p class="data-section-title">GENERAL INFO</p>
-          <div class="vertical-divider-line"></div>
-          <div class="data-column">
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/briefcase.png"
-                  alt="briefcase-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">Department</p>
+          <div>
+            <p class="data-section-title">GENERAL INFO</p>
+            <div class="vertical-divider-line"></div>
+            <div class="data-column">
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/briefcase.png"
+                    alt="briefcase-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">Department</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-department">1234545667</p>
+                </div>
               </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-department">1234545667</p>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/building.png"
+                    alt="building-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">Building</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-building">1234545667</p>
+                </div>
               </div>
-            </div>
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/building.png"
-                  alt="building-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">Building</p>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/door.png"
+                    alt="door-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">Room</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-room">1234545667</p>
+                </div>
               </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-building">1234545667</p>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/desk-number.png"
+                    alt="desk-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">Desk number</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-desk-number">1234545667</p>
+                </div>
               </div>
-            </div>
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/door.png"
-                  alt="door-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">Room</p>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/date-of-birth.png"
+                    alt="date-of-birth-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">Date of birth</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-date-of-birth">1234545667</p>
+                </div>
               </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-room">1234545667</p>
-              </div>
-            </div>
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/desk-number.png"
-                  alt="desk-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">Desk number</p>
-              </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-desk-number">1234545667</p>
-              </div>
-            </div>
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/date-of-birth.png"
-                  alt="date-of-birth-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">Date of birth</p>
-              </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-date-of-birth">1234545667</p>
-              </div>
-            </div>
-            <div class="data-line-wrapper">
-              <div class="data-title-wrapper">
-                <img
-                  src="./assets/manager.png"
-                  alt="manager-icon"
-                  class="icon-size"
-                />
-                <p class="gray-text">manager</p>
-              </div>
-              <div class="data-title-value-wrapper">
-                <p id="details-manager" class="blue-text">1234545667</p>
+              <div class="data-line-wrapper">
+                <div class="data-title-wrapper">
+                  <img
+                    src="./assets/manager.png"
+                    alt="manager-icon"
+                    class="icon-size"
+                  />
+                  <p class="gray-text">manager</p>
+                </div>
+                <div class="data-title-value-wrapper">
+                  <p id="details-manager" class="blue-text">1234545667</p>
+                </div>
               </div>
             </div>
           </div>
+
           <div class="employee-contact-info-wrapper">
             <p class="data-section-title">CONTACTS</p>
             <div class="vertical-divider-line"></div>
@@ -324,6 +327,7 @@
         </div>
       </div>
     </div>
+    <script src="scripts/fetch-polyfill.js"></script>
     <script src="scripts/employee-details.js"></script>
   </body>
 </html>
