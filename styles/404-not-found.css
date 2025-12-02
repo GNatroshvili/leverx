@@ -45,3 +45,20 @@
   color: var(--notfound-btn-color);
   margin-top: 32px;
 }
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --notfound-bg: #0f0f0f;
+    --notfound-title: #b0b0b0;
+    --notfound-desc: #a0a0a0;
+  }
+
+  .not-found-wrapper {
+    background-color: #0f0f0f;
+  }
+
+  .image {
+    filter: brightness(0.8) contrast(1.1);
+  }
+}

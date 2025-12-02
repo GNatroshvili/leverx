@@ -230,3 +230,28 @@ header {
   opacity: 1;
   pointer-events: auto;
 }
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --header-bg: #0d3a6e;
+    --header-border: #0a2847;
+    --header-title: #6a95d4;
+    --header-support-bg: #0a2847;
+    --header-user-bg: #0a2847;
+    --header-logout-bg: #0a2847;
+  }
+
+  .mobile-nav {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .nav-address-book {
+    color: #a0a0a0;
+  }
+
+  .menu-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
