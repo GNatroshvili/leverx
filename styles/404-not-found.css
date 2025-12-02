@@ -7,6 +7,7 @@
   --notfound-btn-font: 20px;
   --notfound-btn-color: #fff;
   --notfound-img-size: 400px;
+  --notfound-img-size-mobile: 300px;
   --notfound-title-size: 36px;
   --notfound-desc-size: 20px;
 }
@@ -25,6 +26,13 @@
   height: var(--notfound-img-size);
 }
 
+@media only screen and (max-width: 520px) {
+  .image {
+    width: var(--notfound-img-size-mobile);
+    height: var(--notfound-img-size-mobile);
+  }
+}
+
 .title {
   font-size: var(--notfound-title-size);
   color: var(--notfound-title);
@@ -34,7 +42,9 @@
   margin-top: 16px;
   font-size: var(--notfound-desc-size);
   color: var(--notfound-desc);
+  text-align: center;
 }
+
 .back-to-main-btn {
   background-color: var(--notfound-btn-bg);
   border-radius: var(--notfound-btn-radius);
