@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((employees) => {
         // always update header with first employee
         updateHeaderEmployee(employees[0]);
-        
+
         const employee = employees.find((emp) => emp._id === employeeId);
         populateEmployeeDetails(employee);
       })

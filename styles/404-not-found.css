@@ -1,34 +1,47 @@
+:root {
+  --notfound-bg: #f5f5fa;
+  --notfound-title: gray;
+  --notfound-desc: gray;
+  --notfound-btn-bg: #5091ff;
+  --notfound-btn-radius: 8px;
+  --notfound-btn-font: 20px;
+  --notfound-btn-color: #fff;
+  --notfound-img-size: 400px;
+  --notfound-title-size: 36px;
+  --notfound-desc-size: 20px;
+}
+
 .not-found-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5fa;
+  background-color: var(--notfound-bg);
   min-height: 100dvh;
 }
 
 .image {
-  width: 400px;
-  height: 400px;
+  width: var(--notfound-img-size);
+  height: var(--notfound-img-size);
 }
 
 .title {
-  font-size: 36px;
-  color: gray;
+  font-size: var(--notfound-title-size);
+  color: var(--notfound-title);
 }
 
 .description {
   margin-top: 16px;
-  font-size: 20px;
-  color: gray;
+  font-size: var(--notfound-desc-size);
+  color: var(--notfound-desc);
 }
 .back-to-main-btn {
-  background-color: #5091ff;
-  border-radius: 8px;
+  background-color: var(--notfound-btn-bg);
+  border-radius: var(--notfound-btn-radius);
   border: none;
-  font-size: 20px;
+  font-size: var(--notfound-btn-font);
   cursor: pointer;
   padding: 12px 32px;
-  color: #ffffff;
+  color: var(--notfound-btn-color);
   margin-top: 32px;
 }
