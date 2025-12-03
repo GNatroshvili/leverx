@@ -194,8 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mobileNav) {
         mobileNav.addEventListener("click", function (e) {
             const target = e.target;
-            if (target && (target.tagName === "A" ||
-                target.classList.contains("nav-address-book"))) {
+            if (target &&
+                (target.tagName === "A" ||
+                    target.classList.contains("nav-address-book"))) {
                 if (burgerMenuWrapper)
                     burgerMenuWrapper.classList.remove("open");
                 if (mobileNav)

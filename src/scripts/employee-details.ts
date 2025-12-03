@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const headerEmployeeAvatar = document.getElementById("employee-avatar") as HTMLImageElement;
+  const headerEmployeeAvatar = document.getElementById(
+    "employee-avatar"
+  ) as HTMLImageElement;
   const headerEmployeeName = document.getElementById("employee-username");
   const mobileEmployeeAvatar = document.getElementById(
     "mobile-employee-avatar"
@@ -30,7 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailsVisa1Period = document.getElementById("details-visa-1-period");
   const detailsVisa2 = document.getElementById("details-visa-2");
   const detailsVisa2Period = document.getElementById("details-visa-2-period");
-  const leftArrowIcon = document.querySelector(".left-arrow-icon") as HTMLElement;
+  const leftArrowIcon = document.querySelector(
+    ".left-arrow-icon"
+  ) as HTMLElement;
   const addressBookBtn = document.querySelector(".page-title") as HTMLElement;
 
   // add click handler to address book button
@@ -74,9 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateHeaderEmployee(firstEmployee: any): void {
     if (firstEmployee) {
       const fullName = `${firstEmployee.first_name} ${firstEmployee.last_name}`;
-      if (headerEmployeeAvatar) headerEmployeeAvatar.src = firstEmployee.user_avatar;
+      if (headerEmployeeAvatar)
+        headerEmployeeAvatar.src = firstEmployee.user_avatar;
       if (headerEmployeeName) headerEmployeeName.textContent = fullName;
-      if (mobileEmployeeAvatar) mobileEmployeeAvatar.src = firstEmployee.user_avatar;
+      if (mobileEmployeeAvatar)
+        mobileEmployeeAvatar.src = firstEmployee.user_avatar;
       if (mobileEmployeeName) mobileEmployeeName.textContent = fullName;
     }
   }
@@ -95,7 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // update employee avatar section
     if (detailsEmployeeAvatar) detailsEmployeeAvatar.src = employee.user_avatar;
     if (detailsEmployeeName) detailsEmployeeName.textContent = fullName;
-    if (detailsEmployeeNativeName) detailsEmployeeNativeName.textContent = nativeFullName;
+    if (detailsEmployeeNativeName)
+      detailsEmployeeNativeName.textContent = nativeFullName;
 
     // show/hide remote work icon
     if (employee.isRemoteWork) {
@@ -109,7 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (detailsBuilding) detailsBuilding.textContent = employee.building;
     if (detailsRoom) detailsRoom.textContent = employee.room;
     if (detailsDeskNumber) detailsDeskNumber.textContent = employee.desk_number;
-    if (detailsDateOfBirth) detailsDateOfBirth.textContent = formatDateOfBirth(employee.date_birth);
+    if (detailsDateOfBirth)
+      detailsDateOfBirth.textContent = formatDateOfBirth(employee.date_birth);
     if (detailsManager) detailsManager.textContent = managerName;
 
     // update contact info
@@ -119,23 +127,30 @@ document.addEventListener("DOMContentLoaded", () => {
     if (detailsCNumber) detailsCNumber.textContent = employee.cnumber;
 
     // update travel info
-    if (detailsCitizenship) detailsCitizenship.textContent = employee.citizenship;
+    if (detailsCitizenship)
+      detailsCitizenship.textContent = employee.citizenship;
 
     if (employee.visa && employee.visa.length > 0) {
       const visa1 = employee.visa[0];
-      if (detailsVisa1) detailsVisa1.textContent = `${visa1.issuing_country} - ${visa1.type}`;
+      if (detailsVisa1)
+        detailsVisa1.textContent = `${visa1.issuing_country} - ${visa1.type}`;
       const visa1Expired = isVisaExpired(visa1.end_date);
-      if (detailsVisa1Period) detailsVisa1Period.textContent = `${formatDate(
-        visa1.start_date
-      )} - ${formatDate(visa1.end_date)}${visa1Expired ? " (expired)" : ""}`;
+      if (detailsVisa1Period)
+        detailsVisa1Period.textContent = `${formatDate(
+          visa1.start_date
+        )} - ${formatDate(visa1.end_date)}${visa1Expired ? " (expired)" : ""}`;
 
       if (employee.visa.length > 1) {
         const visa2 = employee.visa[1];
-        if (detailsVisa2) detailsVisa2.textContent = `${visa2.issuing_country} - ${visa2.type}`;
+        if (detailsVisa2)
+          detailsVisa2.textContent = `${visa2.issuing_country} - ${visa2.type}`;
         const visa2Expired = isVisaExpired(visa2.end_date);
-        if (detailsVisa2Period) detailsVisa2Period.textContent = `${formatDate(
-          visa2.start_date
-        )} - ${formatDate(visa2.end_date)}${visa2Expired ? " (expired)" : ""}`;
+        if (detailsVisa2Period)
+          detailsVisa2Period.textContent = `${formatDate(
+            visa2.start_date
+          )} - ${formatDate(visa2.end_date)}${
+            visa2Expired ? " (expired)" : ""
+          }`;
       }
     }
   }
@@ -158,7 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
       updateHeaderEmployee(employees[0]);
 
       // Add click handler to header employee name and avatar
-      const headerEmployeeData = document.querySelector(".user-data") as HTMLElement;
+      const headerEmployeeData = document.querySelector(
+        ".user-data"
+      ) as HTMLElement;
       if (headerEmployeeData) {
         headerEmployeeData.style.cursor = "pointer";
         headerEmployeeData.onclick = () => {
@@ -201,8 +218,9 @@ document.addEventListener("DOMContentLoaded", () => {
     mobileNav.addEventListener("click", function (e) {
       const target = e.target as HTMLElement;
       if (
-        target && (target.tagName === "A" ||
-        target.classList.contains("nav-address-book"))
+        target &&
+        (target.tagName === "A" ||
+          target.classList.contains("nav-address-book"))
       ) {
         if (burgerMenuWrapper) burgerMenuWrapper.classList.remove("open");
         if (mobileNav) mobileNav.classList.remove("open");
