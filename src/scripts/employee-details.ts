@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const headerEmployeeAvatar = document.getElementById("employee-avatar");
+  const headerEmployeeAvatar = document.getElementById("employee-avatar") as HTMLImageElement;
   const headerEmployeeName = document.getElementById("employee-username");
   const mobileEmployeeAvatar = document.getElementById(
     "mobile-employee-avatar"
-  );
+  ) as HTMLImageElement;
   const mobileEmployeeName = document.getElementById("mobile-employee");
   const detailsEmployeeAvatar = document.getElementById(
     "details-employee-avatar"
-  );
+  ) as HTMLImageElement;
   const detailsEmployeeName = document.getElementById("details-employee-name");
   const detailsEmployeeNativeName = document.getElementById(
     "details-employee-native-name"
   );
   const detailsRemoteWorkIcon = document.getElementById(
     "details-remote-work-icon"
-  );
+  ) as HTMLElement;
   const detailsDepartment = document.getElementById("details-department");
   const detailsBuilding = document.getElementById("details-building");
   const detailsRoom = document.getElementById("details-room");
@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailsVisa1Period = document.getElementById("details-visa-1-period");
   const detailsVisa2 = document.getElementById("details-visa-2");
   const detailsVisa2Period = document.getElementById("details-visa-2-period");
-  const leftArrowIcon = document.querySelector(".left-arrow-icon");
-  const addressBookBtn = document.querySelector(".page-title");
+  const leftArrowIcon = document.querySelector(".left-arrow-icon") as HTMLElement;
+  const addressBookBtn = document.querySelector(".page-title") as HTMLElement;
 
   // add click handler to address book button
   if (addressBookBtn) {
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // this function is used to format date from timestamp
-  function formatDate(timestamp) {
+  function formatDate(timestamp: number): string {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // this function is used to format date of birth
-  function formatDateOfBirth(dateObj) {
+  function formatDateOfBirth(dateObj: any): string {
     const day = String(dateObj.day).padStart(2, "0");
     const month = String(dateObj.month).padStart(2, "0");
     const year = dateObj.year;
@@ -65,24 +65,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // this function is used to check if visa is expired
-  function isVisaExpired(endDate) {
+  function isVisaExpired(endDate: number): boolean {
     const currentDate = Date.now();
     return endDate < currentDate;
   }
 
   // this function is used to update header with first employee
-  function updateHeaderEmployee(firstEmployee) {
+  function updateHeaderEmployee(firstEmployee: any): void {
     if (firstEmployee) {
       const fullName = `${firstEmployee.first_name} ${firstEmployee.last_name}`;
-      headerEmployeeAvatar.src = firstEmployee.user_avatar;
-      headerEmployeeName.textContent = fullName;
-      mobileEmployeeAvatar.src = firstEmployee.user_avatar;
-      mobileEmployeeName.textContent = fullName;
+      if (headerEmployeeAvatar) headerEmployeeAvatar.src = firstEmployee.user_avatar;
+      if (headerEmployeeName) headerEmployeeName.textContent = fullName;
+      if (mobileEmployeeAvatar) mobileEmployeeAvatar.src = firstEmployee.user_avatar;
+      if (mobileEmployeeName) mobileEmployeeName.textContent = fullName;
     }
   }
 
   // this function is used to populate employee details on page
-  function populateEmployeeDetails(employee) {
+  function populateEmployeeDetails(employee: any): void {
     if (!employee) {
       window.location.href = "404-not-found.html";
       return;
@@ -93,47 +93,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const managerName = `${employee.manager.first_name} ${employee.manager.last_name}`;
 
     // update employee avatar section
-    detailsEmployeeAvatar.src = employee.user_avatar;
-    detailsEmployeeName.textContent = fullName;
-    detailsEmployeeNativeName.textContent = nativeFullName;
+    if (detailsEmployeeAvatar) detailsEmployeeAvatar.src = employee.user_avatar;
+    if (detailsEmployeeName) detailsEmployeeName.textContent = fullName;
+    if (detailsEmployeeNativeName) detailsEmployeeNativeName.textContent = nativeFullName;
 
     // show/hide remote work icon
     if (employee.isRemoteWork) {
-      detailsRemoteWorkIcon.style.display = "block";
+      if (detailsRemoteWorkIcon) detailsRemoteWorkIcon.style.display = "block";
     } else {
-      detailsRemoteWorkIcon.style.display = "none";
+      if (detailsRemoteWorkIcon) detailsRemoteWorkIcon.style.display = "none";
     }
 
     // update general info
-    detailsDepartment.textContent = employee.department;
-    detailsBuilding.textContent = employee.building;
-    detailsRoom.textContent = employee.room;
-    detailsDeskNumber.textContent = employee.desk_number;
-    detailsDateOfBirth.textContent = formatDateOfBirth(employee.date_birth);
-    detailsManager.textContent = managerName;
+    if (detailsDepartment) detailsDepartment.textContent = employee.department;
+    if (detailsBuilding) detailsBuilding.textContent = employee.building;
+    if (detailsRoom) detailsRoom.textContent = employee.room;
+    if (detailsDeskNumber) detailsDeskNumber.textContent = employee.desk_number;
+    if (detailsDateOfBirth) detailsDateOfBirth.textContent = formatDateOfBirth(employee.date_birth);
+    if (detailsManager) detailsManager.textContent = managerName;
 
     // update contact info
-    detailsPhone.textContent = employee.phone;
-    detailsEmail.textContent = employee.email;
-    detailsSkype.textContent = employee.skype;
-    detailsCNumber.textContent = employee.cnumber;
+    if (detailsPhone) detailsPhone.textContent = employee.phone;
+    if (detailsEmail) detailsEmail.textContent = employee.email;
+    if (detailsSkype) detailsSkype.textContent = employee.skype;
+    if (detailsCNumber) detailsCNumber.textContent = employee.cnumber;
 
     // update travel info
-    detailsCitizenship.textContent = employee.citizenship;
+    if (detailsCitizenship) detailsCitizenship.textContent = employee.citizenship;
 
     if (employee.visa && employee.visa.length > 0) {
       const visa1 = employee.visa[0];
-      detailsVisa1.textContent = `${visa1.issuing_country} - ${visa1.type}`;
+      if (detailsVisa1) detailsVisa1.textContent = `${visa1.issuing_country} - ${visa1.type}`;
       const visa1Expired = isVisaExpired(visa1.end_date);
-      detailsVisa1Period.textContent = `${formatDate(
+      if (detailsVisa1Period) detailsVisa1Period.textContent = `${formatDate(
         visa1.start_date
       )} - ${formatDate(visa1.end_date)}${visa1Expired ? " (expired)" : ""}`;
 
       if (employee.visa.length > 1) {
         const visa2 = employee.visa[1];
-        detailsVisa2.textContent = `${visa2.issuing_country} - ${visa2.type}`;
+        if (detailsVisa2) detailsVisa2.textContent = `${visa2.issuing_country} - ${visa2.type}`;
         const visa2Expired = isVisaExpired(visa2.end_date);
-        detailsVisa2Period.textContent = `${formatDate(
+        if (detailsVisa2Period) detailsVisa2Period.textContent = `${formatDate(
           visa2.start_date
         )} - ${formatDate(visa2.end_date)}${visa2Expired ? " (expired)" : ""}`;
       }
@@ -153,12 +153,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetch("./data/data.json")
     .then((response) => response.json())
-    .then((employees) => {
+    .then((employees: any[]) => {
       // always update header with first employee
       updateHeaderEmployee(employees[0]);
 
       // Add click handler to header employee name and avatar
-      const headerEmployeeData = document.querySelector(".user-data");
+      const headerEmployeeData = document.querySelector(".user-data") as HTMLElement;
       if (headerEmployeeData) {
         headerEmployeeData.style.cursor = "pointer";
         headerEmployeeData.onclick = () => {
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (employeeId) {
-        const employee = employees.find((emp) => emp._id === employeeId);
+        const employee = employees.find((emp: any) => emp._id === employeeId);
         populateEmployeeDetails(employee);
       }
     })
@@ -182,8 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (burgerMenuWrapper) {
     burgerMenuWrapper.addEventListener("click", function (e) {
       burgerMenuWrapper.classList.toggle("open");
-      mobileNav.classList.toggle("open");
-      menuBackdrop.classList.toggle("open");
+      if (mobileNav) mobileNav.classList.toggle("open");
+      if (menuBackdrop) menuBackdrop.classList.toggle("open");
       e.stopPropagation();
     });
   }
@@ -191,21 +191,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // close menu when clicking backdrop
   if (menuBackdrop) {
     menuBackdrop.addEventListener("click", function () {
-      burgerMenuWrapper.classList.remove("open");
-      mobileNav.classList.remove("open");
-      menuBackdrop.classList.remove("open");
+      if (burgerMenuWrapper) burgerMenuWrapper.classList.remove("open");
+      if (mobileNav) mobileNav.classList.remove("open");
+      if (menuBackdrop) menuBackdrop.classList.remove("open");
     });
   }
 
   if (mobileNav) {
     mobileNav.addEventListener("click", function (e) {
+      const target = e.target as HTMLElement;
       if (
-        e.target.tagName === "A" ||
-        e.target.classList.contains("nav-address-book")
+        target && (target.tagName === "A" ||
+        target.classList.contains("nav-address-book"))
       ) {
-        burgerMenuWrapper.classList.remove("open");
-        mobileNav.classList.remove("open");
-        menuBackdrop.classList.remove("open");
+        if (burgerMenuWrapper) burgerMenuWrapper.classList.remove("open");
+        if (mobileNav) mobileNav.classList.remove("open");
+        if (menuBackdrop) menuBackdrop.classList.remove("open");
         window.location.href = "index.html";
       }
     });

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // here writing API polyfill using XMLHttpRequest
 (function (global) {
   if (global.fetch) {
