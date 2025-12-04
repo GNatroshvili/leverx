@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // check if user is logged in (session exists)
+    const currentUser = sessionStorage.getItem("user");
+    if (!currentUser) {
+        // no active session, redirect to sign-in page
+        window.location.href = "index.html";
+        return;
+    }
     const headerEmployeeAvatar = document.getElementById("employee-avatar");
     const headerEmployeeName = document.getElementById("employee-username");
     const mobileEmployeeAvatar = document.getElementById("mobile-employee-avatar");
@@ -197,15 +204,39 @@ document.addEventListener("DOMContentLoaded", () => {
             if (target &&
                 (target.tagName === "A" ||
                     target.classList.contains("nav-address-book"))) {
+                // Check if it's the sign-out link
+                if (target.classList.contains("sign-out-link")) {
+                    e.preventDefault();
+                    sessionStorage.removeItem("user");
+                    window.location.href = "index.html";
+                    return;
+                }
                 if (burgerMenuWrapper)
                     burgerMenuWrapper.classList.remove("open");
                 if (mobileNav)
                     mobileNav.classList.remove("open");
                 if (menuBackdrop)
                     menuBackdrop.classList.remove("open");
-                window.location.href = "index.html";
+                window.location.href = "main.html";
             }
         });
+    }
+    // Sign out functionality
+    const signOutLink = document.querySelector(".sign-out-link");
+    const logoutBtn = document.querySelector(".logout-btn");
+    function handleSignOut(e) {
+        e.preventDefault();
+        // Clear the session
+        sessionStorage.removeItem("user");
+        // Redirect to sign-in page
+        window.location.href = "index.html";
+    }
+    if (signOutLink) {
+        signOutLink.addEventListener("click", handleSignOut);
+    }
+    if (logoutBtn) {
+        logoutBtn.style.cursor = "pointer";
+        logoutBtn.addEventListener("click", handleSignOut);
     }
 });
 export {};

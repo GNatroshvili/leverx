@@ -1,5 +1,13 @@
 // @ts-nocheck
 document.addEventListener("DOMContentLoaded", () => {
+  // check if user is logged in (session exists)
+  const currentUser = sessionStorage.getItem("user");
+  if (!currentUser) {
+    // no active session, redirect to sign-in page
+    window.location.href = "index.html";
+    return;
+  }
+
   const gridWrapper = document.querySelector(".employee-cards-wrapper");
   const listWrapper = document.querySelector(".employee-list-cards-wrapper");
   const employeeHeader = document.querySelector(".employee-header");
@@ -528,8 +536,27 @@ document.addEventListener("DOMContentLoaded", () => {
         burgerMenuWrapper.classList.remove("open");
         mobileNav.classList.remove("open");
         menuBackdrop.classList.remove("open");
-        window.location.href = "index.html";
+        window.location.href = "main.html";
       }
     });
+  }
+
+  // sign out functionality
+  const signOutLink = document.querySelector(".sign-out-link");
+  const logoutBtn = document.querySelector(".logout-btn");
+
+  function handleSignOut(e) {
+    e.preventDefault();
+    sessionStorage.removeItem("user");
+    window.location.href = "index.html";
+  }
+
+  if (signOutLink) {
+    signOutLink.addEventListener("click", handleSignOut);
+  }
+
+  if (logoutBtn) {
+    logoutBtn.style.cursor = "pointer";
+    logoutBtn.addEventListener("click", handleSignOut);
   }
 });

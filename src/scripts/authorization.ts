@@ -2,6 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // API base URL - change this if server runs on different port
   const API_BASE_URL = "http://localhost:3000";
 
+  // check if user is already logged in (session exists)
+  const existingUser = sessionStorage.getItem("user");
+  if (existingUser) {
+    // user has active session, redirect to main page
+    window.location.href = "main.html";
+    return;
+  }
+
   // Tab elements
   const signinTab = document.getElementById("signin-tab") as HTMLButtonElement;
   const signupTab = document.getElementById("signup-tab") as HTMLButtonElement;
@@ -90,8 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
 
         if (data.success) {
-          // store user data in localStorage for session management
-          localStorage.setItem("user", JSON.stringify(data.user));
+          // store user data in sessionStorage for session management
+          // sessionStorage is cleared when the browser tab is closed
+          sessionStorage.setItem("user", JSON.stringify(data.user));
           console.log("Sign in successful:", data.user);
           alert("Sign in successful!");
           window.location.href = "main.html";
