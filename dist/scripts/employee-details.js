@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // check if user is logged in (session exists)
-    const currentUser = sessionStorage.getItem("user");
+    // check if user is logged in (session exists in either storage)
+    const currentUser = sessionStorage.getItem("user") || localStorage.getItem("user");
     if (!currentUser) {
         // no active session, redirect to sign-in page
         window.location.href = "index.html";
@@ -204,10 +204,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (target &&
                 (target.tagName === "A" ||
                     target.classList.contains("nav-address-book"))) {
-                // Check if it's the sign-out link
+                // check if it's the sign-out link
                 if (target.classList.contains("sign-out-link")) {
                     e.preventDefault();
+                    // clear session from both storages
                     sessionStorage.removeItem("user");
+                    localStorage.removeItem("user");
                     window.location.href = "index.html";
                     return;
                 }
@@ -221,14 +223,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    // Sign out functionality
+    // sign out functionality
     const signOutLink = document.querySelector(".sign-out-link");
     const logoutBtn = document.querySelector(".logout-btn");
     function handleSignOut(e) {
         e.preventDefault();
-        // Clear the session
+        // clear session from both storages
         sessionStorage.removeItem("user");
-        // Redirect to sign-in page
+        localStorage.removeItem("user");
+        // redirect to sign-in page
         window.location.href = "index.html";
     }
     if (signOutLink) {

@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 document.addEventListener("DOMContentLoaded", () => {
     // API base URL - change this if server runs on different port
     const API_BASE_URL = "http://localhost:3000";
-    // check if user is already logged in (session exists)
-    const existingUser = sessionStorage.getItem("user");
+    // check if user is already logged in (session exists in either storage)
+    const existingUser = sessionStorage.getItem("user") || localStorage.getItem("user");
     if (existingUser) {
         // user has active session, redirect to main page
         window.location.href = "main.html";
@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sign in form submission
     if (signinForm) {
         signinForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
+            var _a;
             e.preventDefault();
             const username = document.getElementById("signin-username").value;
             const password = document.getElementById("signin-password").value;
@@ -89,9 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 const data = yield response.json();
                 if (data.success) {
-                    // store user data in sessionStorage for session management
+                    // check if "Remember me" checkbox is checked
+                    const rememberMe = (_a = document.getElementById("signin-remember")) === null || _a === void 0 ? void 0 : _a.checked;
+                    // store user data in appropriate storage
+                    // localStorage persists even after browser is closed
                     // sessionStorage is cleared when the browser tab is closed
-                    sessionStorage.setItem("user", JSON.stringify(data.user));
+                    if (rememberMe) {
+                        localStorage.setItem("user", JSON.stringify(data.user));
+                    }
+                    else {
+                        sessionStorage.setItem("user", JSON.stringify(data.user));
+                    }
                     console.log("Sign in successful:", data.user);
                     alert("Sign in successful!");
                     window.location.href = "main.html";

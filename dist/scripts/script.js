@@ -1,7 +1,7 @@
 // @ts-nocheck
 document.addEventListener("DOMContentLoaded", () => {
-    // check if user is logged in (session exists)
-    const currentUser = sessionStorage.getItem("user");
+    // check if user is logged in (session exists in either storage)
+    const currentUser = sessionStorage.getItem("user") || localStorage.getItem("user");
     if (!currentUser) {
         // no active session, redirect to sign-in page
         window.location.href = "index.html";
@@ -474,7 +474,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.querySelector(".logout-btn");
     function handleSignOut(e) {
         e.preventDefault();
+        // clear session from both storages
         sessionStorage.removeItem("user");
+        localStorage.removeItem("user");
         window.location.href = "index.html";
     }
     if (signOutLink) {

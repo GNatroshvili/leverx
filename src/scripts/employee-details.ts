@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // check if user is logged in (session exists)
-  const currentUser = sessionStorage.getItem("user");
+  // check if user is logged in (session exists in either storage)
+  const currentUser =
+    sessionStorage.getItem("user") || localStorage.getItem("user");
   if (!currentUser) {
     // no active session, redirect to sign-in page
     window.location.href = "index.html";
@@ -233,7 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // check if it's the sign-out link
         if (target.classList.contains("sign-out-link")) {
           e.preventDefault();
+          // clear session from both storages
           sessionStorage.removeItem("user");
+          localStorage.removeItem("user");
           window.location.href = "index.html";
           return;
         }
@@ -251,8 +254,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleSignOut(e: Event): void {
     e.preventDefault();
-    // clear the session
+    // clear session from both storages
     sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     // redirect to sign-in page
     window.location.href = "index.html";
   }

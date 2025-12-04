@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // API base URL - change this if server runs on different port
   const API_BASE_URL = "http://localhost:3000";
 
-  // check if user is already logged in (session exists)
-  const existingUser = sessionStorage.getItem("user");
+  // check if user is already logged in (session exists in either storage)
+  const existingUser =
+    sessionStorage.getItem("user") || localStorage.getItem("user");
   if (existingUser) {
     // user has active session, redirect to main page
     window.location.href = "main.html";
@@ -15,19 +16,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupTab = document.getElementById("signup-tab") as HTMLButtonElement;
 
   // Form wrapper elements
-  const signinFormWrapper = document.getElementById("signin-form-wrapper") as HTMLElement;
-  const signupFormWrapper = document.getElementById("signup-form-wrapper") as HTMLElement;
+  const signinFormWrapper = document.getElementById(
+    "signin-form-wrapper"
+  ) as HTMLElement;
+  const signupFormWrapper = document.getElementById(
+    "signup-form-wrapper"
+  ) as HTMLElement;
 
   // Form elements
   const signinForm = document.getElementById("signin-form") as HTMLFormElement;
   const signupForm = document.getElementById("signup-form") as HTMLFormElement;
 
   // Switch links
-  const goToSignup = document.getElementById("go-to-signup") as HTMLAnchorElement;
-  const goToSignin = document.getElementById("go-to-signin") as HTMLAnchorElement;
+  const goToSignup = document.getElementById(
+    "go-to-signup"
+  ) as HTMLAnchorElement;
+  const goToSignin = document.getElementById(
+    "go-to-signin"
+  ) as HTMLAnchorElement;
 
   // Burger menu elements
-  const burgerMenuWrapper = document.querySelector(".burger-menu-wrapper") as HTMLElement;
+  const burgerMenuWrapper = document.querySelector(
+    ".burger-menu-wrapper"
+  ) as HTMLElement;
   const mobileNav = document.querySelector(".mobile-nav") as HTMLElement;
   const menuBackdrop = document.querySelector(".menu-backdrop") as HTMLElement;
 
@@ -76,8 +87,12 @@ document.addEventListener("DOMContentLoaded", () => {
     signinForm.addEventListener("submit", async (e: Event) => {
       e.preventDefault();
 
-      const username = (document.getElementById("signin-username") as HTMLInputElement).value;
-      const password = (document.getElementById("signin-password") as HTMLInputElement).value;
+      const username = (
+        document.getElementById("signin-username") as HTMLInputElement
+      ).value;
+      const password = (
+        document.getElementById("signin-password") as HTMLInputElement
+      ).value;
 
       // Basic validation
       if (!username || !password) {
@@ -98,9 +113,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
 
         if (data.success) {
-          // store user data in sessionStorage for session management
+          // check if "Remember me" checkbox is checked
+          const rememberMe = (
+            document.getElementById("signin-remember") as HTMLInputElement
+          )?.checked;
+
+          // store user data in appropriate storage
+          // localStorage persists even after browser is closed
           // sessionStorage is cleared when the browser tab is closed
-          sessionStorage.setItem("user", JSON.stringify(data.user));
+          if (rememberMe) {
+            localStorage.setItem("user", JSON.stringify(data.user));
+          } else {
+            sessionStorage.setItem("user", JSON.stringify(data.user));
+          }
           console.log("Sign in successful:", data.user);
           alert("Sign in successful!");
           window.location.href = "main.html";
@@ -109,7 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Sign in error:", error);
-        alert("Unable to connect to server. Please make sure the server is running.");
+        alert(
+          "Unable to connect to server. Please make sure the server is running."
+        );
       }
     });
   }
@@ -119,11 +146,21 @@ document.addEventListener("DOMContentLoaded", () => {
     signupForm.addEventListener("submit", async (e: Event) => {
       e.preventDefault();
 
-      const username = (document.getElementById("signup-username") as HTMLInputElement).value;
-      const password = (document.getElementById("signup-password") as HTMLInputElement).value;
-      const firstName = (document.getElementById("signup-firstname") as HTMLInputElement).value;
-      const lastName = (document.getElementById("signup-lastname") as HTMLInputElement).value;
-      const phone = (document.getElementById("signup-phone") as HTMLInputElement).value;
+      const username = (
+        document.getElementById("signup-username") as HTMLInputElement
+      ).value;
+      const password = (
+        document.getElementById("signup-password") as HTMLInputElement
+      ).value;
+      const firstName = (
+        document.getElementById("signup-firstname") as HTMLInputElement
+      ).value;
+      const lastName = (
+        document.getElementById("signup-lastname") as HTMLInputElement
+      ).value;
+      const phone = (
+        document.getElementById("signup-phone") as HTMLInputElement
+      ).value;
 
       // Basic validation
       if (!username || !password || !firstName || !lastName || !phone) {
@@ -161,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Sign up error:", error);
-        alert("Unable to connect to server. Please make sure the server is running.");
+        alert(
+          "Unable to connect to server. Please make sure the server is running."
+        );
       }
     });
   }
