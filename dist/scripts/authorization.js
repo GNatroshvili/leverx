@@ -147,11 +147,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = yield response.json();
                 if (data.success) {
                     console.log("Sign up successful:", data.user);
-                    alert("Sign up successful! Please sign in.");
-                    // clear form fields
-                    signupForm.reset();
-                    // switch to sign in form
-                    showSignIn();
+                    // store user session in sessionStorage (will be cleared when tab closes)
+                    sessionStorage.setItem("user", JSON.stringify(data.user));
+                    alert("Registration successful! Welcome!");
+                    // redirect to main page after sign-up
+                    window.location.href = "main.html";
                 }
                 else {
                     alert(data.message || "Sign up failed. Please try again.");
