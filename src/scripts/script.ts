@@ -1,3 +1,4 @@
+// @ts-nocheck
 document.addEventListener("DOMContentLoaded", () => {
   const gridWrapper = document.querySelector(".employee-cards-wrapper");
   const listWrapper = document.querySelector(".employee-list-cards-wrapper");

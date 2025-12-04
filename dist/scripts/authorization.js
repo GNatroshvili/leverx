@@ -1,4 +1,15 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 document.addEventListener("DOMContentLoaded", () => {
+    // API base URL - change this if server runs on different port
+    const API_BASE_URL = "http://localhost:3000";
     // Tab elements
     const signinTab = document.getElementById("signin-tab");
     const signupTab = document.getElementById("signup-tab");
@@ -51,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // Sign in form submission
     if (signinForm) {
-        signinForm.addEventListener("submit", (e) => {
+        signinForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
             e.preventDefault();
             const username = document.getElementById("signin-username").value;
             const password = document.getElementById("signin-password").value;
@@ -60,16 +71,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Please fill in all fields");
                 return;
             }
-            // Here you would typically make an API call to authenticate the user
-            console.log("Sign in attempt:", { username, password: "***" });
-            // For demo purposes, redirect to index page
-            alert("Sign in successful!");
-            window.location.href = "index.html";
-        });
+            try {
+                // make API call to sign-in endpoint
+                const response = yield fetch(`${API_BASE_URL}/sign-in`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = yield response.json();
+                if (data.success) {
+                    // store user data in localStorage for session management
+                    localStorage.setItem("user", JSON.stringify(data.user));
+                    console.log("Sign in successful:", data.user);
+                    alert("Sign in successful!");
+                    window.location.href = "main.html";
+                }
+                else {
+                    alert(data.message || "Sign in failed. Please try again.");
+                }
+            }
+            catch (error) {
+                console.error("Sign in error:", error);
+                alert("Unable to connect to server. Please make sure the server is running.");
+            }
+        }));
     }
-    // Sign up form submission
+    // sign up form submission
     if (signupForm) {
-        signupForm.addEventListener("submit", (e) => {
+        signupForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
             e.preventDefault();
             const username = document.getElementById("signup-username").value;
             const password = document.getElementById("signup-password").value;
@@ -81,18 +112,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Please fill in all fields");
                 return;
             }
-            // Here you would typically make an API call to register the user
-            console.log("Sign up attempt:", {
-                username,
-                password: "***",
-                firstName,
-                lastName,
-                phone,
-            });
-            // For demo purposes, show success and switch to sign in
-            alert("Sign up successful! Please sign in.");
-            showSignIn();
-        });
+            try {
+                // make API call to sign-up endpoint
+                const response = yield fetch(`${API_BASE_URL}/sign-up`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        firstName,
+                        lastName,
+                        phone,
+                    }),
+                });
+                const data = yield response.json();
+                if (data.success) {
+                    console.log("Sign up successful:", data.user);
+                    alert("Sign up successful! Please sign in.");
+                    // clear form fields
+                    signupForm.reset();
+                    // switch to sign in form
+                    showSignIn();
+                }
+                else {
+                    alert(data.message || "Sign up failed. Please try again.");
+                }
+            }
+            catch (error) {
+                console.error("Sign up error:", error);
+                alert("Unable to connect to server. Please make sure the server is running.");
+            }
+        }));
     }
     // Burger menu toggle
     if (burgerMenuWrapper) {
