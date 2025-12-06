@@ -1,5 +1,80 @@
 # LeverX Employee Services - Address Book
 
+# Homework-3 Branch Updates
+
+This branch introduces major upgrades to the project, including backend integration, persistent session management, and merging registered users with employees. Below is a summary of the new features and setup instructions.
+
+## What's New in Homework-3 Branch
+
+- **Backend Migration**: Employee data is now stored in a SQLite database and served via a Node.js/Express backend (`server/server.js`).
+- **REST API Endpoints**: The backend exposes endpoints for employee listing, details, sign-up, sign-in, and more.
+- **User Registration & Authentication**: Users can sign up and sign in using their email. Passwords are securely hashed.
+- **Session Management**: Persistent sessions are implemented using localStorage/sessionStorage. "Remember me" support added.
+- **Auto-login After Sign-up**: New users are automatically logged in and redirected to the main page.
+- **Merging Users with Employees**: Registered users are merged into the employee directory. Missing fields are shown as "N/A".
+- **Path-based Routing**: Employee details pages use path parameters (e.g., `/employee-details.html/:id`).
+- **Display Bug Fixes**: All employee/user details are rendered as strings, preventing `[object Object]` display issues.
+- **Polyfill Modernization**: All `var` declarations in the fetch polyfill are replaced with `let`/`const`.
+- **CSS Improvements**: Font sizes use `rem` units, and colors are centralized with CSS variables.
+
+## How to Start the Project
+
+### 1. Clone the Repository
+
+```bash
+git clone https://frontend-course-2025-gitlab.codelx.dev/fe/gigi-natroshvili.git
+cd gigi-natroshvili
+
+```
+
+### 2. Install Dependencies
+
+The backend requires Node.js and npm. Install dependencies in the `server` folder:
+
+```bash
+cd server
+npm install
+```
+
+### 3. Start the Backend Server
+
+Run the backend server (Express + SQLite):
+
+```bash
+node server.js
+```
+
+The backend will start on `http://localhost:3000` by default.
+
+### 4. Start the Frontend (Five Server)
+
+We recommend using the **Five Server** extension for live reloading:
+
+- Install "Five Server" by Yannick in VS Code (Ctrl+Shift+X, search "Five Server").
+- Open the project folder in VS Code.
+- Right-click `index.html` and select "Open Five Server" or click "Go Live" in the status bar.
+
+The frontend will be available at `http://localhost:5500` or `http://127.0.0.1:5500`.
+
+### 5. Usage
+
+- Sign up or sign in using your email.
+- Browse and search employees (including registered users).
+- Click any employee to view details (path-based routing).
+
+### 6. After Pulling from Git
+
+If you clone or pull the project, always run `npm install` in the `server` folder before starting the backend. This ensures all dependencies are installed.
+
+### 7. Additional Notes
+
+- Employee/user data is stored in SQLite (`users.db`).
+- If you need to reset the database, delete `users.db` and restart the backend server.
+- All frontend logic is in `src/scripts/` and static files in `src/`.
+- Polyfills and CSS improvements ensure compatibility and accessibility.
+
+---
+
 A modern, responsive employee directory application built with vanilla HTML, CSS, and JavaScript. This application provides a comprehensive interface for searching, viewing, and managing employee information with support for both basic and advanced search capabilities.
 
 ## Table of Contents
@@ -114,7 +189,7 @@ Gigi-Natroshvili/
    - URL: `http://127.0.0.1:5500/` or `http://localhost:5500/`
    - Both URLs work identically
 
-##  Usage
+## Usage
 
 ### Basic Search
 
@@ -152,7 +227,7 @@ Gigi-Natroshvili/
 - Click backdrop or links to close menu
 - All links redirect to main page (index.html)
 
-##  Key Functionality
+## Key Functionality
 
 ### Search State Persistence
 
@@ -187,7 +262,7 @@ The application preserves search parameters in the URL:
 - Empty search results show friendly message
 - Console logging for debugging data loading issues
 
-##  Responsive Design
+## Responsive Design
 
 The application is fully responsive with breakpoints:
 
@@ -205,7 +280,7 @@ The application is fully responsive with breakpoints:
 - Touch-friendly button sizes
 - Hidden desktop-only elements
 
-##  Dark Mode Support
+## Dark Mode Support
 
 The application automatically adapts to the user's system theme preference using `@media (prefers-color-scheme: dark)`:
 
@@ -241,7 +316,7 @@ All colors are centralized using CSS custom properties:
 }
 ```
 
-##  Browser Compatibility
+## Browser Compatibility
 
 - Chrome/Edge (latest)
 - Firefox (latest)
@@ -253,7 +328,7 @@ All colors are centralized using CSS custom properties:
 
 - Custom Fetch API polyfill for older environments
 
-##  Development Notes
+## Development Notes
 
 ### CSS Architecture
 
@@ -290,7 +365,7 @@ Employee data is stored in `data/data.json` with the following structure:
 }
 ```
 
-##  Customization
+## Customization
 
 ### Changing Colors
 
@@ -320,7 +395,7 @@ Update media queries in respective CSS files:
 }
 ```
 
-##  Known Issues & Limitations
+## Known Issues & Limitations
 
 - Employee data is loaded from static JSON file
 - No backend integration for CRUD operations
@@ -328,7 +403,7 @@ Update media queries in respective CSS files:
 - Copy link button has no implementation
 - Sign out link redirects to root
 
-##  Future Enhancements
+## Future Enhancements
 
 - Backend API integration
 - Employee CRUD operations
@@ -339,14 +414,14 @@ Update media queries in respective CSS files:
 - Keyboard navigation
 - Accessibility improvements (ARIA labels)
 
-##  Author
+## Author
 
 **Gigi Natroshvili**
 
-##  License
+## License
 
 This project is part of the LeverX Frontend Course 2025.
 
 ---
 
-**Last Updated**: December 2, 2025
+**Last Updated**: December 6, 2025

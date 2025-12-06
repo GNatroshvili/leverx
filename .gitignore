@@ -13,6 +13,3 @@ Thumbs.db
 # Compiled output
 dist/
 
-# Server user data
-server/users.json
-server/users.db
