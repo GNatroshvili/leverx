@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (headerEmployeeData) {
         headerEmployeeData.style.cursor = "pointer";
         headerEmployeeData.addEventListener("click", () => {
-          window.location.href = `employee-details.html?id=${employee._id}`;
+          window.location.href = `employee-details.html#${employee._id}`;
         });
       }
     }
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.style.cursor = "pointer";
       card.addEventListener("click", () => {
-        window.location.href = `employee-details.html?id=${emp._id}`;
+        window.location.href = `employee-details.html#${emp._id}`;
       });
 
       gridWrapper.appendChild(card);
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       listCard.style.cursor = "pointer";
       listCard.addEventListener("click", () => {
-        window.location.href = `employee-details.html?id=${emp._id}`;
+        window.location.href = `employee-details.html#${emp._id}`;
       });
 
       listWrapper.appendChild(listCard);

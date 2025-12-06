@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "index.html";
         });
     }
-    // this function is used to get employee id from url parameter
+    // this function is used to get employee id from url hash (path parameter)
     function getEmployeeIdFromUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get("id");
+        // get id from hash (e.g., employee-details.html#abc123)
+        return window.location.hash.substring(1); // remove the '#' prefix
     }
     // this function is used to format date from timestamp
     function formatDate(timestamp) {
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (headerEmployeeData) {
             headerEmployeeData.style.cursor = "pointer";
             headerEmployeeData.onclick = () => {
-                window.location.href = `employee-details.html?id=${employees[0]._id}`;
+                window.location.href = `employee-details.html#${employees[0]._id}`;
             };
         }
         if (employeeId) {
