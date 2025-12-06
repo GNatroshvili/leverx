@@ -10,11 +10,11 @@
   --details-danger: rgb(232, 69, 4);
   --details-shadow: rgba(0, 0, 0, 0.08);
 
-  --details-font-base: 16px;
-  --details-font-lg: 20px;
-  --details-font-xl: 36px;
-  --details-font-sm: 14px;
-  --details-font-xs: 12px;
+  --details-font-base: 1rem;
+  --details-font-lg: 1.25rem;
+  --details-font-xl: 2.25rem;
+  --details-font-sm: 0.875rem;
+  --details-font-xs: 0.75rem;
 
   --details-radius-base: 6px;
   --details-radius-lg: 24px;
@@ -200,7 +200,7 @@
 
 .nav-address-book {
   font-size: var(--details-font-lg);
-  color: #8d8484;
+  color: var(--details-title);
   padding: var(--details-spacing-xl) var(--details-spacing-md);
 }
 
@@ -458,54 +458,54 @@
   }
 
   .employee-details-wrapper {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
+    background-color: var(--details-bg);
+    color: var(--details-title);
   }
 
   .copy-link-btn {
-    background-color: #2a2a2a;
-    color: #a0a0a0;
+    background-color: var(--details-light-gray);
+    color: var(--details-gray);
   }
 
   .copy-link-btn:hover {
-    background-color: #333;
+    background-color: var(--details-light-gray);
   }
 
   .edit-btn {
-    border-color: #606060;
-    color: #e0e0e0;
+    border-color: var(--details-border);
+    color: var(--details-title);
   }
 
   .edit-btn:hover {
-    background-color: #2a2a2a;
+    background-color: var(--details-light-gray);
   }
 
   .gray-text {
-    color: #a0a0a0;
+    color: var(--details-gray);
   }
 
   .full-name {
-    color: #a0a0a0;
+    color: var(--details-gray);
   }
 
   .divider-line {
-    background-color: #404040;
+    background-color: var(--details-gray);
   }
 
   .vertical-divider-line {
-    background-color: #404040;
+    background-color: var(--details-gray);
   }
 
   .data-section-title {
-    color: #b0b0b0;
+    color: var(--details-title);
   }
 
   .info-title {
-    color: #808080;
+    color: var(--details-border);
   }
 
   .nav-address-book {
-    color: #a0a0a0;
+    color: var(--details-title);
   }
 
   .left-arrow-icon,

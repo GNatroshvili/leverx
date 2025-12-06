@@ -5,11 +5,11 @@
   --notfound-btn-bg: #5091ff;
   --notfound-btn-radius: 8px;
   --notfound-btn-font: 20px;
-  --notfound-btn-color: #fff;
-  --notfound-img-size: 400px;
-  --notfound-img-size-mobile: 300px;
-  --notfound-title-size: 36px;
-  --notfound-desc-size: 20px;
+  --notfound-btn-font: 1.25rem;
+  --notfound-img-size: 25rem;
+  --notfound-img-size-mobile: 18.75rem;
+  --notfound-title-size: 2.25rem;
+  --notfound-desc-size: 1.25rem;
 }
 
 .not-found-wrapper {
@@ -28,14 +28,14 @@
 
 @media only screen and (max-width: 520px) {
   .image {
-    width: var(--notfound-img-size-mobile);
+    font-size: var(--notfound-desc-size);
     height: var(--notfound-img-size-mobile);
   }
 }
 
 .title {
   font-size: var(--notfound-title-size);
-  color: var(--notfound-title);
+  font-size: var(--notfound-btn-font);
 }
 
 .description {
