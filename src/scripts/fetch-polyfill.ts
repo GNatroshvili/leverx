@@ -27,7 +27,7 @@
   Headers.prototype.append = function (name, value) {
     name = normalizeName(name);
     value = normalizeValue(value);
-    var oldValue = this.map[name];
+    const oldValue = this.map[name];
     this.map[name] = oldValue ? oldValue + ", " + value : value;
   };
 
@@ -41,7 +41,7 @@
   };
 
   Headers.prototype.forEach = function (callback, thisArg) {
-    for (var name in this.map) {
+    for (const name in this.map) {
       if (this.map.hasOwnProperty(name)) {
         callback.call(thisArg, this.map[name], name, this);
       }
@@ -102,7 +102,7 @@
   // request class implementation
   function Request(input, options) {
     options = options || {};
-    var body = options.body;
+    let body = options.body;
 
     if (input instanceof Request) {
       this.url = input.url;
@@ -136,7 +136,7 @@
   Request.prototype._initBody = Response.prototype._initBody;
 
   function normalizeMethod(method) {
-    var upcased = method.toUpperCase();
+    const upcased = method.toUpperCase();
     return ["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"].indexOf(
       upcased
     ) > -1
@@ -147,11 +147,11 @@
   // fetch function implementation
   function fetch(input, init) {
     return new Promise(function (resolve, reject) {
-      var request = new Request(input, init);
-      var xhr = new XMLHttpRequest();
+      const request = new Request(input, init);
+      const xhr = new XMLHttpRequest();
 
       xhr.onload = function () {
-        var options = {
+        const options = {
           status: xhr.status,
           statusText: xhr.statusText,
           headers: parseHeaders(xhr.getAllResponseHeaders() || ""),
@@ -160,7 +160,7 @@
           "responseURL" in xhr
             ? xhr.responseURL
             : options.headers.get("X-Request-URL");
-        var body = "response" in xhr ? xhr.response : xhr.responseText;
+        const body = "response" in xhr ? xhr.response : xhr.responseText;
         resolve(new Response(body, options));
       };
 
@@ -191,13 +191,13 @@
   }
 
   function parseHeaders(rawHeaders) {
-    var headers = new Headers();
-    var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, " ");
+    const headers = new Headers();
+    const preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, " ");
     preProcessedHeaders.split(/\r?\n/).forEach(function (line) {
-      var parts = line.split(":");
-      var key = parts.shift().trim();
+      const parts = line.split(":");
+      const key = parts.shift().trim();
       if (key) {
-        var value = parts.join(":").trim();
+        const value = parts.join(":").trim();
         headers.append(key, value);
       }
     });
