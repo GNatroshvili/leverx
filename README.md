@@ -119,24 +119,30 @@ A modern, responsive employee directory application built with vanilla HTML, CSS
 Gigi-Natroshvili/
 ├── index.html                 # Main employee directory page
 ├── employee-details.html      # Employee details page
-├── 404-not-found.html        # Error page
-├── README.md                 # Project documentation
-├── assets/                   # Images and icons
-│   ├── favicon-icon.png
-│   └── [various icons]
-├── data/
-│   └── data.json            # Employee data
-├── scripts/
-│   ├── script.js            # Main page logic
-│   ├── employee-details.js  # Details page logic
-│   └── fetch-polyfill.js    # Custom fetch API polyfill
-└── styles/
-    ├── style.css            # Main styles
-    ├── reset.css            # CSS reset
-    ├── header.css           # Header styles
-    ├── layout.css           # Layout container
-    ├── employee-details.css # Details page styles
-    └── 404-not-found.css    # Error page styles
+├── 404-not-found.html         # Error page
+├── README.md                  # Project documentation
+├── tsconfig.json              # TypeScript config
+├── assets/                    # Images and icons
+│   └── ...
+├── server/                    # Backend (Node.js + Express)
+│   ├── server.js              # Express server
+│   ├── employees.json         # Initial employee data
+│   ├── package.json           # Backend dependencies
+│   └── users.db               # SQLite database (created at runtime)
+├── src/
+│   └── scripts/
+│       ├── script.ts              # Main page logic (TypeScript)
+│       ├── employee-details.ts    # Details page logic (TypeScript)
+│       ├── authorization.ts       # Auth logic (TypeScript)
+│       └── fetch-polyfill.ts      # Custom fetch API polyfill
+├── styles/
+│   ├── style.css              # Main styles
+│   ├── reset.css              # CSS reset
+│   ├── header.css             # Header styles
+│   ├── layout.css             # Layout container
+│   ├── employee-details.css   # Details page styles
+│   ├── authorization.css      # Auth page styles
+│   └── 404-not-found.css      # Error page styles
 ```
 
 ## Technologies Used
@@ -394,26 +400,6 @@ Update media queries in respective CSS files:
   /* Your responsive styles */
 }
 ```
-
-## Known Issues & Limitations
-
-- Employee data is loaded from static JSON file
-- No backend integration for CRUD operations
-- Edit button is UI-only (no functionality)
-- Copy link button has no implementation
-- Sign out link redirects to root
-
-## Future Enhancements
-
-- Backend API integration
-- Employee CRUD operations
-- Authentication system
-- Profile picture upload
-- Export employee data
-- Print-friendly views
-- Keyboard navigation
-- Accessibility improvements (ARIA labels)
-
 ## Author
 
 **Gigi Natroshvili**
