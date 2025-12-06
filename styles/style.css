@@ -244,6 +244,7 @@
 .avatar {
   width: 240px;
   height: 240px;
+  border-radius: 50%;
 }
 
 @media only screen and (max-width: 1280px) {
