@@ -18,7 +18,7 @@ const db = new Database(DB_PATH);
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     firstName TEXT NOT NULL,
     lastName TEXT NOT NULL,
@@ -209,10 +209,10 @@ app.use(express.static(path.join(__dirname, "..")));
 // POST /sign-up - Register a new user
 app.post("/sign-up", async (req, res) => {
   try {
-    const { username, password, firstName, lastName, phone } = req.body;
+    const { email, password, firstName, lastName, phone } = req.body;
 
     // validate required fields
-    if (!username || !password || !firstName || !lastName || !phone) {
+    if (!email || !password || !firstName || !lastName || !phone) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -220,11 +220,11 @@ app.post("/sign-up", async (req, res) => {
     }
 
     // check if user already exists
-    const existingUser = db.prepare("SELECT * FROM users WHERE username = ?").get(username);
+    const existingUser = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: "Username already exists",
+        message: "Email already exists",
       });
     }
 
@@ -237,16 +237,16 @@ app.post("/sign-up", async (req, res) => {
 
     // insert new user into users table with employeeId reference
     const userStmt = db.prepare(`
-      INSERT INTO users (username, password, firstName, lastName, phone, createdAt, employeeId)
+      INSERT INTO users (email, password, firstName, lastName, phone, createdAt, employeeId)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
-    const userResult = userStmt.run(username, hashedPassword, firstName, lastName, phone, createdAt, employeeId);
+    const userResult = userStmt.run(email, hashedPassword, firstName, lastName, phone, createdAt, employeeId);
 
-    // also insert into employees table with default values
+    // also insert into employees table with default values and email
     const employeeStmt = db.prepare(`
       INSERT INTO employees (
-        _id, isRemoteWork, user_avatar, first_name, last_name, phone, isRegisteredUser, createdAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        _id, isRemoteWork, user_avatar, first_name, last_name, phone, email, isRegisteredUser, createdAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     employeeStmt.run(
       employeeId,
@@ -255,11 +255,12 @@ app.post("/sign-up", async (req, res) => {
       firstName,
       lastName,
       phone,
+      email,
       1,
       createdAt
     );
 
-    console.log(`New user registered: ${username} (Employee ID: ${employeeId})`);
+    console.log(`New user registered: ${email} (Employee ID: ${employeeId})`);
 
     // return success response (without password)
     res.status(201).json({
@@ -268,7 +269,7 @@ app.post("/sign-up", async (req, res) => {
       user: {
         id: userResult.lastInsertRowid,
         employeeId,
-        username,
+        email,
         firstName,
         lastName,
         phone,
@@ -286,22 +287,22 @@ app.post("/sign-up", async (req, res) => {
 // POST /sign-in - Authenticate a user
 app.post("/sign-in", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // validate required fields
-    if (!username || !password) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Username and password are required",
+        message: "Email and password are required",
       });
     }
 
-    // find user by username
-    const user = db.prepare("SELECT * FROM users WHERE username = ?").get(username);
+    // find user by email
+    const user = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "Invalid username or password",
+        message: "Invalid email or password",
       });
     }
 
@@ -310,11 +311,11 @@ app.post("/sign-in", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: "Invalid username or password",
+        message: "Invalid email or password",
       });
     }
 
-    console.log(`User logged in: ${username}`);
+    console.log(`User logged in: ${email}`);
 
     // return success response (without password)
     res.status(200).json({
@@ -322,7 +323,7 @@ app.post("/sign-in", async (req, res) => {
       message: "Login successful",
       user: {
         id: user.id,
-        username: user.username,
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         phone: user.phone,
@@ -339,7 +340,7 @@ app.post("/sign-in", async (req, res) => {
 
 // GET /auth/users - get all registered users (for debugging, remove in production)
 app.get("/auth/users", (req, res) => {
-  const users = db.prepare("SELECT id, username, firstName, lastName, phone, createdAt, employeeId FROM users").all();
+  const users = db.prepare("SELECT id, email, firstName, lastName, phone, createdAt, employeeId FROM users").all();
 
   res.json({
     success: true,

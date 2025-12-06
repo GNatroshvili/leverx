@@ -72,10 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
         signinForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
             var _a;
             e.preventDefault();
-            const username = document.getElementById("signin-username").value;
+            const email = document.getElementById("signin-email").value;
             const password = document.getElementById("signin-password").value;
             // Basic validation
-            if (!username || !password) {
+            if (!email || !password) {
                 alert("Please fill in all fields");
                 return;
             }
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ email, password }),
                 });
                 const data = yield response.json();
                 if (data.success) {
@@ -119,13 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (signupForm) {
         signupForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
             e.preventDefault();
-            const username = document.getElementById("signup-username").value;
+            const email = document.getElementById("signup-email").value;
             const password = document.getElementById("signup-password").value;
             const firstName = document.getElementById("signup-firstname").value;
             const lastName = document.getElementById("signup-lastname").value;
             const phone = document.getElementById("signup-phone").value;
             // Basic validation
-            if (!username || !password || !firstName || !lastName || !phone) {
+            if (!email || !password || !firstName || !lastName || !phone) {
                 alert("Please fill in all fields");
                 return;
             }
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        username,
+                        email,
                         password,
                         firstName,
                         lastName,

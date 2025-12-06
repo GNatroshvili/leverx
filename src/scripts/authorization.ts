@@ -87,15 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
     signinForm.addEventListener("submit", async (e: Event) => {
       e.preventDefault();
 
-      const username = (
-        document.getElementById("signin-username") as HTMLInputElement
+      const email = (
+        document.getElementById("signin-email") as HTMLInputElement
       ).value;
       const password = (
         document.getElementById("signin-password") as HTMLInputElement
       ).value;
 
       // Basic validation
-      if (!username || !password) {
+      if (!email || !password) {
         alert("Please fill in all fields");
         return;
       }
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ email, password }),
         });
 
         const data = await response.json();
@@ -146,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
     signupForm.addEventListener("submit", async (e: Event) => {
       e.preventDefault();
 
-      const username = (
-        document.getElementById("signup-username") as HTMLInputElement
+      const email = (
+        document.getElementById("signup-email") as HTMLInputElement
       ).value;
       const password = (
         document.getElementById("signup-password") as HTMLInputElement
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ).value;
 
       // Basic validation
-      if (!username || !password || !firstName || !lastName || !phone) {
+      if (!email || !password || !firstName || !lastName || !phone) {
         alert("Please fill in all fields");
         return;
       }
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username,
+            email,
             password,
             firstName,
             lastName,
