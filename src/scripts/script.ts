@@ -457,10 +457,17 @@ document.addEventListener("DOMContentLoaded", () => {
     searchAdvancedEmployees();
   });
 
+  // API base URL for server
+  const API_BASE_URL = "http://localhost:3000";
+
   // here we using fetch api to render employee data dynamically
-  fetch("./data/data.json")
+  fetch(`${API_BASE_URL}/employees`)
     .then((response) => response.json())
-    .then((employees) => {
+    .then((data) => {
+      if (!data.success) {
+        throw new Error(data.message || "Failed to fetch employees");
+      }
+      const employees = data.employees;
       employeesData = employees;
       filteredEmployees = employees;
       updateHeaderEmployee(employees[0]); // Update header with first employee

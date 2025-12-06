@@ -84,8 +84,17 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         const fullName = `${employee.first_name} ${employee.last_name}`;
-        const nativeFullName = `${employee.first_native_name} ${employee.middle_native_name} ${employee.last_native_name}`;
-        const managerName = `${employee.manager.first_name} ${employee.manager.last_name}`;
+        // handle native name - check if it's N/A
+        const hasNativeName = employee.first_native_name !== "N/A" &&
+            employee.middle_native_name !== "N/A" &&
+            employee.last_native_name !== "N/A";
+        const nativeFullName = hasNativeName
+            ? `${employee.first_native_name} ${employee.middle_native_name} ${employee.last_native_name}`
+            : "N/A";
+        // handle manager name
+        const managerName = employee.manager && employee.manager.first_name !== "N/A"
+            ? `${employee.manager.first_name} ${employee.manager.last_name}`
+            : "N/A";
         // update employee avatar section
         if (detailsEmployeeAvatar)
             detailsEmployeeAvatar.src = employee.user_avatar;
@@ -104,29 +113,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         // update general info
         if (detailsDepartment)
-            detailsDepartment.textContent = employee.department;
+            detailsDepartment.textContent = employee.department || "N/A";
         if (detailsBuilding)
-            detailsBuilding.textContent = employee.building;
+            detailsBuilding.textContent = employee.building || "N/A";
         if (detailsRoom)
-            detailsRoom.textContent = employee.room;
+            detailsRoom.textContent = employee.room || "N/A";
         if (detailsDeskNumber)
-            detailsDeskNumber.textContent = employee.desk_number;
+            detailsDeskNumber.textContent = employee.desk_number || "N/A";
         if (detailsDateOfBirth)
-            detailsDateOfBirth.textContent = formatDateOfBirth(employee.date_birth);
+            detailsDateOfBirth.textContent = employee.date_birth ? formatDateOfBirth(employee.date_birth) : "N/A";
         if (detailsManager)
             detailsManager.textContent = managerName;
         // update contact info
         if (detailsPhone)
-            detailsPhone.textContent = employee.phone;
+            detailsPhone.textContent = employee.phone || "N/A";
         if (detailsEmail)
-            detailsEmail.textContent = employee.email;
+            detailsEmail.textContent = employee.email || "N/A";
         if (detailsSkype)
-            detailsSkype.textContent = employee.skype;
+            detailsSkype.textContent = employee.skype || "N/A";
         if (detailsCNumber)
-            detailsCNumber.textContent = employee.cnumber;
+            detailsCNumber.textContent = employee.cnumber || "N/A";
         // update travel info
         if (detailsCitizenship)
-            detailsCitizenship.textContent = employee.citizenship;
+            detailsCitizenship.textContent = employee.citizenship || "N/A";
         if (employee.visa && employee.visa.length > 0) {
             const visa1 = employee.visa[0];
             if (detailsVisa1)
@@ -143,6 +152,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     detailsVisa2Period.textContent = `${formatDate(visa2.start_date)} - ${formatDate(visa2.end_date)}${visa2Expired ? " (expired)" : ""}`;
             }
         }
+        else {
+            // no visa data available
+            if (detailsVisa1)
+                detailsVisa1.textContent = "N/A";
+            if (detailsVisa1Period)
+                detailsVisa1Period.textContent = "";
+            if (detailsVisa2)
+                detailsVisa2.textContent = "N/A";
+            if (detailsVisa2Period)
+                detailsVisa2Period.textContent = "";
+        }
     }
     // add click handler to left arrow to go back
     if (leftArrowIcon) {
@@ -153,9 +173,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // fetch employee data and populate details
     const employeeId = getEmployeeIdFromUrl();
-    fetch("./data/data.json")
+    // API base URL for server
+    const API_BASE_URL = "http://localhost:3000";
+    // fetch all employees for header and single employee for details
+    fetch(`${API_BASE_URL}/employees`)
         .then((response) => response.json())
-        .then((employees) => {
+        .then((data) => {
+        if (!data.success) {
+            throw new Error(data.message || "Failed to fetch employees");
+        }
+        const employees = data.employees;
         // always update header with first employee
         updateHeaderEmployee(employees[0]);
         // Add click handler to header employee name and avatar
