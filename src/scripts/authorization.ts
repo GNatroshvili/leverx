@@ -1,3 +1,9 @@
+// here importing SCSS styles
+import '../../styles/scss/reset.scss';
+import '../../styles/scss/layout.scss';
+import '../../styles/scss/header.scss';
+import '../../styles/scss/authorization.scss';
+
 document.addEventListener("DOMContentLoaded", () => {
   // API base URL - change this if server runs on different port
   const API_BASE_URL = "http://localhost:3000";

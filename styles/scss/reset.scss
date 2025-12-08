@@ -1,0 +1,44 @@
+:root {
+  --color-bg: #f5f5fa;
+  --color-font: #000;
+  --font-family-base: "Inter", sans-serif;
+}
+
+* {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+input {
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+body {
+  background-color: #f5f5fa;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #0f0f0f;
+    color: #e0e0e0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1a;
+    --color-font: #e0e0e0;
+  }
+}

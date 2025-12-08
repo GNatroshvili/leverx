@@ -1,0 +1,475 @@
+.employee-details-wrapper {
+  background-color: #fff;
+  display: flex;
+  height: 900px;
+  margin-top: 20px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    margin-top: 20px;
+    padding: 0 16px 40px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    height: auto;
+    margin-top: 24px;
+    padding: 0 20px 40px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .left-arrow-icon {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 20px;
+    z-index: 10;
+
+    @media screen and (max-width: 768px) {
+      top: 20px;
+      left: 16px;
+      width: 18px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      top: 30px;
+      left: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      filter: brightness(0.9) invert(0.1);
+    }
+  }
+
+  .employee-avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    gap: 12px;
+    margin-top: 60px;
+
+    @media screen and (max-width: 768px) {
+      flex: none;
+      width: 100%;
+      margin-top: 60px;
+      gap: 16px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      flex: 0.8;
+      gap: 18px;
+      margin-top: 40px;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+      gap: 20px;
+    }
+
+    > div:first-child {
+      position: relative;
+
+      .employee-avatar {
+        width: 250px;
+        height: 250px;
+
+        @media screen and (max-width: 480px) {
+          width: 120px;
+          height: 120px;
+        }
+
+        @media screen and (max-width: 768px) {
+          width: 150px;
+          height: 150px;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 180px;
+          height: 180px;
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1280px) {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      .home-icon {
+        position: absolute;
+        width: 70px;
+        left: 0;
+        top: 168px;
+
+        @media screen and (max-width: 480px) {
+          width: 40px;
+          top: 92px;
+        }
+
+        @media screen and (max-width: 768px) {
+          width: 50px;
+          top: 112px;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 60px;
+          top: 140px;
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1280px) {
+          width: 65px;
+          top: 150px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          filter: brightness(0.9) invert(0.1);
+        }
+      }
+    }
+
+    .employee-full-name-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 1rem;
+
+      @media screen and (max-width: 480px) {
+        font-size: 15px;
+      }
+
+      @media screen and (max-width: 768px) {
+        text-align: center;
+        font-size: 16px;
+      }
+
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        font-size: 17px;
+      }
+
+      #details-employee-name {
+        color: #000;
+
+        @media (prefers-color-scheme: dark) {
+          color: #e0e0e0;
+        }
+      }
+
+      #details-employee-native-name {
+        color: rgb(181, 178, 178);
+
+        @media (prefers-color-scheme: dark) {
+          color: #a0a0a0;
+        }
+      }
+    }
+
+    .copy-link-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 24px;
+      font-size: 0.875rem;
+      color: rgb(181, 178, 178);
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 90%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #2a2a2a;
+        color: #a0a0a0;
+
+        &:hover {
+          background-color: #2a2a2a;
+        }
+      }
+
+      .btn-icon {
+        width: 18px;
+        height: 18px;
+
+        @media screen and (max-width: 480px) {
+          width: 16px;
+          height: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          filter: brightness(0.9) invert(0.1);
+        }
+      }
+    }
+
+    .edit-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 40px;
+      background-color: transparent;
+      border: 2px solid #aaa5a5;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-transform: uppercase;
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px 16px;
+      }
+
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 90%;
+        max-width: 280px;
+        justify-content: center;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        border-color: #606060;
+        color: #b0b0b0;
+
+        &:hover {
+          background-color: #2a2a2a;
+        }
+      }
+
+      .btn-icon {
+        width: 18px;
+        height: 18px;
+
+        @media screen and (max-width: 480px) {
+          width: 16px;
+          height: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          filter: brightness(0.9) invert(0.1);
+        }
+      }
+    }
+  }
+
+  .divider-line {
+    height: 100%;
+    width: 1px;
+    background-color: rgb(181, 178, 178);
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #a0a0a0;
+    }
+  }
+
+  .employee-detailed-info-wrapper {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 0 0 20px;
+
+    @media screen and (max-width: 480px) {
+      gap: 25px;
+    }
+
+    @media screen and (max-width: 768px) {
+      flex: none;
+      width: 100%;
+      padding: 30px 0 0 0;
+      gap: 30px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+      flex: 1.5;
+      padding: 30px 0 0 20px;
+      gap: 35px;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1280px) {
+      padding: 35px 0 0 25px;
+    }
+
+    > div {
+      .data-section-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: rgb(159, 156, 156);
+
+        @media screen and (max-width: 480px) {
+          font-size: 15px;
+        }
+
+        @media screen and (max-width: 768px) {
+          font-size: 16px;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          font-size: 18px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          color: #b0b0b0;
+        }
+      }
+
+      .vertical-divider-line {
+        width: 90%;
+        height: 1px;
+        background-color: rgb(181, 178, 178);
+        margin: 14px 0;
+
+        @media screen and (max-width: 480px) {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 95%;
+        }
+
+        @media (prefers-color-scheme: dark) {
+          background-color: #a0a0a0;
+        }
+      }
+
+      .data-column {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-right: 300px;
+
+        @media screen and (max-width: 480px) {
+          margin-right: 0;
+          gap: 14px;
+        }
+
+        @media screen and (max-width: 768px) {
+          margin-right: 0;
+          gap: 16px;
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          margin-right: 80px;
+          gap: 14px;
+        }
+
+        @media screen and (min-width: 1024px) and (max-width: 1280px) {
+          margin-right: 150px;
+        }
+
+        .data-line-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          @media screen and (max-width: 768px) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+          }
+
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            gap: 10px;
+          }
+
+          .data-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            @media screen and (max-width: 480px) {
+              font-size: 13px;
+            }
+
+            @media screen and (max-width: 768px) {
+              font-size: 14px;
+            }
+
+            @media screen and (min-width: 768px) and (max-width: 1024px) {
+              font-size: 15px;
+            }
+
+            .info-title {
+              color: #aaa5a5;
+
+              @media (prefers-color-scheme: dark) {
+                color: #606060;
+              }
+            }
+
+            .icon-size {
+              width: 20px;
+              height: 20px;
+
+              @media screen and (max-width: 480px) {
+                width: 18px;
+                height: 18px;
+              }
+
+              @media (prefers-color-scheme: dark) {
+                filter: brightness(0.9) invert(0.1);
+              }
+            }
+          }
+
+          .data-title-value-wrapper {
+            @media screen and (max-width: 480px) {
+              font-size: 13px;
+            }
+
+            @media screen and (max-width: 768px) {
+              padding-left: 26px;
+              font-size: 14px;
+            }
+
+            .gray-text {
+              color: rgb(181, 178, 178);
+
+              @media (prefers-color-scheme: dark) {
+                color: #a0a0a0;
+              }
+            }
+
+            .blue-text {
+              color: #007bff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

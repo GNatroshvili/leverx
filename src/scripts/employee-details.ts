@@ -1,3 +1,9 @@
+// here importing SCSS styles
+import '../../styles/scss/reset.scss';
+import '../../styles/scss/layout.scss';
+import '../../styles/scss/header.scss';
+import '../../styles/scss/employee-details.scss';
+
 document.addEventListener("DOMContentLoaded", () => {
   // check if user is logged in (session exists in either storage)
   const currentUser =

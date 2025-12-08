@@ -1,0 +1,56 @@
+.not-found-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5fa;
+  min-height: 100dvh;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #0f0f0f;
+  }
+
+  .image {
+    width: 25rem;
+    height: 25rem;
+
+    @media only screen and (max-width: 520px) {
+      height: 18.75rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      filter: brightness(0.8) contrast(1.1);
+    }
+  }
+
+  .title {
+    font-size: 2.25rem;
+    color: gray;
+
+    @media (prefers-color-scheme: dark) {
+      color: #b0b0b0;
+    }
+  }
+
+  .description {
+    margin-top: 16px;
+    font-size: 1.25rem;
+    color: gray;
+    text-align: center;
+
+    @media (prefers-color-scheme: dark) {
+      color: #a0a0a0;
+    }
+  }
+
+  .back-to-main-btn {
+    background-color: #5091ff;
+    border-radius: 8px;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 12px 32px;
+    color: white;
+    margin-top: 32px;
+  }
+}

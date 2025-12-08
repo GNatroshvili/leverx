@@ -7,6 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// Import SCSS styles
+import '../../styles/scss/reset.scss';
+import '../../styles/scss/layout.scss';
+import '../../styles/scss/header.scss';
+import '../../styles/scss/authorization.scss';
 document.addEventListener("DOMContentLoaded", () => {
     // API base URL - change this if server runs on different port
     const API_BASE_URL = "http://localhost:3000";
@@ -163,15 +168,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }));
     }
+    // Ensure menu starts closed on page load
+    if (burgerMenuWrapper)
+        burgerMenuWrapper.classList.remove("open");
+    if (mobileNav)
+        mobileNav.classList.remove("open");
+    if (menuBackdrop)
+        menuBackdrop.classList.remove("open");
     // Burger menu toggle
     if (burgerMenuWrapper) {
         burgerMenuWrapper.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             burgerMenuWrapper.classList.toggle("open");
             if (mobileNav)
                 mobileNav.classList.toggle("open");
             if (menuBackdrop)
                 menuBackdrop.classList.toggle("open");
-            e.stopPropagation();
         });
     }
     // Close menu when clicking backdrop
@@ -186,5 +199,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-export {};
 //# sourceMappingURL=authorization.js.map

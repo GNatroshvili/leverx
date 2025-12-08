@@ -1,3 +1,8 @@
+// Import SCSS styles
+import '../../styles/scss/reset.scss';
+import '../../styles/scss/layout.scss';
+import '../../styles/scss/header.scss';
+import '../../styles/scss/employee-details.scss';
 document.addEventListener("DOMContentLoaded", () => {
     // check if user is logged in (session exists in either storage)
     const currentUser = sessionStorage.getItem("user") || localStorage.getItem("user");
@@ -203,15 +208,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const burgerMenuWrapper = document.querySelector(".burger-menu-wrapper");
     const mobileNav = document.querySelector(".mobile-nav");
     const menuBackdrop = document.querySelector(".menu-backdrop");
+    // Ensure menu starts closed on page load
+    if (burgerMenuWrapper)
+        burgerMenuWrapper.classList.remove("open");
+    if (mobileNav)
+        mobileNav.classList.remove("open");
+    if (menuBackdrop)
+        menuBackdrop.classList.remove("open");
     // toggle menu on burger icon click
     if (burgerMenuWrapper) {
         burgerMenuWrapper.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             burgerMenuWrapper.classList.toggle("open");
             if (mobileNav)
                 mobileNav.classList.toggle("open");
             if (menuBackdrop)
                 menuBackdrop.classList.toggle("open");
-            e.stopPropagation();
         });
     }
     // close menu when clicking backdrop
@@ -269,5 +282,4 @@ document.addEventListener("DOMContentLoaded", () => {
         logoutBtn.addEventListener("click", handleSignOut);
     }
 });
-export {};
 //# sourceMappingURL=employee-details.js.map
