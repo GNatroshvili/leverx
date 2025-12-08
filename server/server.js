@@ -500,6 +500,121 @@ app.put("/employees/:id/role", (req, res) => {
   }
 });
 
+// PUT /employees/:id - update employee data (admin or HR for subordinates)
+app.put("/employees/:id", (req, res) => {
+  try {
+    const { id } = req.params;
+    const { updates, requestingUserEmail } = req.body;
+
+    if (!updates || typeof updates !== 'object' || Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No updates provided",
+      });
+    }
+
+    // get requesting user
+    const requestingEmployee = db.prepare("SELECT * FROM employees WHERE email = ?").get(requestingUserEmail);
+    if (!requestingEmployee) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+
+    // get target employee
+    const targetEmployee = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    if (!targetEmployee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    // check permissions
+    const isAdmin = requestingEmployee.isAdmin === 1;
+    const isHR = requestingEmployee.role === 'manager';
+    const isSubordinate = targetEmployee.manager_id === requestingEmployee._id;
+
+    if (!isAdmin && !(isHR && isSubordinate)) {
+      return res.status(403).json({
+        success: false,
+        message: "You don't have permission to edit this employee",
+      });
+    }
+
+    // build update query dynamically
+    const allowedFields = [
+      'first_name', 'last_name', 
+      'first_native_name', 'middle_native_name', 'last_native_name',
+      'date_birth_year', 'date_birth_month', 'date_birth_day',
+      'department', 'building', 'room', 'desk_number', 
+      'phone', 'email', 'skype', 'cnumber', 'citizenship',
+      'manager_id'
+    ];
+    const updateFields = [];
+    const updateValues = [];
+
+    // if manager_id is being updated, also update manager names
+    if (updates.hasOwnProperty('manager_id')) {
+      const managerId = updates.manager_id;
+      if (managerId) {
+        const manager = db.prepare("SELECT first_name, last_name FROM employees WHERE _id = ?").get(managerId);
+        if (manager) {
+          updates.manager_first_name = manager.first_name;
+          updates.manager_last_name = manager.last_name;
+        }
+      } else {
+        // if manager_id is null/empty, clear manager names
+        updates.manager_first_name = null;
+        updates.manager_last_name = null;
+      }
+    }
+
+    // add manager name fields to allowed fields
+    const allAllowedFields = [...allowedFields, 'manager_first_name', 'manager_last_name'];
+
+    for (const [key, value] of Object.entries(updates)) {
+      if (allAllowedFields.includes(key)) {
+        updateFields.push(`${key} = ?`);
+        updateValues.push(value);
+      }
+    }
+
+    if (updateFields.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No valid fields to update",
+      });
+    }
+
+    // add employee ID to values
+    updateValues.push(id);
+
+    const updateQuery = `UPDATE employees SET ${updateFields.join(', ')} WHERE _id = ?`;
+    const updateStmt = db.prepare(updateQuery);
+    updateStmt.run(...updateValues);
+
+    // fetch updated employee
+    const updatedRow = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const updatedEmployee = dbRowToEmployee(updatedRow);
+
+    console.log(`Employee data updated for ${targetEmployee.email} by ${requestingUserEmail}`);
+
+    res.json({
+      success: true,
+      message: "Employee updated successfully",
+      employee: updatedEmployee,
+    });
+  } catch (error) {
+    console.error("Error updating employee:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
+
 // gracefully close the database on exit
 process.on("SIGINT", () => {
   db.close();
@@ -511,10 +626,11 @@ process.on("SIGINT", () => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   console.log(`\nAvailable endpoints:`);
-  console.log(`  POST /sign-up           - Register a new user`);
-  console.log(`  POST /sign-in           - Authenticate a user`);
-  console.log(`  GET  /auth/users        - Get all registered users (debug)`);
-  console.log(`  GET  /employees         - Get all employees`);
-  console.log(`  GET  /employees/:id     - Get employee by ID`);
+  console.log(`  POST /sign-up            - Register a new user`);
+  console.log(`  POST /sign-in            - Authenticate a user`);
+  console.log(`  GET  /auth/users         - Get all registered users (debug)`);
+  console.log(`  GET  /employees          - Get all employees`);
+  console.log(`  GET  /employees/:id      - Get employee by ID`);
   console.log(`  PUT  /employees/:id/role - Update employee role (admin only)`);
+  console.log(`  PUT  /employees/:id      - Update employee data (admin/HR)`);
 });
