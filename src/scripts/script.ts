@@ -575,4 +575,12 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.style.cursor = "pointer";
     logoutBtn.addEventListener("click", handleSignOut);
   }
+
+  // redirect to settings page when Settings button is clicked
+  const settingsBtn = document.querySelector('.header-options-wrapper .page-title:nth-child(2)');
+  if (settingsBtn) {
+    settingsBtn.addEventListener('click', () => {
+      window.location.href = 'settings.html';
+    });
+  }
 });

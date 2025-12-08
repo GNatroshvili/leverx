@@ -10,6 +10,7 @@ module.exports = {
     script: './src/scripts/script.ts',
     'employee-details': './src/scripts/employee-details.ts',
     '404-not-found': './src/scripts/404-not-found.ts',
+    settings: './src/scripts/settings.ts',
   },
   output: {
     filename: 'scripts/[name].js',
@@ -70,6 +71,11 @@ module.exports = {
       template: './404-not-found.html',
       filename: '404-not-found.html',
       chunks: ['404-not-found'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './settings.html',
+      filename: 'settings.html',
+      chunks: ['settings'],
     }),
     new CopyWebpackPlugin({
       patterns: [

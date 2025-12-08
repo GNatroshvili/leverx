@@ -38,6 +38,11 @@ header {
       }
     }
 
+    .header-nav-wrapper {
+      display: flex;
+      gap: 20px;
+    }
+
     .page-title {
       color: #fff;
       background-color: transparent;
@@ -45,6 +50,7 @@ header {
       border-bottom: 4px solid #5591ff;
       height: 80px;
       padding-inline: 10px;
+      cursor: pointer;
 
       @media only screen and (max-width: 1024px) {
         display: none;
