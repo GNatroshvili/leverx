@@ -16,8 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const userData = JSON.parse(currentUser);
   const API_BASE_URL = 'http://localhost:3000';
   
+  // normalize isAdmin value and protect page: only admins can access settings
+  const sessionIsAdmin = userData?.isAdmin === true || userData?.isAdmin === 1 || userData?.isAdmin === '1';
+  if (!sessionIsAdmin) {
+    // non-admin users should not access settings page
+    window.location.href = 'main.html';
+    return;
+  }
+
   // track if current user is admin
-  let currentUserIsAdmin = false;
+  let currentUserIsAdmin = true;
   
   // fetch full user data from API using the email from session
   fetch(`${API_BASE_URL}/employees`)

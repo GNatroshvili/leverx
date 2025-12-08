@@ -307,8 +307,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // redirect to settings page when Settings button is clicked
   const settingsBtn = document.querySelector('.header-options-wrapper .page-title:nth-child(2)');
   if (settingsBtn) {
-    settingsBtn.addEventListener('click', () => {
-      window.location.href = 'settings.html';
-    });
+    const stored = sessionStorage.getItem('user') || localStorage.getItem('user');
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        const isAdmin = user?.isAdmin === true || user?.isAdmin === 1 || user?.isAdmin === '1';
+        if (!isAdmin) {
+          (settingsBtn as HTMLElement).style.display = 'none';
+        } else {
+          settingsBtn.addEventListener('click', () => {
+            window.location.href = 'settings.html';
+          });
+        }
+      } catch (e) {
+        (settingsBtn as HTMLElement).style.display = 'none';
+      }
+    } else {
+      (settingsBtn as HTMLElement).style.display = 'none';
+    }
   }
 });
