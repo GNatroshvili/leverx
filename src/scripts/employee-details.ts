@@ -69,6 +69,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // click handler on manager name to navigate to manager's details
+  if (detailsManager) {
+    detailsManager.style.cursor = 'default';
+    detailsManager.addEventListener('click', (e) => {
+      if (isEditMode) return;
+      const mgrId = (detailsManager as HTMLElement).dataset.managerId;
+      if (mgrId && mgrId !== 'null' && mgrId !== '') {
+        window.location.href = `employee-details.html#${mgrId}`;
+      }
+    });
+  }
+
   // this function is used to get employee id from url hash (path parameter)
   function getEmployeeIdFromUrl() {
     // get id from hash (e.g., employee-details.html#abc123)
@@ -160,7 +172,12 @@ document.addEventListener("DOMContentLoaded", () => {
       detailsDateOfBirth.textContent = employee.date_birth
         ? formatDateOfBirth(employee.date_birth)
         : "N/A";
-    if (detailsManager) detailsManager.textContent = managerName;
+    if (detailsManager) {
+      detailsManager.textContent = managerName;
+      const mgrId = employee.manager && employee.manager.id ? String(employee.manager.id) : '';
+      (detailsManager as HTMLElement).dataset.managerId = mgrId;
+      (detailsManager as HTMLElement).style.cursor = mgrId ? 'pointer' : 'default';
+    }
 
     // update contact info
     if (detailsPhone) detailsPhone.textContent = employee.phone || "N/A";
