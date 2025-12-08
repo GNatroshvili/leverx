@@ -476,7 +476,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const employees = data.employees;
       employeesData = employees;
       filteredEmployees = employees;
-      updateHeaderEmployee(employees[0]); // Update header with first employee
+      
+      // Find and update header with currently logged-in user
+      const userData = JSON.parse(currentUser);
+      const loggedInUser = employees.find((emp) => emp.email === userData.email);
+      if (loggedInUser) {
+        updateHeaderEmployee(loggedInUser);
+      }
+      
       populateBuildingOptions();
       populateDepartmentOptions();
 

@@ -108,6 +108,7 @@
 
       .emp-hr-btn-wrapper {
         display: flex;
+        gap: 8px;
         .emp-btn {
           border-radius: 2px;
           background-color: #fff;
@@ -117,6 +118,18 @@
           min-width: 100px;
           font-size: 14px;
           font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &.active {
+            background-color: #5591ff;
+            color: #fff;
+            border-color: #5591ff;
+          }
+
+          &:hover {
+            opacity: 0.8;
+          }
         }
       }
 
@@ -130,6 +143,18 @@
           min-width: 100px;
           font-size: 14px;
           font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &.active {
+            background-color: #5591ff;
+            color: #fff;
+            border-color: #5591ff;
+          }
+
+          &:hover {
+            opacity: 0.8;
+          }
         }
       }
     }

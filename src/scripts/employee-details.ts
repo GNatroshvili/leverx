@@ -209,18 +209,21 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(data.message || "Failed to fetch employees");
       }
       const employees = data.employees;
-      // always update header with first employee
-      updateHeaderEmployee(employees[0]);
-
-      // Add click handler to header employee name and avatar
-      const headerEmployeeData = document.querySelector(
-        ".user-data"
-      ) as HTMLElement;
-      if (headerEmployeeData) {
-        headerEmployeeData.style.cursor = "pointer";
-        headerEmployeeData.onclick = () => {
-          window.location.href = `employee-details.html#${employees[0]._id}`;
-        };
+      
+      // find and update header with currently logged-in user
+      const userData = JSON.parse(currentUser);
+      const loggedInUser = employees.find((emp: any) => emp.email === userData.email);
+      if (loggedInUser) {
+        updateHeaderEmployee(loggedInUser);
+        
+        // Add click handler to header employee name and avatar to navigate to logged-in user's details
+        const headerEmployeeData = document.querySelector(".user-data") as HTMLElement;
+        if (headerEmployeeData) {
+          headerEmployeeData.style.cursor = "pointer";
+          headerEmployeeData.onclick = () => {
+            window.location.href = `employee-details.html#${loggedInUser._id}`;
+          };
+        }
       }
 
       if (employeeId) {
