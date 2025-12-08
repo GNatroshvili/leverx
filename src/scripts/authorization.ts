@@ -124,15 +124,22 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("signin-remember") as HTMLInputElement
           )?.checked;
 
-          // store user data in appropriate storage
+          // store user data in appropriate storage with role and admin status
           // localStorage persists even after browser is closed
           // sessionStorage is cleared when the browser tab is closed
+          const userDataToStore = {
+            ...data.user,
+            isAdmin: data.user.isAdmin || false,
+            role: data.user.role || 'employee'
+          };
+          
           if (rememberMe) {
-            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("user", JSON.stringify(userDataToStore));
           } else {
-            sessionStorage.setItem("user", JSON.stringify(data.user));
+            sessionStorage.setItem("user", JSON.stringify(userDataToStore));
           }
-          console.log("Sign in successful:", data.user);
+          console.log("Sign in successful:", userDataToStore);
+          console.log(`User role: ${userDataToStore.role}, Admin: ${userDataToStore.isAdmin}`);
           alert("Sign in successful!");
           window.location.href = "main.html";
         } else {
@@ -194,8 +201,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (data.success) {
           console.log("Sign up successful:", data.user);
-          // store user session in sessionStorage (will be cleared when tab closes)
-          sessionStorage.setItem("user", JSON.stringify(data.user));
+          // store user session in sessionStorage with default role and admin status
+          const userDataToStore = {
+            ...data.user,
+            isAdmin: false,
+            role: 'employee'
+          };
+          sessionStorage.setItem("user", JSON.stringify(userDataToStore));
+          console.log(`New user created with role: ${userDataToStore.role}, Admin: ${userDataToStore.isAdmin}`);
           alert("Registration successful! Welcome!");
           // redirect to main page after sign-up
           window.location.href = "main.html";

@@ -63,9 +63,26 @@ db.exec(`
     visa2_start_date INTEGER,
     visa2_end_date INTEGER,
     isRegisteredUser INTEGER DEFAULT 0,
+    isAdmin INTEGER DEFAULT 0,
+    role TEXT DEFAULT 'employee',
     createdAt TEXT
   )
 `);
+
+// add isAdmin and role columns to existing table if they don't exist
+try {
+  db.exec(`ALTER TABLE employees ADD COLUMN isAdmin INTEGER DEFAULT 0`);
+  console.log('Added isAdmin column to employees table');
+} catch (e) {
+  // column already exists
+}
+
+try {
+  db.exec(`ALTER TABLE employees ADD COLUMN role TEXT DEFAULT 'employee'`);
+  console.log('Added role column to employees table');
+} catch (e) {
+  // column already exists
+}
 
 console.log("SQLite database initialized");
 
@@ -88,8 +105,8 @@ if (employeeCount.count === 0) {
         phone, email, skype, cnumber, citizenship,
         visa1_issuing_country, visa1_type, visa1_start_date, visa1_end_date,
         visa2_issuing_country, visa2_type, visa2_start_date, visa2_end_date,
-        isRegisteredUser, createdAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        isRegisteredUser, isAdmin, role, createdAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
     const insertMany = db.transaction((employees) => {
@@ -127,6 +144,8 @@ if (employeeCount.count === 0) {
           emp.visa?.[1]?.start_date || null,
           emp.visa?.[1]?.end_date || null,
           0,
+          0,
+          'employee',
           new Date().toISOString()
         );
       }
@@ -172,7 +191,9 @@ function dbRowToEmployee(row) {
     cnumber: row.cnumber || "N/A",
     citizenship: row.citizenship || "N/A",
     visa: buildVisaArray(row),
-    isRegisteredUser: row.isRegisteredUser === 1
+    isRegisteredUser: row.isRegisteredUser === 1,
+    isAdmin: row.isAdmin === 1,
+    role: row.role || 'employee'
   };
 }
 
@@ -245,8 +266,8 @@ app.post("/sign-up", async (req, res) => {
     // also insert into employees table with default values and email
     const employeeStmt = db.prepare(`
       INSERT INTO employees (
-        _id, isRemoteWork, user_avatar, first_name, last_name, phone, email, isRegisteredUser, createdAt
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        _id, isRemoteWork, user_avatar, first_name, last_name, phone, email, isRegisteredUser, isAdmin, role, createdAt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     employeeStmt.run(
       employeeId,
@@ -257,6 +278,8 @@ app.post("/sign-up", async (req, res) => {
       phone,
       email,
       1,
+      0,
+      'employee',
       createdAt
     );
 
@@ -315,7 +338,12 @@ app.post("/sign-in", async (req, res) => {
       });
     }
 
-    console.log(`User logged in: ${email}`);
+    // fetch employee data to get role and admin status
+    const employee = db.prepare("SELECT * FROM employees WHERE email = ?").get(email);
+    const isAdmin = employee ? employee.isAdmin === 1 : false;
+    const role = employee ? employee.role || 'employee' : 'employee';
+
+    console.log(`User logged in: ${email} (Role: ${role}, Admin: ${isAdmin})`);
 
     // return success response (without password)
     res.status(200).json({
@@ -323,10 +351,13 @@ app.post("/sign-in", async (req, res) => {
       message: "Login successful",
       user: {
         id: user.id,
+        employeeId: user.employeeId,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         phone: user.phone,
+        isAdmin: isAdmin,
+        role: role,
       },
     });
   } catch (error) {
@@ -395,6 +426,80 @@ app.get("/employees/:id", (req, res) => {
   }
 });
 
+// PUT /employees/:id/role - update employee role and admin status (admin only)
+app.put("/employees/:id/role", (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role, isAdmin, requestingUserEmail } = req.body;
+
+    // validate role value
+    if (role && !['employee', 'manager'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid role. Must be 'employee' or 'manager'",
+      });
+    }
+
+    // validate isAdmin value
+    if (isAdmin !== undefined && isAdmin !== null && typeof isAdmin !== 'boolean') {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid isAdmin value. Must be boolean",
+      });
+    }
+
+    // check if requesting user is admin
+    const requestingEmployee = db.prepare("SELECT * FROM employees WHERE email = ?").get(requestingUserEmail);
+    if (!requestingEmployee || requestingEmployee.isAdmin !== 1) {
+      return res.status(403).json({
+        success: false,
+        message: "Only administrators can update roles",
+      });
+    }
+
+    // check if target employee exists
+    const targetEmployee = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    if (!targetEmployee) {
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+      });
+    }
+
+    // update role and/or isAdmin status
+    const updateStmt = db.prepare(`
+      UPDATE employees 
+      SET role = COALESCE(?, role), 
+          isAdmin = COALESCE(?, isAdmin)
+      WHERE _id = ?
+    `);
+    
+    updateStmt.run(
+      role || null,
+      isAdmin !== undefined ? (isAdmin ? 1 : 0) : null,
+      id
+    );
+
+    // fetch updated employee
+    const updatedRow = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const updatedEmployee = dbRowToEmployee(updatedRow);
+
+    console.log(`Role updated for ${targetEmployee.email}: role=${updatedEmployee.role}, isAdmin=${updatedEmployee.isAdmin}`);
+
+    res.json({
+      success: true,
+      message: "Role updated successfully",
+      employee: updatedEmployee,
+    });
+  } catch (error) {
+    console.error("Error updating role:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
+
 // gracefully close the database on exit
 process.on("SIGINT", () => {
   db.close();
@@ -406,9 +511,10 @@ process.on("SIGINT", () => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   console.log(`\nAvailable endpoints:`);
-  console.log(`  POST /sign-up      - Register a new user`);
-  console.log(`  POST /sign-in      - Authenticate a user`);
-  console.log(`  GET  /auth/users   - Get all registered users (debug)`);
-  console.log(`  GET  /employees    - Get all employees`);
-  console.log(`  GET  /employees/:id - Get employee by ID`);
+  console.log(`  POST /sign-up           - Register a new user`);
+  console.log(`  POST /sign-in           - Authenticate a user`);
+  console.log(`  GET  /auth/users        - Get all registered users (debug)`);
+  console.log(`  GET  /employees         - Get all employees`);
+  console.log(`  GET  /employees/:id     - Get employee by ID`);
+  console.log(`  PUT  /employees/:id/role - Update employee role (admin only)`);
 });
