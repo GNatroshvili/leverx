@@ -1,40 +1,70 @@
-.setting-card-wrapper {
-  background-color: #fff;
-  margin-top: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+:root {
+  --color-secondary: #5591ff;
+  --color-bg: #ffffff;
+  --color-text: #000;
+  --color-muted: #9ea0a1;
+  --color-gray: #6f7780;
+  --color-light-gray: #f0f0f0;
+  --color-border: #ccc;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+
+  --radius-base: 6px;
+
+  --spacing-sm: 12px;
+  --spacing-md: 20px;
+  --spacing-lg: 40px;
 
   @media (prefers-color-scheme: dark) {
-    background-color: #1f1f1f;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    --color-bg: #1e1e1e;
+    --color-text: #e0e0e0;
+    --color-muted: #b0b0b0;
+    --color-gray: #a0a0a0;
+    --color-light-gray: #2a2a2a;
+    --color-border: #404040;
+    --color-shadow: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.setting-card-wrapper {
+  background-color: var(--color-bg);
+  margin-top: var(--spacing-md);
+  border-radius: var(--radius-base);
+  box-shadow: 0 4px 10px var(--color-shadow);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-bg);
+    box-shadow: 0 6px 18px var(--color-shadow);
 
     .settings-card-title {
-      .settings-title {
-        color: #dcdcdc;
+        .settings-title {
+        color: var(--color-text);
       }
     }
 
     .divider-line {
-      background-color: #3a3a3a;
+      background-color: var(--color-border);
     }
 
     .navigation-wrapper {
       .address-book-title,
       .admin-title {
-        color: #d3d3d3;
+        color: var(--color-muted);
       }
 
       .settings-search-input {
-        background-color: #2a2a2a;
-        color: #e6e6e6;
-        border-color: #404040;
+        background-color: var(--color-light-gray);
+        color: var(--color-text);
+        border-color: var(--color-border);
       }
     }
 
     .employee-list-wrapper {
       .employee-card-wrapper {
         .emp-name-wrapper {
-          color: #e6e6e6;
+          color: var(--color-text);
           .emp-first-name {
             text-decoration: underline;
           }
@@ -46,14 +76,14 @@
 
         .emp-btn,
         .admin-btn {
-          background-color: transparent;
-          color: #cfcfcf;
-          border-color: #3a3a3a;
+          background-color: var(--color-bg);
+          color: var(--color-muted);
+          border: 1px solid var(--color-border);
 
           &.active {
-            background-color: #5591ff;
-            color: #fff;
-            border-color: #5591ff;
+            background-color: var(--color-secondary);
+            color: var(--color-bg);
+            border-color: var(--color-secondary);
           }
         }
       }
@@ -61,18 +91,18 @@
   }
 
   .settings-card-title {
-    padding-top: 25px;
-    padding-left: 20px;
+    padding-top: var(--spacing-lg);
+    padding-left: var(--spacing-md);
     .settings-title {
-      font-size: 1.25rem;
+      font-size: var(--font-size-lg);
       font-weight: 600;
-      color: #7a7676;
+      color: var(--color-muted);
     }
   }
   .divider-line {
     height: 1px;
     width: 100%;
-    background-color: #c7c2c2;
+    background-color: var(--color-border);
     margin: 14px 0;
   }
 
@@ -86,14 +116,14 @@
       align-items: center;
       gap: 20px;
       .address-book-title {
-        font-size: 1rem;
-        color: #7a7676;
+        font-size: var(--font-size-base);
+        color: var(--color-muted);
         font-weight: 600;
       }
       .vertical-divider {
         width: 1px;
         height: 25px;
-        background-color: rgb(196, 191, 191);
+        background-color: var(--color-border);
       }
     }
 
@@ -105,11 +135,11 @@
       .vertical-divider {
         width: 1px;
         height: 25px;
-        background-color: rgb(196, 191, 191);
+        background-color: var(--color-border);
       }
       .admin-title {
-        font-size: 1rem;
-        color: #7a7676;
+        font-size: var(--font-size-base);
+        color: var(--color-muted);
         font-weight: 600;
       }
     }
@@ -122,8 +152,10 @@
       .settings-search-input {
         width: 100%;
         padding: 6px 8px 6px 36px;
-        border-radius: 2px;
-        border: 1px solid #989595;
+        border-radius: var(--radius-base);
+        border: 1px solid var(--color-border);
+        background-color: var(--color-bg);
+        color: var(--color-text);
       }
 
       .settings-search-icon {
@@ -167,10 +199,10 @@
         gap: 8px;
         .emp-btn {
           border-radius: 2px;
-          background-color: #fff;
-          color: rgb(196, 187, 187);
+          background-color: var(--color-bg);
+          color: var(--color-muted);
           padding: 8px;
-          border: 1px solid rgb(196, 191, 191);
+          border: 1px solid var(--color-border);
           min-width: 100px;
           font-size: 14px;
           font-weight: 500;
@@ -178,9 +210,9 @@
           transition: all 0.2s ease;
 
           &.active {
-            background-color: #5591ff;
-            color: #fff;
-            border-color: #5591ff;
+            background-color: var(--color-secondary);
+            color: var(--color-bg);
+            border-color: var(--color-secondary);
           }
 
           &:hover:not(:disabled) {
@@ -197,10 +229,10 @@
       .emp-admin-btn-wrapper {
         .admin-btn {
           border-radius: 2px;
-          background-color: #fff;
-          color: rgb(196, 187, 187);
+          background-color: var(--color-bg);
+          color: var(--color-muted);
           padding: 8px;
-          border: 1px solid rgb(196, 191, 191);
+          border: 1px solid var(--color-border);
           min-width: 100px;
           font-size: 14px;
           font-weight: 500;
@@ -208,9 +240,9 @@
           transition: all 0.2s ease;
 
           &.active {
-            background-color: #5591ff;
-            color: #fff;
-            border-color: #5591ff;
+            background-color: var(--color-secondary);
+            color: var(--color-bg);
+            border-color: var(--color-secondary);
           }
 
           &:hover:not(:disabled) {
