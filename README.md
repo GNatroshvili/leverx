@@ -1,203 +1,161 @@
-# LeverX Employee Services - Address Book
+# LeverX Employee Services — Address Book
 
-# Homework-3 Branch Updates
+This repository contains an employee directory application: a small Express + SQLite backend and a TypeScript + SCSS frontend bundled with Webpack. It supports user registration/authentication, role-based access control (admin/manager/employee), in-place editing, and an advanced searchable UI with dark mode support.
 
-This branch introduces major upgrades to the project, including backend integration, persistent session management, and merging registered users with employees. Below is a summary of the new features and setup instructions.
+---
 
-## What's New in Homework-3 Branch
+## Highlights / Features
 
-- **Backend Migration**: Employee data is now stored in a SQLite database and served via a Node.js/Express backend (`server/server.js`).
-- **REST API Endpoints**: The backend exposes endpoints for employee listing, details, sign-up, sign-in, and more.
-- **User Registration & Authentication**: Users can sign up and sign in using their email. Passwords are securely hashed.
-- **Session Management**: Persistent sessions are implemented using localStorage/sessionStorage. "Remember me" support added.
-- **Auto-login After Sign-up**: New users are automatically logged in and redirected to the main page.
-- **Merging Users with Employees**: Registered users are merged into the employee directory. Missing fields are shown as "N/A".
-- **Path-based Routing**: Employee details pages use path parameters (e.g., `/employee-details.html/:id`).
-- **Display Bug Fixes**: All employee/user details are rendered as strings, preventing `[object Object]` display issues.
-- **Polyfill Modernization**: All `var` declarations in the fetch polyfill are replaced with `let`/`const`.
-- **CSS Improvements**: Font sizes use `rem` units, and colors are centralized with CSS variables.
+- Employee directory with list/grid views and advanced search filters
+- Employee details page with editable fields: names, native names, manager, contact and visa info
+- Authentication: sign-up and sign-in with bcrypt-hashed passwords
+- Role-based access: `isAdmin` (boolean) and `role` (`employee` or `manager`) enforced server-side
+- Admin-only settings page to manage roles and admin flags
+- Managers (HR) can edit their direct reports only
+- API: REST endpoints to list, fetch and update employees; sign-up/sign-in endpoints
+- TypeScript frontend with Webpack build pipeline and SCSS styling; dark-mode support via `prefers-color-scheme`
 
-## How to Start the Project
+---
 
-### 1. Clone the Repository
+## Tech Stack
 
-```bash
-git clone https://frontend-course-2025-gitlab.codelx.dev/fe/gigi-natroshvili.git
-cd gigi-natroshvili
+- Backend: Node.js, Express, SQLite (better-sqlite3), bcrypt, uuid
+- Frontend: TypeScript, Webpack, ts-loader, SCSS (sass + sass-loader)
+- Dev tooling: nodemon (server dev), webpack-dev-server (frontend dev)
+
+---
+
+## Folder Layout (important files)
 
 ```
+Gigi-Natroshvili/
+├── index.html
+├── employee-details.html
+├── 404-not-found.html
+├── README.md
+├── tsconfig.json
+├── package.json            # root frontend/build scripts + devDependencies
+├── server/
+│   ├── server.js           # Express API (default port: 3000)
+│   ├── package.json        # backend dependencies / scripts
+│   ├── employees.json      # seed data
+│   └── users.db            # SQLite DB (created at runtime)
+├── src/
+│   └── scripts/            # TypeScript source
+├── styles/
+│   └── scss/               # SCSS partials and main .scss entry
+├── assets/                 # images/icons
+└── data/                   # optional data files
+```
 
-### 2. Install Dependencies
+---
 
-The backend requires Node.js and npm. Install dependencies in the `server` folder:
+## API (summary)
+
+- POST /sign-up — register a new user (creates `users` + `employees` rows)
+- POST /sign-in — authenticate; returns user object including `isAdmin` and `role`
+- GET /auth/users — list registered users (debug)
+- GET /employees — list employees
+- GET /employees/:id — get single employee
+- PUT /employees/:id/role — update `role` and `isAdmin` (admin only)
+- PUT /employees/:id — update employee fields (admins or manager editing subordinates)
+
+Server enforces permissions. When `manager_id` is updated the server also looks up and stores `manager_first_name`/`manager_last_name` for display.
+
+---
+
+## Database
+
+- SQLite database file is `server/users.db` (auto-created).
+- To reset the DB, stop the server and delete `server/users.db`; restart server to re-seed from `server/employees.json`.
+
+---
+
+## Local Development — Step by step
+
+Prerequisites: Node.js (14+ or compatible), npm.
+
+1. Clone & open project
+
+```bash
+git clone https://frontend-course-2025-gitlab.codelx.dev/fe/gigi-natroshvili
+cd gigi-natroshvili
+```
+
+2. Install frontend/build deps (root)
+
+```bash
+npm install
+```
+
+3. Install backend deps & run the API server
 
 ```bash
 cd server
 npm install
+# Run server (production):
+npm start
+# Run server in dev mode (auto-reload):
+npm run dev
 ```
 
-### 3. Start the Backend Server
+Backend listens on: `http://localhost:3000`
 
-Run the backend server (Express + SQLite):
+4. Start frontend dev server (root)
 
 ```bash
-node server.js
+# back in project root
+npm run dev
 ```
 
-The backend will start on `http://localhost:3000` by default.
+This runs `webpack serve`. Default dev port is typically `8080` (unless overridden). Open the UI at:
 
-### 4. Start the Frontend (Five Server)
+- `http://localhost:8080` — webpack dev server
+- Alternatively use a static server (Five Server / Live Server) to open `index.html`, e.g. `http://localhost:5500`.
 
-We recommend using the **Five Server** extension for live reloading:
+Notes:
 
-- Install "Five Server" by Yannick in VS Code (Ctrl+Shift+X, search "Five Server").
-- Open the project folder in VS Code.
-- Right-click `index.html` and select "Open Five Server" or click "Go Live" in the status bar.
-
-The frontend will be available at `http://localhost:5500` or `http://127.0.0.1:5500`.
-
-### 5. Usage
-
-- Sign up or sign in using your email.
-- Browse and search employees (including registered users).
-- Click any employee to view details (path-based routing).
-
-### 6. After Pulling from Git
-
-If you clone or pull the project, always run `npm install` in the `server` folder before starting the backend. This ensures all dependencies are installed.
-
-### 7. Additional Notes
-
-- Employee/user data is stored in SQLite (`users.db`).
-- If you need to reset the database, delete `users.db` and restart the backend server.
-- All frontend logic is in `src/scripts/` and static files in `src/`.
-- Polyfills and CSS improvements ensure compatibility and accessibility.
+- The frontend expects the backend API at `http://localhost:3000` by default.
+- If you need both frontend + backend to run together automatically, I can add a convenience npm script or `concurrently` setup.
 
 ---
 
-A modern, responsive employee directory application built with vanilla HTML, CSS, and JavaScript. This application provides a comprehensive interface for searching, viewing, and managing employee information with support for both basic and advanced search capabilities.
+## Build (production)
 
-## Table of Contents
-
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Key Functionality](#key-functionality)
-- [Responsive Design](#responsive-design)
-- [Dark Mode Support](#dark-mode-support)
-- [Browser Compatibility](#browser-compatibility)
-
-## Features
-
-### Core Functionality
-
-- **Employee Directory**: Browse all employees in grid or list view
-- **Basic Search**: Quick search by employee name or ID
-- **Advanced Search**: Filter employees by multiple criteria (name, email, phone, Skype, building, room, department)
-- **Employee Details Page**: View comprehensive employee information including:
-  - General info (department, building, room, desk number, date of birth, manager)
-  - Contact information (phone, email, Skype, C-number)
-  - Travel information (citizenship, visa details)
-- **Search State Persistence**: URL parameters maintain search state on page refresh
-- **Responsive Navigation**: Mobile-friendly burger menu with JavaScript-based controls
-
-### UI/UX Features
-
-- **Dual View Modes**: Switch between grid and list layouts
-- **Dynamic Employee Count**: Real-time display of filtered results
-- **Empty State Handling**: User-friendly "no results" messages
-- **Header Employee Display**: Always shows the first employee in the header
-- **Click Navigation**: Navigate to employee details by clicking cards or list items
-- **Back Navigation**: Arrow icon and Address Book button for easy navigation
-- **Dark Mode Support**: Automatic adaptation to system theme preferences
-
-## Project Structure
-
-```
-Gigi-Natroshvili/
-├── index.html                 # Main employee directory page
-├── employee-details.html      # Employee details page
-├── 404-not-found.html         # Error page
-├── README.md                  # Project documentation
-├── tsconfig.json              # TypeScript config
-├── assets/                    # Images and icons
-│   └── ...
-├── server/                    # Backend (Node.js + Express)
-│   ├── server.js              # Express server
-│   ├── employees.json         # Initial employee data
-│   ├── package.json           # Backend dependencies
-│   └── users.db               # SQLite database (created at runtime)
-├── src/
-│   └── scripts/
-│       ├── script.ts              # Main page logic (TypeScript)
-│       ├── employee-details.ts    # Details page logic (TypeScript)
-│       ├── authorization.ts       # Auth logic (TypeScript)
-│       └── fetch-polyfill.ts      # Custom fetch API polyfill
-├── styles/
-│   ├── style.css              # Main styles
-│   ├── reset.css              # CSS reset
-│   ├── header.css             # Header styles
-│   ├── layout.css             # Layout container
-│   ├── employee-details.css   # Details page styles
-│   ├── authorization.css      # Auth page styles
-│   └── 404-not-found.css      # Error page styles
+```bash
+npm run build
 ```
 
-## Technologies Used
+- Output will go to the `dist/` folder (configured by Webpack). You can deploy the `dist/` static files and run the backend separately or configure the backend to serve the built assets.
 
-- **HTML5**: Semantic markup structure
-- **CSS3**: Modern styling with custom properties (CSS variables)
-- **Vanilla JavaScript**: No frameworks or libraries
-- **Custom Fetch Polyfill**: XMLHttpRequest-based fetch implementation
-- **Responsive Design**: Mobile-first approach with multiple breakpoints
-- **CSS Media Queries**: Dark mode support via `prefers-color-scheme`
+---
 
-## Getting Started
+## Developer Notes
 
-### Prerequisites
+- TypeScript config lives in `tsconfig.json` — frontend is compiled through Webpack + `ts-loader`.
+- SCSS files are located under `styles/scss/` and compiled into the final CSS via the Webpack build.
+- Server-side permission checks are authoritative; frontend hides UI for unauthorized users but cannot be relied upon for security.
 
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- VS Code or any code editor
-- Live Server extension (recommended)
+---
 
-### Installation & Running
+## Role & Permission Summary
 
-1. **Clone or download the repository**
+- `isAdmin` (boolean/integer) — Admins can edit any employee and access settings.
+- `role` (`employee` or `manager`) — Managers may edit their direct reports (employees where `manager_id` equals the manager `_id`).
 
-   ```bash
-   git clone https://frontend-course-2025-gitlab.codelx.dev/fe/gigi-natroshvili.git
-   cd gigi-natroshvili
-   ```
+All checks are performed server-side for safety.
 
-2. **Open with VS Code**
+---
 
-   ```bash
-   code .
-   ```
+## Troubleshooting
 
-3. **Install Live Server Extension**
+- If `npm run dev` fails, ensure `npm install` completed and you are using a compatible Node version.
+- If frontend cannot reach the backend, confirm the server is running on port 3000 and CORS is allowed (server uses `cors()` by default).
+- To refresh seeded data, delete `server/users.db` and restart the server.
 
-   - Open VS Code Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-   - Search for "Live Server (Five Server)" by Yannick
-   - Click Install
-   - also we can use "live server" extension by Ritwick Dey (but i am using first extension by Yannick)
+---
 
-4. **Start the Development Server**
-
-   - Right-click on `index.html`
-   - Select "Open five Server"
-   - Or click "Go Live" in the bottom status bar
-
-5. **Access the Application**
-   - The application will open automatically in your default browser
-   - URL: `http://127.0.0.1:5500/` or `http://localhost:5500/`
-   - Both URLs work identically
-
-## Usage
-
-### Basic Search
+### basic Search
 
 1. Enter employee name or ID in the search box
 2. Click "Search" or press Enter
@@ -400,6 +358,7 @@ Update media queries in respective CSS files:
   /* Your responsive styles */
 }
 ```
+
 ## Author
 
 **Gigi Natroshvili**
