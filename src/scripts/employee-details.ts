@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentEmployee: any = null;
   let isEditMode = false;
   let currentUserData: any = null;
+  let loggedInUser: any = null;
 
   if (editBtn) {
     editBtn.classList.add("action-btn", "edit-btn");
@@ -76,7 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isEditMode) return;
       const mgrId = (detailsManager as HTMLElement).dataset.managerId;
       if (mgrId && mgrId !== 'null' && mgrId !== '') {
-        window.location.href = `employee-details.html#${mgrId}`;
+        // update hash so we can react without a full page reload
+        window.location.hash = mgrId;
       }
     });
   }
@@ -252,9 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // find and update header with currently logged-in user
       const userData = JSON.parse(currentUser);
-      const loggedInUser = employees.find(
-        (emp: any) => emp.email === userData.email
-      );
+      loggedInUser = employees.find((emp: any) => emp.email === userData.email);
       if (loggedInUser) {
         updateHeaderEmployee(loggedInUser);
 
@@ -280,6 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const canEdit = determineEditAccess(employee, loggedInUser);
           if (canEdit) {
             editBtn.style.display = "flex";
+            editBtn.removeEventListener("click", handleEditClick);
             editBtn.addEventListener("click", handleEditClick);
           } else {
             editBtn.style.display = "none";
@@ -317,6 +318,55 @@ document.addEventListener("DOMContentLoaded", () => {
       saveChanges();
     }
   }
+
+  // handle hash changes so navigation to id updates the page without full reload
+  async function loadEmployeeById(id: string) {
+    if (!id) return;
+    try {
+      const resp = await fetch(`${API_BASE_URL}/employees/${id}`);
+      const d = await resp.json();
+      if (d.success) {
+        currentEmployee = d.employee;
+        isEditMode = false;
+        populateEmployeeDetails(currentEmployee);
+
+        if (editBtn) {
+          editBtn.removeEventListener('click', handleEditClick);
+          const canEdit = determineEditAccess(currentEmployee, loggedInUser);
+          if (canEdit) {
+            editBtn.style.display = 'flex';
+            editBtn.addEventListener('click', handleEditClick);
+          } else {
+            editBtn.style.display = 'none';
+          }
+        }
+      } else {
+        window.location.href = '404-not-found.html';
+      }
+    } catch (err) {
+      console.error('Error loading employee by id:', err);
+      window.location.href = '404-not-found.html';
+    }
+  }
+
+  // react to hash changes
+  window.addEventListener('hashchange', () => {
+    const newId = getEmployeeIdFromUrl();
+    if (newId) loadEmployeeById(newId);
+  });
+
+  // also handle focus/popstate/pageshow so manual URL edits in the address bar load immediately
+  function checkAndLoadFromHash() {
+    const id = getEmployeeIdFromUrl();
+    if (!id) return;
+    if (!currentEmployee || currentEmployee._id !== id) {
+      loadEmployeeById(id);
+    }
+  }
+
+  window.addEventListener('focus', checkAndLoadFromHash);
+  window.addEventListener('popstate', checkAndLoadFromHash);
+  window.addEventListener('pageshow', checkAndLoadFromHash);
 
   // function to enable edit mode
   async function enableEditMode() {
