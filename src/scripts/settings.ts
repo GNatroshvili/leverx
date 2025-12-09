@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // track if current user is admin
   let currentUserIsAdmin = true;
+  // keep a copy of all employees for searching
+  let allEmployees: any[] = [];
   
   // fetch full user data from API using the email from session
   fetch(`${API_BASE_URL}/employees`)
@@ -225,7 +227,28 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('API response data:', data);
       const employees = data.employees || data;
       console.log('Employees data received:', employees);
+      allEmployees = employees;
       renderEmployeeList(employees);
+      // wire up search after we have employees
+      const searchInput = document.querySelector('.settings-search-input') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.addEventListener('input', () => {
+          const q = (searchInput.value || '').trim().toLowerCase();
+          if (!q) {
+            renderEmployeeList(allEmployees);
+            return;
+          }
+
+          const filtered = allEmployees.filter((emp: any) => {
+            const first = (emp.first_name || emp.firstName || '').toString().toLowerCase();
+            const last = (emp.last_name || emp.lastName || '').toString().toLowerCase();
+            const full = `${first} ${last}`.trim();
+            return first.includes(q) || last.includes(q) || full.includes(q);
+          });
+
+          renderEmployeeList(filtered);
+        });
+      }
     })
     .catch((error) => {
       console.error('Error fetching employees:', error);
