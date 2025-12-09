@@ -149,5 +149,45 @@
         }
       }
     }
+    @media (prefers-color-scheme: dark) {
+      background-color: #1e1e1e;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+
+      .auth-tabs {
+        .auth-tab {
+          color: #cfcfcf;
+
+          &:hover {
+            color: #fff;
+          }
+
+          &.active {
+            color: #fff;
+            border-bottom-color: #5591ff;
+          }
+        }
+      }
+
+      .auth-form-wrapper {
+        .auth-form {
+          .form-group {
+            .input-label {
+              color: #e6e6e6;
+            }
+
+            .auth-input {
+              background-color: #262626;
+              color: #eaeaea;
+              border-color: #3a3a3a;
+            }
+
+            .auth-btn {
+              background-color: #007bff;
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
   }
 }
