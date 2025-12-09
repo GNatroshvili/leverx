@@ -35,6 +35,13 @@
       .employee-card-wrapper {
         .emp-name-wrapper {
           color: #e6e6e6;
+          .emp-first-name {
+            text-decoration: underline;
+          }
+
+          .emp-last-name {
+            text-decoration: underline;
+          }
         }
 
         .emp-btn,

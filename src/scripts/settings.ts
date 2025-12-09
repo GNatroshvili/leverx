@@ -156,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="emp-avatar-wrapper">
           <img src="${avatar}" alt="avatar" class="emp-avatar" />
           <div class="emp-name-wrapper">
-            <p>${firstName}</p>
-            <p>${lastName}</p>
+            <p class="emp-first-name">${firstName}</p>
+            <p class="emp-last-name">${lastName}</p>
           </div>
         </div>
         <div class="emp-hr-btn-wrapper">
