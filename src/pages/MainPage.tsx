@@ -181,7 +181,7 @@ const MainPage: React.FC = () => {
   };
 
   const handleEmployeeClick = (employeeId: string) => {
-    navigate(`/employee-details/${employeeId}`);
+    navigate(`/employees/${employeeId}`);
   };
 
   const renderGridView = () => {

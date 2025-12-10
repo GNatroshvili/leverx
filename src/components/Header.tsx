@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
 
   const handleUserClick = () => {
     if (currentUser?.id) {
-      navigate(`/employee-details/${currentUser.id}`);
+      navigate(`/employees/${currentUser.id}`);
     }
   };
 
@@ -42,14 +42,20 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
         </div>
 
         {showUserInfo && currentUser && (
-          <div className="header-actions">
+            <div className="header-actions">
             <div className="user-data" onClick={handleUserClick} style={{ cursor: 'pointer' }}>
-              <img 
-                src={currentUser.avatar} 
-                alt="avatar" 
-                className="avatar" 
-                id="employee-avatar"
-              />
+              {(() => {
+                const raw = currentUser.avatar || '/assets/default-avatar.jpg';
+                const avatarSrc = raw.startsWith('http') ? raw : raw.replace(/^\.?\//, '/');
+                return (
+                  <img
+                    src={avatarSrc}
+                    alt="avatar"
+                    className="avatar"
+                    id="employee-avatar"
+                  />
+                );
+              })()}
               <p className="employee-username" id="employee-username">
                 {currentUser.firstName} {currentUser.lastName}
               </p>
@@ -80,14 +86,20 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
             <>
               <div className="nav-wrapper">
                 <div className="nav-actions-wrapper">
-                  <img
-                    src={currentUser.avatar}
-                    alt="avatar"
-                    className="avatar"
-                    id="mobile-employee-avatar"
-                    onClick={handleUserClick}
-                    style={{ cursor: 'pointer' }}
-                  />
+                  {(() => {
+                    const raw = currentUser.avatar || '/assets/default-avatar.jpg';
+                    const avatarSrc = raw.startsWith('http') ? raw : raw.replace(/^\.?\//, '/');
+                    return (
+                      <img
+                        src={avatarSrc}
+                        alt="avatar"
+                        className="avatar"
+                        id="mobile-employee-avatar"
+                        onClick={handleUserClick}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    );
+                  })()}
                   <p id="mobile-employee">{currentUser.firstName} {currentUser.lastName}</p>
                 </div>
               </div>

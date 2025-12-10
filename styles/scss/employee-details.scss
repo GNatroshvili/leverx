@@ -28,6 +28,7 @@
     left: 40px;
     width: 20px;
     z-index: 10;
+    cursor: pointer;
 
     @media screen and (max-width: 768px) {
       top: 20px;
@@ -342,6 +343,44 @@
         box-shadow: 0 0 0 3px rgba(85, 145, 255, 0.2);
       }
     }
+  }
+
+  .row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+
+    &.row--split {
+      flex-direction: row;
+    }
+
+    &.native-row {
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  .native-input {
+    min-width: 100px;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .select-input {
+    cursor: pointer;
+  }
+
+  .clickable {
+    cursor: pointer;
   }
 
   .action-btn {
