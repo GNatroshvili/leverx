@@ -1,6 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getStoredUser, clearStoredUser, isAdmin as checkIsAdmin } from '../utils/auth';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  getStoredUser,
+  clearStoredUser,
+  isAdmin as checkIsAdmin,
+} from "../utils/auth";
 
 interface HeaderProps {
   currentUser?: {
@@ -12,7 +16,10 @@ interface HeaderProps {
   showUserInfo?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) => {
+const Header: React.FC<HeaderProps> = ({
+  currentUser,
+  showUserInfo = false,
+}) => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const user = getStoredUser();
@@ -20,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
 
   const handleLogout = () => {
     clearStoredUser();
-    navigate('/');
+    navigate("/");
   };
 
   const toggleMobileMenu = () => {
@@ -37,21 +44,23 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
     <header>
       <div className="header-wrapper container">
         <div className="header-title">
-          <a className="company-name" href="/">Leverx</a>
+          <a className="company-name" href="/">
+            Leverx
+          </a>
           <p className="page-service">EMPLOYEE SERVICES</p>
         </div>
 
         <div className="header-options-wrapper">
           <button
             className="page-title clickable"
-            onClick={() => navigate('/main')}
+            onClick={() => navigate("/main")}
           >
             Address Book
           </button>
           {isUserAdmin && (
             <button
               className="page-title clickable"
-              onClick={() => navigate('/settings')}
+              onClick={() => navigate("/settings")}
             >
               Settings
             </button>
@@ -59,11 +68,17 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
         </div>
 
         {showUserInfo && currentUser && (
-            <div className="header-actions">
-            <div className="user-data" onClick={handleUserClick} style={{ cursor: 'pointer' }}>
+          <div className="header-actions">
+            <div
+              className="user-data"
+              onClick={handleUserClick}
+              style={{ cursor: "pointer" }}
+            >
               {(() => {
-                const raw = currentUser.avatar || '/assets/default-avatar.jpg';
-                const avatarSrc = raw.startsWith('http') ? raw : raw.replace(/^\.?\//, '/');
+                const raw = currentUser.avatar || "/assets/default-avatar.jpg";
+                const avatarSrc = raw.startsWith("http")
+                  ? raw
+                  : raw.replace(/^\.?\//, "/");
                 return (
                   <img
                     src={avatarSrc}
@@ -96,16 +111,22 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
           <span className="burger-line"></span>
         </div>
 
-        <div className={`menu-backdrop ${mobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
+        <div
+          className={`menu-backdrop ${mobileMenuOpen ? "active" : ""}`}
+          onClick={toggleMobileMenu}
+        ></div>
 
-        <nav className={`mobile-nav ${mobileMenuOpen ? 'active' : ''}`}>
+        <nav className={`mobile-nav ${mobileMenuOpen ? "active" : ""}`}>
           {showUserInfo && currentUser && (
             <>
               <div className="nav-wrapper">
                 <div className="nav-actions-wrapper">
                   {(() => {
-                    const raw = currentUser.avatar || '/assets/default-avatar.jpg';
-                    const avatarSrc = raw.startsWith('http') ? raw : raw.replace(/^\.?\//, '/');
+                    const raw =
+                      currentUser.avatar || "/assets/default-avatar.jpg";
+                    const avatarSrc = raw.startsWith("http")
+                      ? raw
+                      : raw.replace(/^\.?\//, "/");
                     return (
                       <img
                         src={avatarSrc}
@@ -113,11 +134,13 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
                         className="avatar"
                         id="mobile-employee-avatar"
                         onClick={handleUserClick}
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                       />
                     );
                   })()}
-                  <p id="mobile-employee">{currentUser.firstName} {currentUser.lastName}</p>
+                  <p id="mobile-employee">
+                    {currentUser.firstName} {currentUser.lastName}
+                  </p>
                 </div>
               </div>
               <div className="list-divider-line"></div>
@@ -128,7 +151,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
               <div className="list-divider-line"></div>
               {isUserAdmin && (
                 <>
-                  <div className="visible-settings-btn" onClick={() => navigate('/settings')}>
+                  <div
+                    className="visible-settings-btn"
+                    onClick={() => navigate("/settings")}
+                  >
                     <img src="/assets/settings-icon.png" alt="settings-icon" />
                     <p className="settings-btn-text">Settings</p>
                   </div>

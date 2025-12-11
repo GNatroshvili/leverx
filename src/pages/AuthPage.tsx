@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, setStoredUser, getStoredUser } from '../utils/auth';
-import '../../styles/scss/reset.scss';
-import '../../styles/scss/layout.scss';
-import '../../styles/scss/header.scss';
-import '../../styles/scss/authorization.scss';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, setStoredUser, getStoredUser } from "../utils/auth";
+import "../../styles/scss/reset.scss";
+import "../../styles/scss/layout.scss";
+import "../../styles/scss/header.scss";
+import "../../styles/scss/authorization.scss";
 
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   // Sign in form state
-  const [signinEmail, setSigninEmail] = useState('');
-  const [signinPassword, setSigninPassword] = useState('');
+  const [signinEmail, setSigninEmail] = useState("");
+  const [signinPassword, setSigninPassword] = useState("");
   const [signinRemember, setSigninRemember] = useState(false);
-  
+
   // Sign up form state
-  const [signupFirstName, setSignupFirstName] = useState('');
-  const [signupLastName, setSignupLastName] = useState('');
-  const [signupEmail, setSignupEmail] = useState('');
-  const [signupPhone, setSignupPhone] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
+  const [signupFirstName, setSignupFirstName] = useState("");
+  const [signupLastName, setSignupLastName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPhone, setSignupPhone] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
 
   useEffect(() => {
     // Check if user is already logged in
     const user = getStoredUser();
     if (user) {
-      navigate('/main');
+      navigate("/main");
     }
   }, [navigate]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch(`${API_BASE_URL}/sign-in`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: signinEmail,
@@ -56,17 +56,17 @@ const AuthPage: React.FC = () => {
           phone: data.user.phone,
           employeeId: data.user.employeeId,
           isAdmin: data.user.isAdmin || false,
-          role: data.user.role || 'employee',
+          role: data.user.role || "employee",
         };
 
         setStoredUser(user, signinRemember);
-        navigate('/main');
+        navigate("/main");
       } else {
-        alert(data.message || 'Sign in failed');
+        alert(data.message || "Sign in failed");
       }
     } catch (error) {
-      console.error('Sign in error:', error);
-      alert('An error occurred during sign in');
+      console.error("Sign in error:", error);
+      alert("An error occurred during sign in");
     }
   };
 
@@ -75,9 +75,9 @@ const AuthPage: React.FC = () => {
 
     try {
       const response = await fetch(`${API_BASE_URL}/sign-up`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: signupEmail,
@@ -98,17 +98,17 @@ const AuthPage: React.FC = () => {
           phone: data.user.phone,
           employeeId: data.user.employeeId,
           isAdmin: data.user.isAdmin || false,
-          role: data.user.role || 'employee',
+          role: data.user.role || "employee",
         };
 
         setStoredUser(user, false);
-        navigate('/main');
+        navigate("/main");
       } else {
-        alert(data.message || 'Sign up failed');
+        alert(data.message || "Sign up failed");
       }
     } catch (error) {
-      console.error('Sign up error:', error);
-      alert('An error occurred during sign up');
+      console.error("Sign up error:", error);
+      alert("An error occurred during sign up");
     }
   };
 
@@ -121,7 +121,9 @@ const AuthPage: React.FC = () => {
       <header>
         <div className="header-wrapper container">
           <div className="header-title">
-            <a className="company-name" href="/">Leverx</a>
+            <a className="company-name" href="/">
+              Leverx
+            </a>
             <p className="page-service">EMPLOYEE SERVICES</p>
           </div>
           <div className="header-actions auth-header-actions">
@@ -135,8 +137,11 @@ const AuthPage: React.FC = () => {
             <span className="burger-line"></span>
             <span className="burger-line"></span>
           </div>
-          <div className={`menu-backdrop ${mobileMenuOpen ? 'active' : ''}`} onClick={toggleMobileMenu}></div>
-          <nav className={`mobile-nav ${mobileMenuOpen ? 'active' : ''}`}>
+          <div
+            className={`menu-backdrop ${mobileMenuOpen ? "active" : ""}`}
+            onClick={toggleMobileMenu}
+          ></div>
+          <nav className={`mobile-nav ${mobileMenuOpen ? "active" : ""}`}>
             <div className="nav-wrapper">
               <div className="nav-actions-wrapper">
                 <p>Welcome to LeverX</p>
@@ -154,26 +159,28 @@ const AuthPage: React.FC = () => {
       <div className="auth-page-wrapper container">
         <div className="auth-container">
           <div className="auth-tabs">
-            <button 
-              className={`auth-tab ${activeTab === 'signin' ? 'active' : ''}`}
-              onClick={() => setActiveTab('signin')}
+            <button
+              className={`auth-tab ${activeTab === "signin" ? "active" : ""}`}
+              onClick={() => setActiveTab("signin")}
             >
               SIGN IN
             </button>
-            <button 
-              className={`auth-tab ${activeTab === 'signup' ? 'active' : ''}`}
-              onClick={() => setActiveTab('signup')}
+            <button
+              className={`auth-tab ${activeTab === "signup" ? "active" : ""}`}
+              onClick={() => setActiveTab("signup")}
             >
               SIGN UP
             </button>
           </div>
 
           {/* Sign In Form */}
-          {activeTab === 'signin' && (
+          {activeTab === "signin" && (
             <div className="auth-form-wrapper">
               <form className="auth-form" onSubmit={handleSignIn}>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signin-email">Email</label>
+                  <label className="input-label" htmlFor="signin-email">
+                    Email
+                  </label>
                   <input
                     type="email"
                     className="auth-input"
@@ -185,7 +192,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signin-password">Password</label>
+                  <label className="input-label" htmlFor="signin-password">
+                    Password
+                  </label>
                   <input
                     type="password"
                     className="auth-input"
@@ -197,7 +206,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <button type="submit" className="auth-btn">Sign In</button>
+                  <button type="submit" className="auth-btn">
+                    Sign In
+                  </button>
                 </div>
                 <div className="form-group checkbox-group">
                   <input
@@ -213,11 +224,13 @@ const AuthPage: React.FC = () => {
           )}
 
           {/* Sign Up Form */}
-          {activeTab === 'signup' && (
+          {activeTab === "signup" && (
             <div className="auth-form-wrapper">
               <form className="auth-form" onSubmit={handleSignUp}>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signup-firstname">First Name</label>
+                  <label className="input-label" htmlFor="signup-firstname">
+                    First Name
+                  </label>
                   <input
                     type="text"
                     className="auth-input"
@@ -229,7 +242,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signup-lastname">Last Name</label>
+                  <label className="input-label" htmlFor="signup-lastname">
+                    Last Name
+                  </label>
                   <input
                     type="text"
                     className="auth-input"
@@ -241,7 +256,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signup-email">Email</label>
+                  <label className="input-label" htmlFor="signup-email">
+                    Email
+                  </label>
                   <input
                     type="email"
                     className="auth-input"
@@ -253,7 +270,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signup-phone">Phone</label>
+                  <label className="input-label" htmlFor="signup-phone">
+                    Phone
+                  </label>
                   <input
                     type="tel"
                     className="auth-input"
@@ -265,7 +284,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="input-label" htmlFor="signup-password">Password</label>
+                  <label className="input-label" htmlFor="signup-password">
+                    Password
+                  </label>
                   <input
                     type="password"
                     className="auth-input"
@@ -277,7 +298,9 @@ const AuthPage: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <button type="submit" className="auth-btn">Sign Up</button>
+                  <button type="submit" className="auth-btn">
+                    Sign Up
+                  </button>
                 </div>
               </form>
             </div>
