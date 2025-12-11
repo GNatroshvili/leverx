@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="list-divider-line"></div>
             <div className="logout-btn" onClick={handleLogout}>
-              <img src="/assets/exit.png" alt="exit-icon" />
+              <img src="/assets/logout.png" alt="logout-icon" />
               <p className="logout-btn-text">Log out</p>
             </div>
           </div>
@@ -162,7 +162,7 @@ const Header: React.FC<HeaderProps> = ({
                 </>
               )}
               <div className="visible-logout-btn" onClick={handleLogout}>
-                <img src="/assets/exit.png" alt="exit-icon" />
+                <img src="/assets/logout.png" alt="logout-icon" />
                 <p className="logout-btn-text">Log out</p>
               </div>
             </>
