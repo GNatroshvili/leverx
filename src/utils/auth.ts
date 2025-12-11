@@ -38,12 +38,12 @@ export interface Employee {
   middle_native_name?: string;
   last_native_name?: string;
   remote_work?: boolean;
-  visa_1?: string;
-  visa_1_start_date?: number;
-  visa_1_end_date?: number;
-  visa_2?: string;
-  visa_2_start_date?: number;
-  visa_2_end_date?: number;
+  visa?: Array<{
+    issuing_country: string;
+    type: string;
+    start_date: number;
+    end_date: number;
+  }>;
   isAdmin?: boolean;
   role?: string;
 }
