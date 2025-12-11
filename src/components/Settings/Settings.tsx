@@ -141,9 +141,23 @@ const Settings: React.FC = () => {
     );
   });
 
+  // map stored user to Header's expected currentUser shape
+  const headerUser = stored
+    ? {
+        firstName: stored.firstName,
+        lastName: stored.lastName,
+        avatar: "/assets/default-avatar.jpg",
+        id: stored.employeeId,
+      }
+    : undefined;
+
   return (
     <>
-      <Header currentUser={stored as any} showUserInfo={true} />
+      {headerUser ? (
+        <Header currentUser={headerUser} showUserInfo={true} />
+      ) : (
+        <Header showUserInfo={true} />
+      )}
       <div className="container">
         <SettingCardWrapper
           loading={loading}

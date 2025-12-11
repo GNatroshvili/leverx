@@ -1,6 +1,11 @@
 import React from "react";
 
-const NavigationWrapper: React.FC = () => (
+
+interface NavigationWrapperProps {
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const NavigationWrapper: React.FC<NavigationWrapperProps> = ({ onSearchChange }) => (
   <div className="navigation-wrapper">
     <div>
       <div className="settings-search-wrapper">
@@ -8,6 +13,7 @@ const NavigationWrapper: React.FC = () => (
           type="text"
           className="settings-search-input"
           placeholder="Type to search"
+          onChange={onSearchChange}
         />
         <img
           src="/assets/search-icon.png"

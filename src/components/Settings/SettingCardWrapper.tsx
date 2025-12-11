@@ -15,7 +15,7 @@ const SettingCardWrapper: React.FC<SettingCardWrapperProps> = ({ loading, error,
   <div className="setting-card-wrapper">
     <SettingsCardTitle />
     <DividerLine />
-    <NavigationWrapper />
+    <NavigationWrapper onSearchChange={onSearchChange} />
     <DividerLine />
     <EmployeeListWrapper loading={loading} error={error} employees={employees} />
   </div>
