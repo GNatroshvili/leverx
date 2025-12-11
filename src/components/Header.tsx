@@ -41,6 +41,23 @@ const Header: React.FC<HeaderProps> = ({ currentUser, showUserInfo = false }) =>
           <p className="page-service">EMPLOYEE SERVICES</p>
         </div>
 
+        <div className="header-options-wrapper">
+          <button
+            className="page-title clickable"
+            onClick={() => navigate('/main')}
+          >
+            Address Book
+          </button>
+          {isUserAdmin && (
+            <button
+              className="page-title clickable"
+              onClick={() => navigate('/settings')}
+            >
+              Settings
+            </button>
+          )}
+        </div>
+
         {showUserInfo && currentUser && (
             <div className="header-actions">
             <div className="user-data" onClick={handleUserClick} style={{ cursor: 'pointer' }}>
