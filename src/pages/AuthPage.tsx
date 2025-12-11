@@ -4,6 +4,7 @@ import { API_BASE_URL, setStoredUser, getStoredUser } from "../utils/auth";
 import "../../styles/scss/reset.scss";
 import "../../styles/scss/layout.scss";
 import "../../styles/scss/header.scss";
+import Header from "../components/Header/Header";
 import "../../styles/scss/authorization.scss";
 
 const AuthPage: React.FC = () => {
@@ -118,43 +119,7 @@ const AuthPage: React.FC = () => {
 
   return (
     <>
-      <header>
-        <div className="header-wrapper container">
-          <div className="header-title">
-            <a className="company-name" href="/">
-              Leverx
-            </a>
-            <p className="page-service">EMPLOYEE SERVICES</p>
-          </div>
-          <div className="header-actions auth-header-actions">
-            <div className="support-btn">
-              <img src="/assets/question-mark.png" alt="support-icon" />
-              <p className="support-btn-text">Support</p>
-            </div>
-          </div>
-          <div className="burger-menu-wrapper" onClick={toggleMobileMenu}>
-            <span className="burger-line"></span>
-            <span className="burger-line"></span>
-            <span className="burger-line"></span>
-          </div>
-          <div
-            className={`menu-backdrop ${mobileMenuOpen ? "active" : ""}`}
-            onClick={toggleMobileMenu}
-          ></div>
-          <nav className={`mobile-nav ${mobileMenuOpen ? "active" : ""}`}>
-            <div className="nav-wrapper">
-              <div className="nav-actions-wrapper">
-                <p>Welcome to LeverX</p>
-              </div>
-            </div>
-            <div className="list-divider-line"></div>
-            <div className="visible-support-btn">
-              <img src="/assets/question-mark.png" alt="support-icon" />
-              <p className="support-btn-text">Support</p>
-            </div>
-          </nav>
-        </div>
-      </header>
+      <Header showUserInfo={false} />
 
       <div className="auth-page-wrapper container">
         <div className="auth-container">

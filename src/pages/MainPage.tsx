@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import { API_BASE_URL, getStoredUser } from "../utils/auth";
 import type { Employee } from "../utils/auth";
 import "../../styles/scss/reset.scss";
