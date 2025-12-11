@@ -292,62 +292,54 @@ const EmployeeDetailedInfoWrapper: React.FC<
             )}
           </DataLineWrapper>
 
-          {currentEmployee.visa && currentEmployee.visa.length > 0 && currentEmployee.visa[0] && (
-            <>
-              <DataLineWrapper
-                icon="/assets/visa.png"
-                iconAlt="visa-icon"
-                label="Visa 1"
-                iconClassName="visa-size"
-              >
-                <p id="details-visa-1">
-                  {currentEmployee.visa[0].issuing_country} -{" "}
-                  {currentEmployee.visa[0].type}
-                </p>
-              </DataLineWrapper>
+          <DataLineWrapper
+            icon="/assets/visa.png"
+            iconAlt="visa-icon"
+            label="Visa 1"
+            iconClassName="visa-size"
+          >
+            <p id="details-visa-1">
+              {currentEmployee.visa && currentEmployee.visa[0] && currentEmployee.visa[0].issuing_country && currentEmployee.visa[0].type
+                ? `${currentEmployee.visa[0].issuing_country} - ${currentEmployee.visa[0].type}`
+                : "N/A"}
+            </p>
+          </DataLineWrapper>
 
-              <DataLineWrapper
-                icon="/assets/date-of-birth.png"
-                iconAlt="date-icon"
-                label="Visa 1 validity period"
-              >
-                <p id="details-visa-1-period">
-                  {formatDate(currentEmployee.visa[0].start_date)} -{" "}
-                  {formatDate(currentEmployee.visa[0].end_date)}
-                  {isVisaExpired(currentEmployee.visa[0].end_date) &&
-                    " (expired)"}
-                </p>
-              </DataLineWrapper>
-            </>
-          )}
+          <DataLineWrapper
+            icon="/assets/date-of-birth.png"
+            iconAlt="date-icon"
+            label="Visa 1 validity period"
+          >
+            <p id="details-visa-1-period">
+              {currentEmployee.visa && currentEmployee.visa[0] && currentEmployee.visa[0].start_date && currentEmployee.visa[0].end_date
+                ? `${formatDate(currentEmployee.visa[0].start_date)} - ${formatDate(currentEmployee.visa[0].end_date)}${isVisaExpired(currentEmployee.visa[0].end_date) ? " (expired)" : ""}`
+                : "N/A"}
+            </p>
+          </DataLineWrapper>
 
-          {currentEmployee.visa && currentEmployee.visa.length > 1 && currentEmployee.visa[1] && (
-            <>
-              <DataLineWrapper
-                icon="/assets/visa.png"
-                iconAlt="visa-icon"
-                label="Visa 2"
-              >
-                <p id="details-visa-2">
-                  {currentEmployee.visa[1].issuing_country} -{" "}
-                  {currentEmployee.visa[1].type}
-                </p>
-              </DataLineWrapper>
+          <DataLineWrapper
+            icon="/assets/visa.png"
+            iconAlt="visa-icon"
+            label="Visa 2"
+          >
+            <p id="details-visa-2">
+              {currentEmployee.visa && currentEmployee.visa[1] && currentEmployee.visa[1].issuing_country && currentEmployee.visa[1].type
+                ? `${currentEmployee.visa[1].issuing_country} - ${currentEmployee.visa[1].type}`
+                : "N/A"}
+            </p>
+          </DataLineWrapper>
 
-              <DataLineWrapper
-                icon="/assets/date-of-birth.png"
-                iconAlt="date-icon"
-                label="Visa 2 validity period"
-              >
-                <p id="details-visa-2-period">
-                  {formatDate(currentEmployee.visa[1].start_date)} -{" "}
-                  {formatDate(currentEmployee.visa[1].end_date)}
-                  {isVisaExpired(currentEmployee.visa[1].end_date) &&
-                    " (expired)"}
-                </p>
-              </DataLineWrapper>
-            </>
-          )}
+          <DataLineWrapper
+            icon="/assets/date-of-birth.png"
+            iconAlt="date-icon"
+            label="Visa 2 validity period"
+          >
+            <p id="details-visa-2-period">
+              {currentEmployee.visa && currentEmployee.visa[1] && currentEmployee.visa[1].start_date && currentEmployee.visa[1].end_date
+                ? `${formatDate(currentEmployee.visa[1].start_date)} - ${formatDate(currentEmployee.visa[1].end_date)}${isVisaExpired(currentEmployee.visa[1].end_date) ? " (expired)" : ""}`
+                : "N/A"}
+            </p>
+          </DataLineWrapper>
         </DataColumn>
       </div>
     </div>
