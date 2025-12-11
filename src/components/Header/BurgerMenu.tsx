@@ -4,12 +4,14 @@ interface BurgerMenuProps {
   mobileMenuOpen: boolean;
   toggleMobileMenu: () => void;
   showUserInfo: boolean;
-  currentUser?: {
-    firstName: string;
-    lastName: string;
-    avatar: string;
-    id: string;
-  } | undefined;
+  currentUser?:
+    | {
+        firstName: string;
+        lastName: string;
+        avatar: string;
+        id: string;
+      }
+    | undefined;
   isUserAdmin: boolean;
   onUserClick: () => void;
   onLogout: () => void;
@@ -46,7 +48,9 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
             <div className="nav-actions-wrapper">
               {(() => {
                 const raw = currentUser.avatar || "/assets/default-avatar.jpg";
-                const avatarSrc = raw.startsWith("http") ? raw : raw.replace(/^\.?\//, "/");
+                const avatarSrc = raw.startsWith("http")
+                  ? raw
+                  : raw.replace(/^\.?\//, "/");
                 return (
                   <img
                     src={avatarSrc}

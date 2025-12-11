@@ -17,10 +17,16 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
   onLogout,
 }) => (
   <div className="header-actions">
-    <div className="user-data" onClick={onUserClick} style={{ cursor: "pointer" }}>
+    <div
+      className="user-data"
+      onClick={onUserClick}
+      style={{ cursor: "pointer" }}
+    >
       {(() => {
         const raw = currentUser.avatar || "/assets/default-avatar.jpg";
-        const avatarSrc = raw.startsWith("http") ? raw : raw.replace(/^\.?\//, "/");
+        const avatarSrc = raw.startsWith("http")
+          ? raw
+          : raw.replace(/^\.?\//, "/");
         return (
           <img
             src={avatarSrc}
