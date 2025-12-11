@@ -105,18 +105,21 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
 
-        <div className="burger-menu-wrapper" onClick={toggleMobileMenu}>
+        <div
+          className={`burger-menu-wrapper ${mobileMenuOpen ? "open" : ""}`}
+          onClick={toggleMobileMenu}
+        >
           <span className="burger-line"></span>
           <span className="burger-line"></span>
           <span className="burger-line"></span>
         </div>
 
         <div
-          className={`menu-backdrop ${mobileMenuOpen ? "active" : ""}`}
+          className={`menu-backdrop ${mobileMenuOpen ? "open" : ""}`}
           onClick={toggleMobileMenu}
         ></div>
 
-        <nav className={`mobile-nav ${mobileMenuOpen ? "active" : ""}`}>
+        <nav className={`mobile-nav ${mobileMenuOpen ? "open" : ""}`}>
           {showUserInfo && currentUser && (
             <>
               <div className="nav-wrapper">
@@ -130,17 +133,20 @@ const Header: React.FC<HeaderProps> = ({
                     return (
                       <img
                         src={avatarSrc}
-                        alt="avatar"
-                        className="avatar"
+                        alt="burger-avatar"
+                        className="burger-avatar"
                         id="mobile-employee-avatar"
                         onClick={handleUserClick}
                         style={{ cursor: "pointer" }}
                       />
                     );
                   })()}
+                </div>
+                <div className="visible-logout-btn" onClick={handleLogout}>
                   <p id="mobile-employee">
                     {currentUser.firstName} {currentUser.lastName}
                   </p>
+                  <p className="sign-out-link">Sign out</p>
                 </div>
               </div>
               <div className="list-divider-line"></div>
@@ -152,19 +158,14 @@ const Header: React.FC<HeaderProps> = ({
               {isUserAdmin && (
                 <>
                   <div
-                    className="visible-settings-btn"
-                    onClick={() => navigate("/settings")}
+                    className="visible-addressbook-btn"
+                    onClick={() => navigate("/main")}
                   >
-                    <img src="/assets/settings-icon.png" alt="settings-icon" />
-                    <p className="settings-btn-text">Settings</p>
+                    <p className="addressbook-btn-text">Address Book</p>
                   </div>
                   <div className="list-divider-line"></div>
                 </>
               )}
-              <div className="visible-logout-btn" onClick={handleLogout}>
-                <img src="/assets/logout.png" alt="logout-icon" />
-                <p className="logout-btn-text">Log out</p>
-              </div>
             </>
           )}
           {!showUserInfo && (

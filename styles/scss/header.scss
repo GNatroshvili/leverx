@@ -243,11 +243,17 @@ header {
           display: flex;
           flex-direction: column;
           gap: 6px;
+        }
 
-          .sign-out-link {
-            text-decoration: underline;
-            color: rgb(232, 69, 4);
-          }
+        .visible-logout-btn {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          cursor: pointer;
+        }
+        .sign-out-link {
+          text-decoration: underline;
+          color: rgb(232, 69, 4);
         }
       }
 
@@ -281,6 +287,13 @@ header {
 
         .support-btn-text {
           color: #fff;
+        }
+      }
+
+      .visible-addressbook-btn {
+        .addressbook-btn-text {
+          font-size: 1.125rem;
+          margin: 20px 0 20px 20px;
         }
       }
     }
