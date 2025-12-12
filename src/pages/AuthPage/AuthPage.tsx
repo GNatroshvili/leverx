@@ -13,7 +13,6 @@ import "../../index.css";
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [signinEmail, setSigninEmail] = useState("");
   const [signinPassword, setSigninPassword] = useState("");
   const [signinRemember, setSigninRemember] = useState(false);

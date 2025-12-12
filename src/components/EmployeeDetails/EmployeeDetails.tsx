@@ -18,11 +18,9 @@ const EmployeeDetails: React.FC = () => {
   const navigate = useNavigate();
 
   const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
-  const [currentUser, setCurrentUser] = useState<Employee | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [managers, setManagers] = useState<Employee[]>([]);
-  const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
   const [formData, setFormData] = useState<EditFormData>({
     first_name: "",
     last_name: "",
@@ -72,7 +70,6 @@ const EmployeeDetails: React.FC = () => {
       }
 
       const employees: Employee[] = data.employees;
-      setAllEmployees(employees);
 
       // filter managers for dropdown
       const managerList = employees.filter(
@@ -84,7 +81,6 @@ const EmployeeDetails: React.FC = () => {
       const user = getStoredUser();
       if (user) {
         const loggedInUser = employees.find((emp) => emp.email === user.email);
-        setCurrentUser(loggedInUser || null);
 
         if (id) {
           const employee = employees.find((emp) => emp._id === id);

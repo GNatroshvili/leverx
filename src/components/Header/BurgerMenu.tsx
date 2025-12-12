@@ -23,7 +23,6 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
   toggleMobileMenu,
   showUserInfo,
   currentUser,
-  isUserAdmin,
   onUserClick,
   onLogout,
   onAddressBook,

@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 import EmployeeDetails from "../../components/EmployeeDetails/EmployeeDetails";
 import { getStoredUser, API_BASE_URL } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
-
 import "../../components/EmployeeDetails/employee-details.scss";
 import "../../components/Header/header.scss";
 import "../../layout.css";

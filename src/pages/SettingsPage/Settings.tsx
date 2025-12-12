@@ -18,7 +18,6 @@ const Settings: React.FC = () => {
   const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const load = async () => {
@@ -82,7 +81,6 @@ const Settings: React.FC = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value.trim().toLowerCase();
-    setSearchQuery(q);
     if (!q) {
       setEmployees([...allEmployees]);
       return;
