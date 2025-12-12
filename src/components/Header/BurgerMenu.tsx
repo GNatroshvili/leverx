@@ -83,7 +83,6 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
               onAddressBook();
             }}
           >
-            <img src="/assets/home.png" alt="address-book-icon" />
             <p className="addressbook-btn-text">Address Book</p>
           </div>
           <div className="list-divider-line"></div>
