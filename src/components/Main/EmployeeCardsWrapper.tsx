@@ -6,7 +6,10 @@ interface EmployeeCardsWrapperProps {
   onEmployeeClick: (id: string) => void;
 }
 
-const EmployeeCardsWrapper: React.FC<EmployeeCardsWrapperProps> = ({ employees, onEmployeeClick }) => (
+const EmployeeCardsWrapper: React.FC<EmployeeCardsWrapperProps> = ({
+  employees,
+  onEmployeeClick,
+}) => (
   <div className="employee-cards-wrapper">
     {employees.map((emp) => (
       <div

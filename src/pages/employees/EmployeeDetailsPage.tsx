@@ -4,10 +4,11 @@ import Header from "../../components/Header/Header";
 import EmployeeDetails from "../../components/EmployeeDetails/EmployeeDetails";
 import { getStoredUser, API_BASE_URL } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
-import "../../../styles/scss/reset.scss";
-import "../../../styles/scss/layout.scss";
-import "../../../styles/scss/header.scss";
-import "../../../styles/scss/employee-details.scss";
+
+import "../../components/EmployeeDetails/employee-details.scss";
+import "../../components/Header/header.scss";
+import "../../layout.scss";
+import "../../reset.scss";
 
 const EmployeeDetailsPage: React.FC = () => {
   const navigate = useNavigate();

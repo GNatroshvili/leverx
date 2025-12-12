@@ -10,10 +10,10 @@ import EmployeeHeader from "../../components/Main/EmployeeHeader";
 import EmployeeListCardsWrapper from "../../components/Main/EmployeeListCardsWrapper";
 import MobileSearchWrapper from "../../components/Main/MobileSearchWrapper";
 import SearchWrapper from "../../components/Main/SearchWrapper";
-import "../../../styles/scss/reset.scss";
-import "../../../styles/scss/layout.scss";
-import "../../../styles/scss/header.scss";
-import "../../../styles/scss/style.scss";
+import "../../components/Main/style.scss";
+import "../../components/Header/header.scss";
+import "../../layout.scss";
+import "../../reset.scss";
 
 type ViewMode = "grid" | "list";
 type SearchMode = "basic" | "advanced";

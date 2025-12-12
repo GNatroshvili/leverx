@@ -8,9 +8,9 @@ import {
 import type { Employee, User } from "../../utils/auth";
 import SettingCardWrapper from "../../components/Settings/SettingCardWrapper";
 import EmployeeCardWrapper from "../../components/Settings/EmployeeCardWrapper";
-import "../../../styles/scss/reset.scss";
-import "../../../styles/scss/layout.scss";
-import "../../../styles/scss/settings.scss";
+import "../../layout.scss";
+import "../../reset.scss";
+import "../../components/Settings/settings.scss";
 
 const Settings: React.FC = () => {
   const stored = getStoredUser() as User | null;

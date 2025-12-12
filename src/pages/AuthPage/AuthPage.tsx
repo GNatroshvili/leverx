@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL, setStoredUser, getStoredUser } from "../../utils/auth";
-import "../../../styles/scss/reset.scss";
-import "../../../styles/scss/layout.scss";
-import "../../../styles/scss/header.scss";
 import Header from "../../components/Header/Header";
 import AuthTabs from "../../components/Auth/AuthTabs";
 import SignUpForm from "../../components/Auth/SignUpForm";
 import SignInForm from "../../components/Auth/SignInForm";
-import "../../../styles/scss/authorization.scss";
+import "../../components/Auth/authorization.scss";
+import "../../components/Header/header.scss";
+import "../../layout.scss";
+import "../../reset.scss";
 
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
