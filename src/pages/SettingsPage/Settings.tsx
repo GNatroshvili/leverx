@@ -8,8 +8,8 @@ import {
 import type { Employee, User } from "../../utils/auth";
 import SettingCardWrapper from "../../components/Settings/SettingCardWrapper";
 import EmployeeCardWrapper from "../../components/Settings/EmployeeCardWrapper";
-import "../../layout.scss";
-import "../../reset.scss";
+import "../../layout.css";
+import "../../index.css";
 import "../../components/Settings/settings.scss";
 
 const Settings: React.FC = () => {

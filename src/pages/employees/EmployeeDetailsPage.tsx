@@ -7,8 +7,8 @@ import type { Employee } from "../../utils/auth";
 
 import "../../components/EmployeeDetails/employee-details.scss";
 import "../../components/Header/header.scss";
-import "../../layout.scss";
-import "../../reset.scss";
+import "../../layout.css";
+import "../../index.css";
 
 const EmployeeDetailsPage: React.FC = () => {
   const navigate = useNavigate();

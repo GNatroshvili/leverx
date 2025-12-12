@@ -7,8 +7,8 @@ import SignUpForm from "../../components/Auth/SignUpForm";
 import SignInForm from "../../components/Auth/SignInForm";
 import "../../components/Auth/authorization.scss";
 import "../../components/Header/header.scss";
-import "../../layout.scss";
-import "../../reset.scss";
+import "../../layout.css";
+import "../../index.css";
 
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();

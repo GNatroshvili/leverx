@@ -12,8 +12,8 @@ import MobileSearchWrapper from "../../components/Main/MobileSearchWrapper";
 import SearchWrapper from "../../components/Main/SearchWrapper";
 import "../../components/Main/style.scss";
 import "../../components/Header/header.scss";
-import "../../layout.scss";
-import "../../reset.scss";
+import "../../layout.css";
+import "../../index.css";
 
 type ViewMode = "grid" | "list";
 type SearchMode = "basic" | "advanced";
