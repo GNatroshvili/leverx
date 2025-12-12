@@ -83,7 +83,7 @@ const Main: React.FC = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/employees`);
+      const response = await fetch(`${API_BASE_URL}/users`);
       const data = await response.json();
       if (!data.success)
         throw new Error(data.message || "Failed to fetch employees");
@@ -185,7 +185,7 @@ const Main: React.FC = () => {
   };
 
   const handleEmployeeClick = (employeeId: string) => {
-    navigate(`/employees/${employeeId}`);
+    navigate(`/users/${employeeId}`);
   };
 
   const currentUserInfo = currentUser

@@ -24,7 +24,7 @@ const Settings: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE_URL}/employees`);
+        const res = await fetch(`${API_BASE_URL}/users`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         const list: Employee[] = data.employees || data;
@@ -51,7 +51,7 @@ const Settings: React.FC = () => {
       if (role !== null) body.role = role;
       if (isAdmin !== null) body.isAdmin = isAdmin;
 
-      const res = await fetch(`${API_BASE_URL}/employees/${employeeId}/role`, {
+      const res = await fetch(`${API_BASE_URL}/users/${employeeId}/role`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

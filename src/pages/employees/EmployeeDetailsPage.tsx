@@ -23,7 +23,7 @@ const EmployeeDetailsPage: React.FC = () => {
     // Fetch current user data if needed
     const fetchCurrentUser = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/employees`);
+        const response = await fetch(`${API_BASE_URL}/users`);
         const data = await response.json();
         if (data.success) {
           const loggedInUser = data.employees.find(

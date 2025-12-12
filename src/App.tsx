@@ -21,7 +21,7 @@ const App: React.FC = () => {
           }
         />
         <Route
-          path="/employees/:id"
+          path="/users/:id"
           element={
             <PrivateRoute>
               <EmployeeDetailsPage />

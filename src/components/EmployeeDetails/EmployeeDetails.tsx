@@ -63,7 +63,7 @@ const EmployeeDetails: React.FC = () => {
 
   const fetchEmployees = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/employees`);
+      const response = await fetch(`${API_BASE_URL}/users`);
       const data = await response.json();
 
       if (!data.success) {
@@ -189,7 +189,7 @@ const EmployeeDetails: React.FC = () => {
       (currentEmployee as any)?.manager?._id ||
       (currentEmployee as any)?.manager?.id;
     if (managerId) {
-      navigate(`/employees/${managerId}`);
+      navigate(`/users/${managerId}`);
     }
   };
 
@@ -400,7 +400,7 @@ const EmployeeDetails: React.FC = () => {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/employees/${currentEmployee._id}`,
+        `${API_BASE_URL}/users/${currentEmployee._id}`,
         {
           method: "PUT",
           headers: {
@@ -419,7 +419,7 @@ const EmployeeDetails: React.FC = () => {
         alert("Changes saved successfully!");
         // here i am reloading employee data
         const employeeResponse = await fetch(
-          `${API_BASE_URL}/employees/${currentEmployee._id}`
+          `${API_BASE_URL}/users/${currentEmployee._id}`
         );
         const employeeData = await employeeResponse.json();
         if (employeeData.success) {

@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleUserClick = () => {
     if (currentUser?.id) {
-      navigate(`/employees/${currentUser.id}`);
+      navigate(`/users/${currentUser.id}`);
     }
   };
 

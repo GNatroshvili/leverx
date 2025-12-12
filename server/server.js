@@ -379,8 +379,8 @@ app.get("/auth/users", (req, res) => {
   });
 });
 
-// GET /employees - get all employees from database
-app.get("/employees", (req, res) => {
+// GET /users - get all employees from database
+app.get("/users", (req, res) => {
   try {
     const rows = db.prepare("SELECT * FROM employees ORDER BY createdAt DESC").all();
     const employees = rows.map(dbRowToEmployee);
@@ -398,8 +398,8 @@ app.get("/employees", (req, res) => {
   }
 });
 
-// GET /employees/:id - get a single employee by ID from database
-app.get("/employees/:id", (req, res) => {
+// GET /users/:id - get a single employee by ID from database
+app.get("/users/:id", (req, res) => {
   try {
     const { id } = req.params;
     const row = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
@@ -426,8 +426,8 @@ app.get("/employees/:id", (req, res) => {
   }
 });
 
-// PUT /employees/:id/role - update employee role and admin status (admin only)
-app.put("/employees/:id/role", (req, res) => {
+// PUT /users/:id/role - update employee role and admin status (admin only)
+app.put("/users/:id/role", (req, res) => {
   try {
     const { id } = req.params;
     const { role, isAdmin, requestingUserEmail } = req.body;
@@ -500,8 +500,8 @@ app.put("/employees/:id/role", (req, res) => {
   }
 });
 
-// PUT /employees/:id - update employee data (admin or HR for subordinates)
-app.put("/employees/:id", (req, res) => {
+// PUT /users/:id - update employee data (admin or HR for subordinates)
+app.put("/users/:id", (req, res) => {
   try {
     const { id } = req.params;
     const { updates, requestingUserEmail } = req.body;
@@ -629,8 +629,8 @@ app.listen(PORT, () => {
   console.log(`  POST /sign-up            - Register a new user`);
   console.log(`  POST /sign-in            - Authenticate a user`);
   console.log(`  GET  /auth/users         - Get all registered users (debug)`);
-  console.log(`  GET  /employees          - Get all employees`);
-  console.log(`  GET  /employees/:id      - Get employee by ID`);
-  console.log(`  PUT  /employees/:id/role - Update employee role (admin only)`);
-  console.log(`  PUT  /employees/:id      - Update employee data (admin/HR)`);
+  console.log(`  GET  /users              - Get all employees`);
+  console.log(`  GET  /users/:id          - Get employee by ID`);
+  console.log(`  PUT  /users/:id/role     - Update employee role (admin only)`);
+  console.log(`  PUT  /users/:id          - Update employee data (admin/HR)`);
 });
