@@ -1,5 +1,7 @@
 import React from "react";
 import type { Employee } from "../../utils/auth";
+import homeIcon from "../../public/assets/home.png";
+
 
 interface CurrentUserAvatarProps {
   currentEmployee: Employee;
@@ -25,7 +27,7 @@ const CurrentUserAvatar: React.FC<CurrentUserAvatarProps> = ({
       />
       {(emp.remote_work || emp.isRemoteWork) && (
         <img
-          src="/assets/home.png"
+          src={homeIcon}
           alt="home-icon"
           className="home-icon"
           id="details-remote-work-icon"

@@ -1,4 +1,5 @@
 import React from "react";
+import questionMarkIcon from "../../public/assets/question-mark.png";
 
 interface BurgerMenuProps {
   mobileMenuOpen: boolean;
@@ -71,7 +72,7 @@ const BurgerMenu: React.FC<BurgerMenuProps> = ({
           </div>
           <div className="list-divider-line"></div>
           <div className="visible-support-btn">
-            <img src="/assets/question-mark.png" alt="support-icon" />
+            <img src={questionMarkIcon} alt="support-icon" />
             <p className="support-btn-text">Support</p>
           </div>
           <div className="list-divider-line"></div>

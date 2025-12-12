@@ -1,4 +1,6 @@
 import React from "react";
+import questionMarkIcon from "../../public/assets/question-mark.png";
+import logoutIcon from "../../public/assets/logout.png";
 
 interface HeaderActionsProps {
   currentUser: {
@@ -42,12 +44,12 @@ const HeaderActions: React.FC<HeaderActionsProps> = ({
     </div>
     <div className="list-divider-line"></div>
     <div className="support-btn">
-      <img src="/assets/question-mark.png" alt="support-icon" />
+      <img src={questionMarkIcon} alt="support-icon" />
       <p className="support-btn-text">Support</p>
     </div>
     <div className="list-divider-line"></div>
     <div className="logout-btn" onClick={onLogout}>
-      <img src="/assets/logout.png" alt="logout-icon" />
+      <img src={logoutIcon} alt="logout-icon" />
       <p className="logout-btn-text">Log out</p>
     </div>
   </div>

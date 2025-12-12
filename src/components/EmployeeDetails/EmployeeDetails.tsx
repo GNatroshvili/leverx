@@ -12,6 +12,7 @@ import EmployeeFullNameWrapper from "./EmployeeFullNameWrapper";
 import CopyLinkBtn from "./CopyLinkBtn";
 import ButtonGroup from "./ButtonGroup";
 import EmployeeDetailedInfoWrapper from "./EmployeeDetailedInfoWrapper";
+import LeftArrow from "../../public/assets/left-arrow.png";
 
 const EmployeeDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -464,7 +465,7 @@ const EmployeeDetails: React.FC = () => {
     <div className="container">
       <div className="employee-details-wrapper">
         <img
-          src="/assets/left-arrow.png"
+          src={LeftArrow}
           alt="left-arrow-icon"
           className="left-arrow-icon"
           onClick={handleBackClick}

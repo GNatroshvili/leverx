@@ -1,8 +1,9 @@
 import React from "react";
+import searchIcon from "../../public/assets/search-icon.png";
 
 const MobileSearchWrapper: React.FC = () => (
   <div className="mobile-search-wrapper">
-    <img src="/assets/search-icon.png" alt="search-icon" />
+    <img src={searchIcon} alt="search-icon" />
     <p className="mobile-search-input">Open search panel</p>
   </div>
 );

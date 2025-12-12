@@ -1,4 +1,5 @@
 import React from "react";
+import pencilIcon from "../../public/assets/pencil.png";
 
 interface ButtonGroupProps {
   canEdit: boolean;
@@ -18,28 +19,14 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
   return (
     <div className="button-group">
       <button
-        className={
-          isEditMode ? "save-btn action-btn" : "edit-btn action-btn"
-        }
+        className={isEditMode ? "save-btn action-btn" : "edit-btn action-btn"}
         onClick={handleEditClick}
       >
         {isEditMode ? (
-          <>
-            <img
-              src="/assets/save-icon.png"
-              alt="save-icon"
-              className="btn-icon"
-              onError={(e) => (e.currentTarget.style.display = "none")}
-            />
-            SAVE
-          </>
+          <>SAVE</>
         ) : (
           <>
-            <img
-              src="/assets/pencil.png"
-              alt="edit-icon"
-              className="btn-icon"
-            />
+            <img src={pencilIcon} alt="edit-icon" className="btn-icon" />
             EDIT
           </>
         )}

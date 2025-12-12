@@ -1,4 +1,5 @@
 import React from "react";
+import searchIcon from "../../public/assets/search-icon.png";
 
 interface BasicSearchInputProps {
   basicSearchQuery: string;
@@ -6,7 +7,11 @@ interface BasicSearchInputProps {
   handleBasicSearch: (e: React.FormEvent) => void;
 }
 
-const BasicSearchInput: React.FC<BasicSearchInputProps> = ({ basicSearchQuery, setBasicSearchQuery, handleBasicSearch }) => (
+const BasicSearchInput: React.FC<BasicSearchInputProps> = ({
+  basicSearchQuery,
+  setBasicSearchQuery,
+  handleBasicSearch,
+}) => (
   <div className="search-input-and-button-wrapper" id="basic-search-wrapper">
     <div className="search-input-wrapper">
       <input
@@ -18,11 +23,7 @@ const BasicSearchInput: React.FC<BasicSearchInputProps> = ({ basicSearchQuery, s
         onChange={(e) => setBasicSearchQuery(e.target.value)}
         onKeyPress={(e) => e.key === "Enter" && handleBasicSearch(e)}
       />
-      <img
-        src="/assets/search-icon.png"
-        alt="search-icon"
-        className="search-icon"
-      />
+      <img src={searchIcon} alt="search-icon" className="search-icon" />
     </div>
     <div className="search-btn-wrapper">
       <button

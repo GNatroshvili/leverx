@@ -1,4 +1,5 @@
 import React from "react";
+import NotFoundImage from "../../public/assets/not-found.png";
 
 const EmptyEmployeesWrapper: React.FC = () => (
   <div className="empty-employees-wrapper">
