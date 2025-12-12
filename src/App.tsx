@@ -1,27 +1,22 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
-import MainPage from "./pages/MainPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EmployeeDetailsPage from "./pages/employees/EmployeeDetailsPage";
-import SettingsPage from "./pages/SettingsPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./components/PrivateRoute";
+import AuthPageComponent from "./pages/AuthPage/AuthPage";
+import Main from "./pages/MainPage/Main";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import Settings from "./pages/SettingsPage/Settings";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<AuthPageComponent />} />
         <Route
           path="/main"
           element={
             <PrivateRoute>
-              <MainPage />
+              <Main />
             </PrivateRoute>
           }
         />
@@ -37,7 +32,7 @@ const App: React.FC = () => {
           path="/settings"
           element={
             <PrivateRoute>
-              <SettingsPage />
+              <Settings />
             </PrivateRoute>
           }
         />

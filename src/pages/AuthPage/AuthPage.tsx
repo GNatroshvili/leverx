@@ -4,10 +4,10 @@ import { API_BASE_URL, setStoredUser, getStoredUser } from "../../utils/auth";
 import "../../../styles/scss/reset.scss";
 import "../../../styles/scss/layout.scss";
 import "../../../styles/scss/header.scss";
-import Header from "../Header/Header";
-import AuthTabs from "./AuthTabs";
-import SignUpForm from "./SignUpForm";
-import SignInForm from "./SignInForm";
+import Header from "../../components/Header/Header";
+import AuthTabs from "../../components/Auth/AuthTabs";
+import SignUpForm from "../../components/Auth/SignUpForm";
+import SignInForm from "../../components/Auth/SignInForm";
 import "../../../styles/scss/authorization.scss";
 
 const AuthPage: React.FC = () => {

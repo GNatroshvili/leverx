@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Header from "../Header/Header";
+import Header from "../../components/Header/Header";
 import { API_BASE_URL, getStoredUser } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
-import EmployeeManage from "./EmployeeManage";
-import EmptyEmployeesWrapper from "./EmptyEmployeesWrapper";
-import EmployeeCardsWrapper from "./EmployeeCardsWrapper";
-import EmployeeHeader from "./EmployeeHeader";
-import EmployeeListCardsWrapper from "./EmployeeListCardsWrapper";
-import MobileSearchWrapper from "./MobileSearchWrapper";
-import SearchWrapper from "./SearchWrapper";
+import EmployeeManage from "../../components/Main/EmployeeManage";
+import EmptyEmployeesWrapper from "../../components/Main/EmptyEmployeesWrapper";
+import EmployeeCardsWrapper from "../../components/Main/EmployeeCardsWrapper";
+import EmployeeHeader from "../../components/Main/EmployeeHeader";
+import EmployeeListCardsWrapper from "../../components/Main/EmployeeListCardsWrapper";
+import MobileSearchWrapper from "../../components/Main/MobileSearchWrapper";
+import SearchWrapper from "../../components/Main/SearchWrapper";
 import "../../../styles/scss/reset.scss";
 import "../../../styles/scss/layout.scss";
 import "../../../styles/scss/header.scss";
@@ -76,7 +76,8 @@ const Main: React.FC = () => {
         department: searchParams.get("department") || "",
       };
       setAdvancedSearch(advParams);
-      if (Object.values(advParams).some((v) => v)) performAdvancedSearch(advParams, employees);
+      if (Object.values(advParams).some((v) => v))
+        performAdvancedSearch(advParams, employees);
     }
   }, [searchParams, employees]);
 
@@ -84,7 +85,8 @@ const Main: React.FC = () => {
     try {
       const response = await fetch(`${API_BASE_URL}/employees`);
       const data = await response.json();
-      if (!data.success) throw new Error(data.message || "Failed to fetch employees");
+      if (!data.success)
+        throw new Error(data.message || "Failed to fetch employees");
       const empList: Employee[] = data.employees;
       setEmployees(empList);
       setFilteredEmployees(empList);
@@ -100,7 +102,10 @@ const Main: React.FC = () => {
     }
   };
 
-  const performBasicSearch = (query: string, empList: Employee[] = employees) => {
+  const performBasicSearch = (
+    query: string,
+    empList: Employee[] = employees
+  ) => {
     if (!query.trim()) {
       setFilteredEmployees(empList);
       return;
@@ -121,7 +126,10 @@ const Main: React.FC = () => {
     setFilteredEmployees(filtered);
   };
 
-  const performAdvancedSearch = (params: AdvancedSearchParams, empList: Employee[] = employees) => {
+  const performAdvancedSearch = (
+    params: AdvancedSearchParams,
+    empList: Employee[] = employees
+  ) => {
     const filtered = empList.filter((emp) => {
       const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase();
       const email = emp.email.toLowerCase();
@@ -135,12 +143,18 @@ const Main: React.FC = () => {
         fullName.includes(params.name.toLowerCase()) ||
         emp.first_name.toLowerCase().includes(params.name.toLowerCase()) ||
         emp.last_name.toLowerCase().includes(params.name.toLowerCase());
-      const emailMatch = !params.email || email.includes(params.email.toLowerCase());
-      const phoneMatch = !params.phone || phone.includes(params.phone.toLowerCase());
-      const skypeMatch = !params.skype || skype.includes(params.skype.toLowerCase());
-      const buildingMatch = !params.building || building === params.building.toLowerCase();
-      const roomMatch = !params.room || room.includes(params.room.toLowerCase());
-      const departmentMatch = !params.department || department === params.department.toLowerCase();
+      const emailMatch =
+        !params.email || email.includes(params.email.toLowerCase());
+      const phoneMatch =
+        !params.phone || phone.includes(params.phone.toLowerCase());
+      const skypeMatch =
+        !params.skype || skype.includes(params.skype.toLowerCase());
+      const buildingMatch =
+        !params.building || building === params.building.toLowerCase();
+      const roomMatch =
+        !params.room || room.includes(params.room.toLowerCase());
+      const departmentMatch =
+        !params.department || department === params.department.toLowerCase();
       return (
         nameMatch &&
         emailMatch &&
@@ -218,18 +232,16 @@ const Main: React.FC = () => {
                 onEmployeeClick={handleEmployeeClick}
               />
             )
+          ) : filteredEmployees.length === 0 ? (
+            <EmptyEmployeesWrapper />
           ) : (
-            filteredEmployees.length === 0 ? (
-              <EmptyEmployeesWrapper />
-            ) : (
-              <>
-                <EmployeeHeader />
-                <EmployeeListCardsWrapper
-                  employees={filteredEmployees}
-                  onEmployeeClick={handleEmployeeClick}
-                />
-              </>
-            )
+            <>
+              <EmployeeHeader />
+              <EmployeeListCardsWrapper
+                employees={filteredEmployees}
+                onEmployeeClick={handleEmployeeClick}
+              />
+            </>
           )}
         </div>
       </div>

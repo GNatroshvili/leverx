@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Header from "../Header/Header";
+import Header from "../../components/Header/Header";
 import {
   getStoredUser,
   API_BASE_URL,
   isAdmin as checkIsAdmin,
 } from "../../utils/auth";
 import type { Employee, User } from "../../utils/auth";
-import SettingCardWrapper from "./SettingCardWrapper";
-import EmployeeCardWrapper from "./EmployeeCardWrapper";
+import SettingCardWrapper from "../../components/Settings/SettingCardWrapper";
+import EmployeeCardWrapper from "../../components/Settings/EmployeeCardWrapper";
 import "../../../styles/scss/reset.scss";
 import "../../../styles/scss/layout.scss";
 import "../../../styles/scss/settings.scss";
@@ -89,26 +89,14 @@ const Settings: React.FC = () => {
     }
     setEmployees(
       allEmployees.filter((emp) => {
-        const first = (
-          emp.first_name ||
-          (emp as any).firstName ||
-          ""
-        )
+        const first = (emp.first_name || (emp as any).firstName || "")
           .toString()
           .toLowerCase();
-        const last = (
-          emp.last_name ||
-          (emp as any).lastName ||
-          ""
-        )
+        const last = (emp.last_name || (emp as any).lastName || "")
           .toString()
           .toLowerCase();
         const full = `${first} ${last}`.trim();
-        return (
-          first.includes(q) ||
-          last.includes(q) ||
-          full.includes(q)
-        );
+        return first.includes(q) || last.includes(q) || full.includes(q);
       })
     );
   };
@@ -116,10 +104,16 @@ const Settings: React.FC = () => {
   const currentIsAdmin = checkIsAdmin();
 
   const employeeCards = employees.map((emp, i) => {
-    const firstName = (emp.first_name || (emp as any).firstName || "") as string;
+    const firstName = (emp.first_name ||
+      (emp as any).firstName ||
+      "") as string;
     const lastName = (emp.last_name || (emp as any).lastName || "") as string;
-    const avatarRaw = (emp.user_avatar || (emp as any).photo || "/assets/default-avatar.jpg") as string;
-    const avatar = avatarRaw.startsWith("http") ? avatarRaw : avatarRaw.replace(/^\.?\//, "/");
+    const avatarRaw = (emp.user_avatar ||
+      (emp as any).photo ||
+      "/assets/default-avatar.jpg") as string;
+    const avatar = avatarRaw.startsWith("http")
+      ? avatarRaw
+      : avatarRaw.replace(/^\.?\//, "/");
     const role = emp.role || "employee";
     const isAdmin = !!emp.isAdmin;
     const employeeId = (emp._id || (emp as any).id) as string;
