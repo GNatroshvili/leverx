@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  getStoredUser,
   clearStoredUser,
   isAdmin as checkIsAdmin,
 } from "../../utils/auth";
@@ -26,7 +25,6 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const user = getStoredUser();
   const isUserAdmin = checkIsAdmin();
 
   const handleLogout = () => {
