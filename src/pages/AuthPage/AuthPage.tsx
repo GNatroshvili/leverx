@@ -16,11 +16,13 @@ const AuthPage: React.FC = () => {
   const [signinEmail, setSigninEmail] = useState("");
   const [signinPassword, setSigninPassword] = useState("");
   const [signinRemember, setSigninRemember] = useState(false);
+  const [signinError, setSigninError] = useState<string | null>(null);
   const [signupFirstName, setSignupFirstName] = useState("");
   const [signupLastName, setSignupLastName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPhone, setSignupPhone] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+  const [signupError, setSignupError] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -32,7 +34,7 @@ const AuthPage: React.FC = () => {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setSigninError(null);
     try {
       const response = await fetch(`${API_BASE_URL}/sign-in`, {
         method: "POST",
@@ -44,9 +46,7 @@ const AuthPage: React.FC = () => {
           password: signinPassword,
         }),
       });
-
       const data = await response.json();
-
       if (data.success) {
         const user = {
           email: data.user.email,
@@ -57,21 +57,44 @@ const AuthPage: React.FC = () => {
           isAdmin: data.user.isAdmin || false,
           role: data.user.role || "employee",
         };
-
         setStoredUser(user, signinRemember);
         navigate("/main");
       } else {
-        alert(data.message || "Sign in failed");
+        setSigninError("Invalid credentials");
       }
     } catch (error) {
       console.error("Sign in error:", error);
-      alert("An error occurred during sign in");
+      setSigninError("Invalid credentials");
     }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setSignupError(null);
+    // client-side validation
+    if (signupFirstName.trim().length < 2) {
+      setSignupError("First name must be at least 2 characters.");
+      return;
+    }
+    if (signupLastName.trim().length < 2) {
+      setSignupError("Last name must be at least 2 characters.");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(signupEmail)) {
+      setSignupError("Please enter a valid email address.");
+      return;
+    }
+    const phoneDigits = signupPhone.replace(/\D/g, "");
+    if (phoneDigits.length < 4) {
+      setSignupError("Phone number must be at least 4 digits.");
+      return;
+    }
+    const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
+    if (!passwordRegex.test(signupPassword)) {
+      setSignupError("Password must be at least 8 characters and contain at least one uppercase letter.");
+      return;
+    }
     try {
       const response = await fetch(`${API_BASE_URL}/sign-up`, {
         method: "POST",
@@ -86,9 +109,7 @@ const AuthPage: React.FC = () => {
           phone: signupPhone,
         }),
       });
-
       const data = await response.json();
-
       if (data.success) {
         const user = {
           email: data.user.email,
@@ -99,15 +120,14 @@ const AuthPage: React.FC = () => {
           isAdmin: data.user.isAdmin || false,
           role: data.user.role || "employee",
         };
-
         setStoredUser(user, false);
         navigate("/main");
       } else {
-        alert(data.message || "Sign up failed");
+        setSignupError(data.message || "Sign up failed");
       }
     } catch (error) {
       console.error("Sign up error:", error);
-      alert("An error occurred during sign up");
+      setSignupError("An error occurred during sign up");
     }
   };
 
@@ -126,6 +146,7 @@ const AuthPage: React.FC = () => {
               signinRemember={signinRemember}
               setSigninRemember={setSigninRemember}
               handleSignIn={handleSignIn}
+              signinError={signinError}
             />
           )}
           {activeTab === "signup" && (
@@ -141,6 +162,7 @@ const AuthPage: React.FC = () => {
               signupPassword={signupPassword}
               setSignupPassword={setSignupPassword}
               handleSignUp={handleSignUp}
+              signupError={signupError}
             />
           )}
         </div>

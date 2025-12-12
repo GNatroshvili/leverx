@@ -8,6 +8,7 @@ interface SignInFormProps {
   signinRemember: boolean;
   setSigninRemember: (remember: boolean) => void;
   handleSignIn: (e: React.FormEvent) => void;
+  signinError?: string | null;
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({
@@ -18,9 +19,15 @@ const SignInForm: React.FC<SignInFormProps> = ({
   signinRemember,
   setSigninRemember,
   handleSignIn,
+  signinError,
 }) => (
   <div className="auth-form-wrapper">
     <form className="auth-form" onSubmit={handleSignIn}>
+      {signinError && (
+        <div className="form-error" style={{ color: 'red', marginBottom: 8 }}>
+          {signinError}
+        </div>
+      )}
       <div className="form-group">
         <label className="input-label" htmlFor="signin-email">
           Email

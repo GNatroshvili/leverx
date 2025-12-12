@@ -232,11 +232,44 @@ app.post("/sign-up", async (req, res) => {
   try {
     const { email, password, firstName, lastName, phone } = req.body;
 
-    // validate required fields
+    // validate required fields and input formats
     if (!email || !password || !firstName || !lastName || !phone) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
+      });
+    }
+    if (typeof firstName !== 'string' || firstName.trim().length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "First name must be at least 2 characters.",
+      });
+    }
+    if (typeof lastName !== 'string' || lastName.trim().length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "Last name must be at least 2 characters.",
+      });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter a valid email address.",
+      });
+    }
+    const phoneDigits = String(phone).replace(/\D/g, "");
+    if (phoneDigits.length < 4) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number must be at least 4 digits.",
+      });
+    }
+    const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 8 characters and contain at least one uppercase letter.",
       });
     }
 
@@ -312,11 +345,24 @@ app.post("/sign-in", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // validate required fields
+    // validate required fields and input formats
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: "Email and password are required",
+      });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter a valid email address.",
+      });
+    }
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 8 characters.",
       });
     }
 

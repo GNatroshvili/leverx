@@ -12,6 +12,7 @@ interface SignUpFormProps {
   signupPassword: string;
   setSignupPassword: (password: string) => void;
   handleSignUp: (e: React.FormEvent) => void;
+  signupError?: string | null;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({
@@ -26,9 +27,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   signupPassword,
   setSignupPassword,
   handleSignUp,
+  signupError,
 }) => (
   <div className="auth-form-wrapper">
     <form className="auth-form" onSubmit={handleSignUp}>
+      {signupError && (
+        <div className="form-error" style={{ color: 'red', marginBottom: 8 }}>
+          {signupError}
+        </div>
+      )}
       <div className="form-group">
         <label className="input-label" htmlFor="signup-firstname">
           First Name
