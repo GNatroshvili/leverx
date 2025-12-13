@@ -1,6 +1,35 @@
 # LeverX Employee Services — Address Book
 
-This repository contains an employee directory application: a small Express + SQLite backend and a TypeScript + SCSS frontend bundled with Webpack. It supports user registration/authentication, role-based access control (admin/manager/employee), in-place editing, and an advanced searchable UI with dark mode support.
+This repository contains an employee directory application: a small Express + SQLite backend and a TypeScript + SCSS + React frontend bundled with Webpack. It supports user registration/authentication, role-based access control (admin/manager/employee), in-place editing, and an advanced searchable UI with dark mode support.
+
+---
+
+## What Was Added / Migration to React
+
+This project was migrated to use React for the frontend. The following steps were performed:
+
+1. **Prepare project:**
+
+- Installed React and React-DOM.
+- Installed React Router for client-side routing.
+- Installed Babel, necessary presets, and plugins to transpile JSX to JavaScript.
+- Set up Babel configuration for JSX/ES6+ support.
+
+2. **Update project structure:**
+
+- Created a new `src` folder for React source code.
+- Created a new `public` folder for static assets.
+- Cleaned up `index.html` to only include the root div with an ID for React mounting.
+
+3. **Componentization:**
+
+- Broke existing pages into modular React components.
+
+**Advanced Feature:**
+
+- Instead of Vite, Webpack is used for bundling and development.
+
+---
 
 ---
 
@@ -71,53 +100,64 @@ Server enforces permissions. When `manager_id` is updated the server also looks 
 
 ---
 
-## Local Development — Step by step
+## Getting Started — How to Run the Project
 
-Prerequisites: Node.js (14+ or compatible), npm.
+**Prerequisites:**
 
-1. Clone & open project
+- Node.js (v14+ or compatible)
+- npm (comes with Node.js)
+
+### 1. Clone the repository
 
 ```bash
 git clone https://frontend-course-2025-gitlab.codelx.dev/fe/gigi-natroshvili
 cd gigi-natroshvili
 ```
 
-2. Install frontend/build deps (root)
+### 2. Install frontend dependencies (from project root)
 
 ```bash
 npm install
 ```
 
-3. Install backend deps & run the API server
+### 3. Install backend dependencies & run the server
 
 ```bash
 cd server
 npm install
-# Run server (production):
-npm start
-# Run server in dev mode (auto-reload):
+# To run the server:
 npm run dev
+
+
+
 ```
 
-Backend listens on: `http://localhost:3000`
+The backend API will be available at: [http://localhost:3000](http://localhost:3000)
 
-4. Start frontend dev server (root)
+### 4. Start the frontend (React) development server
+
+Open a new terminal and return to the project root:
 
 ```bash
-# back in project root
+cd .. # if you are still in the server directory
+npm i
 npm run dev
 ```
 
-This runs `webpack serve`. Default dev port is typically `8080` (unless overridden). Open the UI at:
+This will start the Webpack dev server (default: [http://localhost:8080](http://localhost:8080)).
 
-- `http://localhost:8080` — webpack dev server
-- Alternatively use a static server (Five Server / Live Server) to open `index.html`, e.g. `http://localhost:5500`.
+Open your browser and navigate to [http://localhost:8080](http://localhost:8080) to use the app.
 
-Notes:
+**Notes:**
 
 - The frontend expects the backend API at `http://localhost:3000` by default.
-- If you need both frontend + backend to run together automatically, I can add a convenience npm script or `concurrently` setup.
+- If you want to run both frontend and backend together automatically, consider using a tool like `concurrently` or a custom npm script.
 
+---
+
+#to test admin features i will add admin account
+email: gigi.natroshvili@gmail.com
+password: Admin123
 ---
 
 ## Build (production)
