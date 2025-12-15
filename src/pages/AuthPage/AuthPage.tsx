@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL, setStoredUser, getStoredUser } from "../../utils/auth";
+import { setStoredUser, getStoredUser } from "../../utils/auth";
+import { useSignInMutation, useSignUpMutation } from "../../store/api";
 import Header from "../../components/Header/Header";
 import AuthTabs from "../../components/Auth/AuthTabs";
 import SignUpForm from "../../components/Auth/SignUpForm";
@@ -32,21 +33,17 @@ const AuthPage: React.FC = () => {
     }
   }, [navigate]);
 
+  const [signIn] = useSignInMutation();
+  const [signUp] = useSignUpMutation();
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setSigninError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/sign-in`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: signinEmail,
-          password: signinPassword,
-        }),
-      });
-      const data = await response.json();
+      const data = await signIn({
+        email: signinEmail,
+        password: signinPassword,
+      }).unwrap();
       if (data.success) {
         const user = {
           email: data.user.email,
@@ -63,7 +60,6 @@ const AuthPage: React.FC = () => {
         setSigninError("Invalid credentials");
       }
     } catch (error) {
-      console.error("Sign in error:", error);
       setSigninError("Invalid credentials");
     }
   };
@@ -92,24 +88,19 @@ const AuthPage: React.FC = () => {
     }
     const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
     if (!passwordRegex.test(signupPassword)) {
-      setSignupError("Password must be at least 8 characters and contain at least one uppercase letter.");
+      setSignupError(
+        "Password must be at least 8 characters and contain at least one uppercase letter."
+      );
       return;
     }
     try {
-      const response = await fetch(`${API_BASE_URL}/sign-up`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: signupEmail,
-          password: signupPassword,
-          firstName: signupFirstName,
-          lastName: signupLastName,
-          phone: signupPhone,
-        }),
-      });
-      const data = await response.json();
+      const data = await signUp({
+        email: signupEmail,
+        password: signupPassword,
+        firstName: signupFirstName,
+        lastName: signupLastName,
+        phone: signupPhone,
+      }).unwrap();
       if (data.success) {
         const user = {
           email: data.user.email,
@@ -125,9 +116,10 @@ const AuthPage: React.FC = () => {
       } else {
         setSignupError(data.message || "Sign up failed");
       }
-    } catch (error) {
-      console.error("Sign up error:", error);
-      setSignupError("An error occurred during sign up");
+    } catch (error: any) {
+      setSignupError(
+        error?.data?.message || "An error occurred during sign up"
+      );
     }
   };
 

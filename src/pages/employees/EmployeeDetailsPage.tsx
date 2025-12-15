@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import EmployeeDetails from "../../components/EmployeeDetails/EmployeeDetails";
-import { getStoredUser, API_BASE_URL } from "../../utils/auth";
+import { getStoredUser } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
+import { useGetUsersQuery } from "../../store/api";
 import "../../components/EmployeeDetails/employee-details.scss";
 import "../../components/Header/header.scss";
 import "../../layout.css";
@@ -12,32 +13,20 @@ import "../../index.css";
 const EmployeeDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState<Employee | null>(null);
-
+  const { data } = useGetUsersQuery();
   useEffect(() => {
     const user = getStoredUser();
     if (!user) {
       navigate("/");
       return;
     }
-
-    // Fetch current user data if needed
-    const fetchCurrentUser = async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/users`);
-        const data = await response.json();
-        if (data.success) {
-          const loggedInUser = data.employees.find(
-            (emp: Employee) => emp.email === user.email
-          );
-          setCurrentUser(loggedInUser || null);
-        }
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
-    };
-
-    fetchCurrentUser();
-  }, [navigate]);
+    if (data && data.success) {
+      const loggedInUser = data.employees.find(
+        (emp: Employee) => emp.email === user.email
+      );
+      setCurrentUser(loggedInUser || null);
+    }
+  }, [navigate, data]);
 
   const currentUserInfo = currentUser
     ? {

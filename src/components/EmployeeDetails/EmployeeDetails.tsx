@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  API_BASE_URL,
-  getStoredUser,
-  formatDateOfBirth,
-} from "../../utils/auth";
+import { getStoredUser, formatDateOfBirth } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
 import type { EditFormData } from "./types";
+import { useGetUsersQuery, useUpdateUserMutation } from "../../store/api";
 import CurrentUserAvatar from "./CurrentUserAvatar";
 import EmployeeFullNameWrapper from "./EmployeeFullNameWrapper";
 import CopyLinkBtn from "./CopyLinkBtn";
@@ -51,53 +48,34 @@ const EmployeeDetails: React.FC = () => {
     visa2_end_date: "",
   });
 
+  const { data, isLoading, error } = useGetUsersQuery();
+  const [updateUser] = useUpdateUserMutation();
+
   useEffect(() => {
     const user = getStoredUser();
     if (!user) {
       navigate("/");
       return;
     }
-
-    fetchEmployees();
-  }, [id, navigate]);
-
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users`);
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error(data.message || "Failed to fetch employees");
-      }
-
+    if (data && data.success) {
       const employees: Employee[] = data.employees;
-
-      // filter managers for dropdown
       const managerList = employees.filter(
         (emp: any) => emp.role === "manager"
       );
       setManagers(managerList);
-
-      // here find logged-in user
-      const user = getStoredUser();
-      if (user) {
-        const loggedInUser = employees.find((emp) => emp.email === user.email);
-
-        if (id) {
-          const employee = employees.find((emp) => emp._id === id);
-          if (employee) {
-            setCurrentEmployee(employee);
-            setCanEdit(determineEditAccess(employee, loggedInUser, user));
-            initializeFormData(employee);
-          } else {
-            navigate("/404");
-          }
+      const loggedInUser = employees.find((emp) => emp.email === user.email);
+      if (id) {
+        const employee = employees.find((emp) => emp._id === id);
+        if (employee) {
+          setCurrentEmployee(employee);
+          setCanEdit(determineEditAccess(employee, loggedInUser, user));
+          initializeFormData(employee);
+        } else {
+          navigate("/404");
         }
       }
-    } catch (error) {
-      console.error("Error loading employee data:", error);
     }
-  };
+  }, [id, navigate, data]);
 
   const initializeFormData = (employee: Employee) => {
     const emp = employee as any;
@@ -145,11 +123,13 @@ const EmployeeDetails: React.FC = () => {
         employee.citizenship === "N/A" ? "" : employee.citizenship || "",
       visa1_issuing_country: employee.visa?.[0]?.issuing_country || "",
       visa1_type: employee.visa?.[0]?.type || "",
-      visa1_start_date: timestampToDateString(employee.visa?.[0]?.start_date) || "",
+      visa1_start_date:
+        timestampToDateString(employee.visa?.[0]?.start_date) || "",
       visa1_end_date: timestampToDateString(employee.visa?.[0]?.end_date) || "",
       visa2_issuing_country: employee.visa?.[1]?.issuing_country || "",
       visa2_type: employee.visa?.[1]?.type || "",
-      visa2_start_date: timestampToDateString(employee.visa?.[1]?.start_date) || "",
+      visa2_start_date:
+        timestampToDateString(employee.visa?.[1]?.start_date) || "",
       visa2_end_date: timestampToDateString(employee.visa?.[1]?.end_date) || "",
     });
   };
@@ -363,7 +343,9 @@ const EmployeeDetails: React.FC = () => {
       updates.visa1_type = formData.visa1_type || null;
     }
     if (formData.visa1_start_date !== origVisa1Start) {
-      updates.visa1_start_date = dateStringToTimestamp(formData.visa1_start_date);
+      updates.visa1_start_date = dateStringToTimestamp(
+        formData.visa1_start_date
+      );
     }
     if (formData.visa1_end_date !== origVisa1End) {
       updates.visa1_end_date = dateStringToTimestamp(formData.visa1_end_date);
@@ -386,7 +368,9 @@ const EmployeeDetails: React.FC = () => {
       updates.visa2_type = formData.visa2_type || null;
     }
     if (formData.visa2_start_date !== origVisa2Start) {
-      updates.visa2_start_date = dateStringToTimestamp(formData.visa2_start_date);
+      updates.visa2_start_date = dateStringToTimestamp(
+        formData.visa2_start_date
+      );
     }
     if (formData.visa2_end_date !== origVisa2End) {
       updates.visa2_end_date = dateStringToTimestamp(formData.visa2_end_date);
@@ -399,39 +383,21 @@ const EmployeeDetails: React.FC = () => {
     }
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/users/${currentEmployee._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            updates,
-            requestingUserEmail: user?.email,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
+      const result = await updateUser({
+        id: currentEmployee._id,
+        updates,
+        requestingUserEmail: user?.email || "",
+      }).unwrap();
+      if (result.success) {
         alert("Changes saved successfully!");
-        // here i am reloading employee data
-        const employeeResponse = await fetch(
-          `${API_BASE_URL}/users/${currentEmployee._id}`
-        );
-        const employeeData = await employeeResponse.json();
-        if (employeeData.success) {
-          setCurrentEmployee(employeeData.employee);
-          initializeFormData(employeeData.employee);
-          setIsEditMode(false);
-        }
+        // update local state
+        setCurrentEmployee(result.employee);
+        initializeFormData(result.employee);
+        setIsEditMode(false);
       } else {
-        alert(data.message || "Failed to save changes");
+        alert(result.message || "Failed to save changes");
       }
     } catch (error) {
-      console.error("Error saving changes:", error);
       alert("Failed to save changes. Please try again.");
     }
   };

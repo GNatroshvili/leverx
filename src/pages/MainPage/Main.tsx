@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useGetUsersQuery } from "../../store/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { API_BASE_URL, getStoredUser } from "../../utils/auth";
@@ -31,6 +32,7 @@ interface AdvancedSearchParams {
 const Main: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { data } = useGetUsersQuery();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [currentUser, setCurrentUser] = useState<Employee | null>(null);
@@ -55,8 +57,25 @@ const Main: React.FC = () => {
       navigate("/");
       return;
     }
-    fetchEmployees();
-  }, [navigate]);
+    if (data && data.success) {
+      setEmployees(data.employees);
+      setFilteredEmployees(data.employees);
+      const loggedInUser = data.employees.find(
+        (emp: Employee) => emp.email === user.email
+      );
+      setCurrentUser(loggedInUser || null);
+      setBuildings(
+        Array.from(
+          new Set(data.employees.map((emp: Employee) => String(emp.building)))
+        ) as string[]
+      );
+      setDepartments(
+        Array.from(
+          new Set(data.employees.map((emp: Employee) => String(emp.department)))
+        ) as string[]
+      );
+    }
+  }, [navigate, data]);
 
   useEffect(() => {
     const mode = searchParams.get("mode") || "basic";
@@ -80,27 +99,6 @@ const Main: React.FC = () => {
         performAdvancedSearch(advParams, employees);
     }
   }, [searchParams, employees]);
-
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/users`);
-      const data = await response.json();
-      if (!data.success)
-        throw new Error(data.message || "Failed to fetch employees");
-      const empList: Employee[] = data.employees;
-      setEmployees(empList);
-      setFilteredEmployees(empList);
-      const user = getStoredUser();
-      if (user) {
-        const loggedInUser = empList.find((emp) => emp.email === user.email);
-        setCurrentUser(loggedInUser || null);
-      }
-      setBuildings([...new Set(empList.map((emp) => emp.building))]);
-      setDepartments([...new Set(empList.map((emp) => emp.department))]);
-    } catch (error) {
-      console.error("Error loading employees:", error);
-    }
-  };
 
   const performBasicSearch = (
     query: string,

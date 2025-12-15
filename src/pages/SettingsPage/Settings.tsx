@@ -1,43 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import {
-  getStoredUser,
-  API_BASE_URL,
-  isAdmin as checkIsAdmin,
-} from "../../utils/auth";
+import { getStoredUser, isAdmin as checkIsAdmin } from "../../utils/auth";
 import type { Employee, User } from "../../utils/auth";
 import SettingCardWrapper from "../../components/Settings/SettingCardWrapper";
 import EmployeeCardWrapper from "../../components/Settings/EmployeeCardWrapper";
+import { useGetUsersQuery, useUpdateUserRoleMutation } from "../../store/api";
 import "../../layout.css";
 import "../../index.css";
 import "../../components/Settings/settings.scss";
 
 const Settings: React.FC = () => {
   const stored = getStoredUser() as User | null;
+  const { data, isLoading, error } = useGetUsersQuery();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [updateUserRole] = useUpdateUserRoleMutation();
 
   useEffect(() => {
-    const load = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(`${API_BASE_URL}/users`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        const list: Employee[] = data.employees || data;
-        setEmployees(list);
-        setAllEmployees(list);
-      } catch (err: any) {
-        setError(err.message || "Failed to load employees");
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+    if (data && data.success) {
+      setEmployees(data.employees);
+      setAllEmployees(data.employees);
+    }
+  }, [data]);
 
   const updateEmployeeRole = async (
     employeeId: string,
@@ -50,16 +34,14 @@ const Settings: React.FC = () => {
       };
       if (role !== null) body.role = role;
       if (isAdmin !== null) body.isAdmin = isAdmin;
-
-      const res = await fetch(`${API_BASE_URL}/users/${employeeId}/role`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      if (!data.success)
-        throw new Error(data.message || "Failed to update role");
-
+      const result = await updateUserRole({
+        id: employeeId,
+        role: body.role,
+        isAdmin: body.isAdmin,
+        requestingUserEmail: body.requestingUserEmail,
+      }).unwrap();
+      if (!result.success)
+        throw new Error(result.message || "Failed to update role");
       setEmployees((prev) =>
         prev.map((emp) => {
           if ((emp._id || (emp as any).id) === employeeId) {
@@ -152,8 +134,16 @@ const Settings: React.FC = () => {
       )}
       <div className="container">
         <SettingCardWrapper
-          loading={loading}
-          error={error}
+          loading={isLoading}
+          error={
+            error
+              ? typeof error === "string"
+                ? error
+                : (error as any)?.data?.message ||
+                  (error as any)?.error ||
+                  "Failed to load employees"
+              : null
+          }
           employees={employeeCards}
           onSearchChange={handleSearchChange}
         />
