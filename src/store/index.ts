@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api";
 import userReducer from "./userSlice";
 import mainPageReducer from "./mainPageSlice";
+import employeeDetailsReducer from "./employeeDetailsSlice";
 import authPageReducer from "./authPageSlice";
 
 export const store = configureStore({
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     mainPage: mainPageReducer,
     authPage: authPageReducer,
+    employeeDetails: employeeDetailsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),

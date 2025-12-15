@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getStoredUser, formatDateOfBirth } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
 import type { EditFormData } from "./types";
 import { useGetUsersQuery, useUpdateUserMutation } from "../../store/api";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../store";
+import {
+  setCurrentEmployee,
+  setIsEditMode,
+  setCanEdit,
+  setManagers,
+  setFormData,
+  updateFormField,
+} from "../../store/employeeDetailsSlice";
 import CurrentUserAvatar from "./CurrentUserAvatar";
 import EmployeeFullNameWrapper from "./EmployeeFullNameWrapper";
 import CopyLinkBtn from "./CopyLinkBtn";
@@ -15,38 +25,9 @@ const EmployeeDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [currentEmployee, setCurrentEmployee] = useState<Employee | null>(null);
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [canEdit, setCanEdit] = useState(false);
-  const [managers, setManagers] = useState<Employee[]>([]);
-  const [formData, setFormData] = useState<EditFormData>({
-    first_name: "",
-    last_name: "",
-    first_native_name: "",
-    middle_native_name: "",
-    last_native_name: "",
-    department: "",
-    building: "",
-    room: "",
-    desk_number: "",
-    date_birth_year: "",
-    date_birth_month: "",
-    date_birth_day: "",
-    manager_id: "",
-    phone: "",
-    email: "",
-    skype: "",
-    cnumber: "",
-    citizenship: "",
-    visa1_issuing_country: "",
-    visa1_type: "",
-    visa1_start_date: "",
-    visa1_end_date: "",
-    visa2_issuing_country: "",
-    visa2_type: "",
-    visa2_start_date: "",
-    visa2_end_date: "",
-  });
+  const dispatch = useDispatch();
+  const { currentEmployee, isEditMode, canEdit, managers, formData } =
+    useSelector((state: RootState) => state.employeeDetails);
 
   const { data, isLoading, error } = useGetUsersQuery();
   const [updateUser] = useUpdateUserMutation();
@@ -62,35 +43,34 @@ const EmployeeDetails: React.FC = () => {
       const managerList = employees.filter(
         (emp: any) => emp.role === "manager"
       );
-      setManagers(managerList);
+      dispatch(setManagers(managerList));
       const loggedInUser = employees.find((emp) => emp.email === user.email);
       if (id) {
         const employee = employees.find((emp) => emp._id === id);
         if (employee) {
-          setCurrentEmployee(employee);
-          setCanEdit(determineEditAccess(employee, loggedInUser, user));
-          initializeFormData(employee);
+          dispatch(setCurrentEmployee(employee));
+          dispatch(
+            setCanEdit(determineEditAccess(employee, loggedInUser, user))
+          );
+          dispatch(setFormData(initializeFormData(employee)));
         } else {
           navigate("/404");
         }
       }
     }
-  }, [id, navigate, data]);
+  }, [id, navigate, data, dispatch]);
 
   const initializeFormData = (employee: Employee) => {
     const emp = employee as any;
     const dateBirth = emp.date_birth || emp.date_of_birth;
     const managerId = emp.manager?.id || emp.manager?._id || "";
-
-    // Helper to convert timestamp to date string for input
     const timestampToDateString = (timestamp: number | undefined): string => {
       if (!timestamp) return "";
       const date = new Date(timestamp);
       const dateStr = date.toISOString().split("T")[0];
       return dateStr || "";
     };
-
-    setFormData({
+    return {
       first_name: employee.first_name || "",
       last_name: employee.last_name || "",
       first_native_name:
@@ -131,7 +111,7 @@ const EmployeeDetails: React.FC = () => {
       visa2_start_date:
         timestampToDateString(employee.visa?.[1]?.start_date) || "",
       visa2_end_date: timestampToDateString(employee.visa?.[1]?.end_date) || "",
-    });
+    };
   };
 
   const determineEditAccess = (
@@ -174,21 +154,21 @@ const EmployeeDetails: React.FC = () => {
   };
 
   const handleInputChange = (field: keyof EditFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    dispatch(updateFormField({ field, value }));
   };
 
   const handleEditClick = () => {
     if (!isEditMode) {
-      setIsEditMode(true);
+      dispatch(setIsEditMode(true));
     } else {
       handleSave();
     }
   };
 
   const handleCancelEdit = () => {
-    setIsEditMode(false);
+    dispatch(setIsEditMode(false));
     if (currentEmployee) {
-      initializeFormData(currentEmployee);
+      dispatch(setFormData(initializeFormData(currentEmployee)));
     }
   };
 
@@ -390,10 +370,20 @@ const EmployeeDetails: React.FC = () => {
       }).unwrap();
       if (result.success) {
         alert("Changes saved successfully!");
-        // update local state
-        setCurrentEmployee(result.employee);
-        initializeFormData(result.employee);
-        setIsEditMode(false);
+        // update Redux store with new employee data
+        dispatch(setCurrentEmployee(result.employee));
+        // update managers list in case role changed
+        if (data && data.success) {
+          const employees: Employee[] = data.employees.map((emp: Employee) =>
+            emp._id === result.employee._id ? result.employee : emp
+          );
+          const managerList = employees.filter(
+            (emp: any) => emp.role === "manager"
+          );
+          dispatch(setManagers(managerList));
+        }
+        dispatch(setFormData(initializeFormData(result.employee)));
+        dispatch(setIsEditMode(false));
       } else {
         alert(result.message || "Failed to save changes");
       }
