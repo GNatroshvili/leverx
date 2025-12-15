@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setStoredUser, getStoredUser } from "../../utils/auth";
-import { useSignInMutation, useSignUpMutation } from "../../store/api";
+import { useSignInMutation, useSignUpMutation, api } from "../../store/api";
+import { useDispatch } from "react-redux";
 import Header from "../../components/Header/Header";
 import AuthTabs from "../../components/Auth/AuthTabs";
 import SignUpForm from "../../components/Auth/SignUpForm";
@@ -12,6 +13,7 @@ import "../../layout.css";
 import "../../index.css";
 
 const AuthPage: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [signinEmail, setSigninEmail] = useState("");
@@ -112,6 +114,8 @@ const AuthPage: React.FC = () => {
           role: data.user.role || "employee",
         };
         setStoredUser(user, false);
+        // invalidate users cache so main page fetches new list
+        dispatch(api.util.invalidateTags([{ type: "Users" }]));
         navigate("/main");
       } else {
         setSignupError(data.message || "Sign up failed");
