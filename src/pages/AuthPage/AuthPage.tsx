@@ -1,8 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setStoredUser, getStoredUser } from "../../utils/auth";
 import { useSignInMutation, useSignUpMutation, api } from "../../store/api";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../store";
+import {
+  setActiveTab,
+  setSigninEmail,
+  setSigninPassword,
+  setSigninRemember,
+  setSigninError,
+  setSignupFirstName,
+  setSignupLastName,
+  setSignupEmail,
+  setSignupPhone,
+  setSignupPassword,
+  setSignupError,
+  resetAuthPageState,
+} from "../../store/authPageSlice";
+import { setUser } from "../../store/userSlice";
 import Header from "../../components/Header/Header";
 import AuthTabs from "../../components/Auth/AuthTabs";
 import SignUpForm from "../../components/Auth/SignUpForm";
@@ -15,32 +31,35 @@ import "../../index.css";
 const AuthPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
-  const [signinEmail, setSigninEmail] = useState("");
-  const [signinPassword, setSigninPassword] = useState("");
-  const [signinRemember, setSigninRemember] = useState(false);
-  const [signinError, setSigninError] = useState<string | null>(null);
-  const [signupFirstName, setSignupFirstName] = useState("");
-  const [signupLastName, setSignupLastName] = useState("");
-  const [signupEmail, setSignupEmail] = useState("");
-  const [signupPhone, setSignupPhone] = useState("");
-  const [signupPassword, setSignupPassword] = useState("");
-  const [signupError, setSignupError] = useState<string | null>(null);
+  const {
+    activeTab,
+    signinEmail,
+    signinPassword,
+    signinRemember,
+    signinError,
+    signupFirstName,
+    signupLastName,
+    signupEmail,
+    signupPhone,
+    signupPassword,
+    signupError,
+  } = useSelector((state: RootState) => state.authPage);
 
   useEffect(() => {
     // Check if user is already logged in
     const user = getStoredUser();
     if (user) {
+      dispatch(setUser(user));
       navigate("/main");
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const [signIn] = useSignInMutation();
   const [signUp] = useSignUpMutation();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSigninError(null);
+    dispatch(setSigninError(null));
     try {
       const data = await signIn({
         email: signinEmail,
@@ -57,41 +76,45 @@ const AuthPage: React.FC = () => {
           role: data.user.role || "employee",
         };
         setStoredUser(user, signinRemember);
+        dispatch(setUser(user));
+        dispatch(resetAuthPageState());
         navigate("/main");
       } else {
-        setSigninError("Invalid credentials");
+        dispatch(setSigninError("Invalid credentials"));
       }
     } catch (error) {
-      setSigninError("Invalid credentials");
+      dispatch(setSigninError("Invalid credentials"));
     }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSignupError(null);
+    dispatch(setSignupError(null));
     // client-side validation
     if (signupFirstName.trim().length < 2) {
-      setSignupError("First name must be at least 2 characters.");
+      dispatch(setSignupError("First name must be at least 2 characters."));
       return;
     }
     if (signupLastName.trim().length < 2) {
-      setSignupError("Last name must be at least 2 characters.");
+      dispatch(setSignupError("Last name must be at least 2 characters."));
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(signupEmail)) {
-      setSignupError("Please enter a valid email address.");
+      dispatch(setSignupError("Please enter a valid email address."));
       return;
     }
     const phoneDigits = signupPhone.replace(/\D/g, "");
     if (phoneDigits.length < 4) {
-      setSignupError("Phone number must be at least 4 digits.");
+      dispatch(setSignupError("Phone number must be at least 4 digits."));
       return;
     }
     const passwordRegex = /^(?=.*[A-Z]).{8,}$/;
     if (!passwordRegex.test(signupPassword)) {
-      setSignupError(
-        "Password must be at least 8 characters and contain at least one uppercase letter."
+      dispatch(
+        setSignupError(
+          "Password must be at least 8 characters and contain at least one uppercase letter."
+        )
       );
       return;
     }
@@ -114,15 +137,19 @@ const AuthPage: React.FC = () => {
           role: data.user.role || "employee",
         };
         setStoredUser(user, false);
+        dispatch(setUser(user));
+        dispatch(resetAuthPageState());
         // invalidate users cache so main page fetches new list
         dispatch(api.util.invalidateTags([{ type: "Users" }]));
         navigate("/main");
       } else {
-        setSignupError(data.message || "Sign up failed");
+        dispatch(setSignupError(data.message || "Sign up failed"));
       }
     } catch (error: any) {
-      setSignupError(
-        error?.data?.message || "An error occurred during sign up"
+      dispatch(
+        setSignupError(
+          error?.data?.message || "An error occurred during sign up"
+        )
       );
     }
   };
@@ -132,15 +159,18 @@ const AuthPage: React.FC = () => {
       <Header showUserInfo={false} />
       <div className="auth-page-wrapper container">
         <div className="auth-container">
-          <AuthTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          <AuthTabs
+            activeTab={activeTab}
+            setActiveTab={(tab) => dispatch(setActiveTab(tab))}
+          />
           {activeTab === "signin" && (
             <SignInForm
               signinEmail={signinEmail}
-              setSigninEmail={setSigninEmail}
+              setSigninEmail={(v) => dispatch(setSigninEmail(v))}
               signinPassword={signinPassword}
-              setSigninPassword={setSigninPassword}
+              setSigninPassword={(v) => dispatch(setSigninPassword(v))}
               signinRemember={signinRemember}
-              setSigninRemember={setSigninRemember}
+              setSigninRemember={(v) => dispatch(setSigninRemember(v))}
               handleSignIn={handleSignIn}
               signinError={signinError}
             />
@@ -148,15 +178,15 @@ const AuthPage: React.FC = () => {
           {activeTab === "signup" && (
             <SignUpForm
               signupFirstName={signupFirstName}
-              setSignupFirstName={setSignupFirstName}
+              setSignupFirstName={(v) => dispatch(setSignupFirstName(v))}
               signupLastName={signupLastName}
-              setSignupLastName={setSignupLastName}
+              setSignupLastName={(v) => dispatch(setSignupLastName(v))}
               signupEmail={signupEmail}
-              setSignupEmail={setSignupEmail}
+              setSignupEmail={(v) => dispatch(setSignupEmail(v))}
               signupPhone={signupPhone}
-              setSignupPhone={setSignupPhone}
+              setSignupPhone={(v) => dispatch(setSignupPhone(v))}
               signupPassword={signupPassword}
-              setSignupPassword={setSignupPassword}
+              setSignupPassword={(v) => dispatch(setSignupPassword(v))}
               handleSignUp={handleSignUp}
               signupError={signupError}
             />
