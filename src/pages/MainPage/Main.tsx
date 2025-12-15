@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useGetUsersQuery } from "../../store/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
@@ -16,6 +16,20 @@ import "../../components/Header/header.scss";
 import "../../layout.css";
 import "../../index.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../store";
+import {
+  setCurrentUser,
+  setEmployees,
+  setFilteredEmployees,
+  setBuildings,
+  setDepartments,
+  setViewMode,
+  setSearchMode,
+  setBasicSearchQuery,
+  setAdvancedSearch,
+} from "../../store/mainPageSlice";
+
 type ViewMode = "grid" | "list";
 type SearchMode = "basic" | "advanced";
 
@@ -30,26 +44,62 @@ interface AdvancedSearchParams {
 }
 
 const Main: React.FC = () => {
+      // handler to update Redux state for view mode
+      const handleSetViewMode = (mode: "grid" | "list") => {
+        dispatch(setViewMode(mode));
+      };
+    // handlers to update Redux state for search inputs
+    const handleSetSearchMode = (mode: "basic" | "advanced") => {
+      dispatch(setSearchMode(mode));
+      // optionally reset search fields when switching modes
+      if (mode === "basic") {
+        dispatch(setAdvancedSearch({
+          name: "",
+          email: "",
+          phone: "",
+          skype: "",
+          building: "",
+          room: "",
+          department: "",
+        }));
+      } else {
+        dispatch(setBasicSearchQuery(""));
+      }
+    };
+
+    const handleSetBasicSearchQuery = (query: string) => {
+      dispatch(setBasicSearchQuery(query));
+    };
+
+    const handleSetAdvancedSearch = (params: any) => {
+      dispatch(setAdvancedSearch(params));
+    };
   const navigate = useNavigate();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useGetUsersQuery();
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
-  const [currentUser, setCurrentUser] = useState<Employee | null>(null);
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
-  const [searchMode, setSearchMode] = useState<SearchMode>("basic");
-  const [basicSearchQuery, setBasicSearchQuery] = useState("");
-  const [advancedSearch, setAdvancedSearch] = useState<AdvancedSearchParams>({
-    name: "",
-    email: "",
-    phone: "",
-    skype: "",
-    building: "",
-    room: "",
-    department: "",
-  });
-  const [buildings, setBuildings] = useState<string[]>([]);
-  const [departments, setDepartments] = useState<string[]>([]);
+  const dispatch = useDispatch();
+  const employees = useSelector((state: RootState) => state.mainPage.employees);
+  const filteredEmployees = useSelector(
+    (state: RootState) => state.mainPage.filteredEmployees
+  );
+  const currentUser = useSelector(
+    (state: RootState) => state.mainPage.currentUser
+  );
+  const viewMode = useSelector((state: RootState) => state.mainPage.viewMode);
+  const searchMode = useSelector(
+    (state: RootState) => state.mainPage.searchMode
+  );
+  const basicSearchQuery = useSelector(
+    (state: RootState) => state.mainPage.basicSearchQuery
+  );
+  const advancedSearch = useSelector(
+    (state: RootState) => state.mainPage.advancedSearch
+  );
+  const buildings = useSelector((state: RootState) => state.mainPage.buildings);
+  const departments = useSelector(
+    (state: RootState) => state.mainPage.departments
+  );
 
   useEffect(() => {
     const user = getStoredUser();
@@ -58,31 +108,37 @@ const Main: React.FC = () => {
       return;
     }
     if (data && data.success) {
-      setEmployees(data.employees);
-      setFilteredEmployees(data.employees);
+      dispatch(setEmployees(data.employees));
+      dispatch(setFilteredEmployees(data.employees));
       const loggedInUser = data.employees.find(
         (emp: Employee) => emp.email === user.email
       );
-      setCurrentUser(loggedInUser || null);
-      setBuildings(
-        Array.from(
-          new Set(data.employees.map((emp: Employee) => String(emp.building)))
-        ) as string[]
+      dispatch(setCurrentUser(loggedInUser || null));
+      dispatch(
+        setBuildings(
+          Array.from(
+            new Set(data.employees.map((emp: Employee) => String(emp.building)))
+          ) as string[]
+        )
       );
-      setDepartments(
-        Array.from(
-          new Set(data.employees.map((emp: Employee) => String(emp.department)))
-        ) as string[]
+      dispatch(
+        setDepartments(
+          Array.from(
+            new Set(
+              data.employees.map((emp: Employee) => String(emp.department))
+            )
+          ) as string[]
+        )
       );
     }
-  }, [navigate, data]);
+  }, [navigate, data, dispatch]);
 
   useEffect(() => {
     const mode = searchParams.get("mode") || "basic";
-    setSearchMode(mode as SearchMode);
+    dispatch(setSearchMode(mode as SearchMode));
     if (mode === "basic") {
       const query = searchParams.get("query") || "";
-      setBasicSearchQuery(query);
+      dispatch(setBasicSearchQuery(query));
       if (query) performBasicSearch(query, employees);
     } else if (mode === "advanced") {
       const advParams: AdvancedSearchParams = {
@@ -94,18 +150,18 @@ const Main: React.FC = () => {
         room: searchParams.get("room") || "",
         department: searchParams.get("department") || "",
       };
-      setAdvancedSearch(advParams);
+      dispatch(setAdvancedSearch(advParams));
       if (Object.values(advParams).some((v) => v))
         performAdvancedSearch(advParams, employees);
     }
-  }, [searchParams, employees]);
+  }, [searchParams, employees, dispatch]);
 
   const performBasicSearch = (
     query: string,
     empList: Employee[] = employees
   ) => {
     if (!query.trim()) {
-      setFilteredEmployees(empList);
+      dispatch(setFilteredEmployees(empList));
       return;
     }
     const searchTerm = query.toLowerCase().trim();
@@ -121,7 +177,7 @@ const Main: React.FC = () => {
         fullName.includes(searchTerm)
       );
     });
-    setFilteredEmployees(filtered);
+    dispatch(setFilteredEmployees(filtered));
   };
 
   const performAdvancedSearch = (
@@ -163,7 +219,7 @@ const Main: React.FC = () => {
         departmentMatch
       );
     });
-    setFilteredEmployees(filtered);
+    dispatch(setFilteredEmployees(filtered));
   };
 
   const handleBasicSearch = (e: React.FormEvent) => {
@@ -205,12 +261,12 @@ const Main: React.FC = () => {
       <div className="main-page-wrapper container">
         <SearchWrapper
           searchMode={searchMode}
-          setSearchMode={setSearchMode}
+          setSearchMode={handleSetSearchMode}
           basicSearchQuery={basicSearchQuery}
-          setBasicSearchQuery={setBasicSearchQuery}
+          setBasicSearchQuery={handleSetBasicSearchQuery}
           handleBasicSearch={handleBasicSearch}
           advancedSearch={advancedSearch}
-          setAdvancedSearch={setAdvancedSearch}
+          setAdvancedSearch={handleSetAdvancedSearch}
           buildings={buildings}
           departments={departments}
           handleAdvancedSearch={handleAdvancedSearch}
@@ -219,7 +275,7 @@ const Main: React.FC = () => {
           <EmployeeManage
             count={filteredEmployees.length}
             viewMode={viewMode}
-            setViewMode={setViewMode}
+            setViewMode={handleSetViewMode}
           />
           {viewMode === "grid" ? (
             filteredEmployees.length === 0 ? (

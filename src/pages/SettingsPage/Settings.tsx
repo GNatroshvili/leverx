@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "../../components/Header/Header";
 import { getStoredUser, isAdmin as checkIsAdmin } from "../../utils/auth";
 import type { Employee, User } from "../../utils/auth";
@@ -9,19 +9,27 @@ import "../../layout.css";
 import "../../index.css";
 import "../../components/Settings/settings.scss";
 
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../store";
+import { setEmployees, setFilteredEmployees } from "../../store/mainPageSlice";
+
 const Settings: React.FC = () => {
   const stored = getStoredUser() as User | null;
+
   const { data, isLoading, error } = useGetUsersQuery();
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
+  const dispatch = useDispatch();
+  const employees = useSelector((state: RootState) => state.mainPage.employees);
+  const allEmployees = useSelector(
+    (state: RootState) => state.mainPage.filteredEmployees
+  );
   const [updateUserRole] = useUpdateUserRoleMutation();
 
   useEffect(() => {
     if (data && data.success) {
-      setEmployees(data.employees);
-      setAllEmployees(data.employees);
+      dispatch(setEmployees(data.employees));
+      dispatch(setFilteredEmployees(data.employees));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const updateEmployeeRole = async (
     employeeId: string,
@@ -42,17 +50,34 @@ const Settings: React.FC = () => {
       }).unwrap();
       if (!result.success)
         throw new Error(result.message || "Failed to update role");
-      setEmployees((prev) =>
-        prev.map((emp) => {
-          if ((emp._id || (emp as any).id) === employeeId) {
-            return {
-              ...emp,
-              role: role ?? emp.role,
-              isAdmin: isAdmin !== null ? isAdmin : emp.isAdmin,
-            } as Employee;
-          }
-          return emp;
-        })
+      // update employees in Redux store
+      dispatch(
+        setEmployees(
+          employees.map((emp) => {
+            if ((emp._id || (emp as any).id) === employeeId) {
+              return {
+                ...emp,
+                role: role ?? emp.role,
+                isAdmin: isAdmin !== null ? isAdmin : emp.isAdmin,
+              } as Employee;
+            }
+            return emp;
+          })
+        )
+      );
+      dispatch(
+        setFilteredEmployees(
+          employees.map((emp) => {
+            if ((emp._id || (emp as any).id) === employeeId) {
+              return {
+                ...emp,
+                role: role ?? emp.role,
+                isAdmin: isAdmin !== null ? isAdmin : emp.isAdmin,
+              } as Employee;
+            }
+            return emp;
+          })
+        )
       );
       return true;
     } catch (err) {
@@ -64,20 +89,22 @@ const Settings: React.FC = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const q = e.target.value.trim().toLowerCase();
     if (!q) {
-      setEmployees([...allEmployees]);
+      dispatch(setEmployees([...allEmployees]));
       return;
     }
-    setEmployees(
-      allEmployees.filter((emp) => {
-        const first = (emp.first_name || (emp as any).firstName || "")
-          .toString()
-          .toLowerCase();
-        const last = (emp.last_name || (emp as any).lastName || "")
-          .toString()
-          .toLowerCase();
-        const full = `${first} ${last}`.trim();
-        return first.includes(q) || last.includes(q) || full.includes(q);
-      })
+    dispatch(
+      setEmployees(
+        allEmployees.filter((emp) => {
+          const first = (emp.first_name || (emp as any).firstName || "")
+            .toString()
+            .toLowerCase();
+          const last = (emp.last_name || (emp as any).lastName || "")
+            .toString()
+            .toLowerCase();
+          const full = `${first} ${last}`.trim();
+          return first.includes(q) || last.includes(q) || full.includes(q);
+        })
+      )
     );
   };
 
