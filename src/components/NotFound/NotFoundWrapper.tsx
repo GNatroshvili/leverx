@@ -6,7 +6,7 @@ const NotFoundWrapper: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="not-found-wrapper">
+    <div className="not-found-wrapper fade-slide-in">
       <img src={NotFound} alt="404-not-found-image" className="image" />
       <p className="title">404 Page not found</p>
       <p className="description">

@@ -22,7 +22,7 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
           value={searchQuery}
           onChange={onSearchChange}
           onKeyPress={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               onSearchSubmit(e);
             }
           }}

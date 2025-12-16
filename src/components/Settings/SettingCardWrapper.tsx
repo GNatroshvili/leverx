@@ -13,13 +13,28 @@ interface SettingCardWrapperProps {
   onSearchSubmit: (e: React.FormEvent | React.KeyboardEvent) => void;
 }
 
-const SettingCardWrapper: React.FC<SettingCardWrapperProps> = ({ loading, error, employees, searchQuery, onSearchChange, onSearchSubmit }) => (
+const SettingCardWrapper: React.FC<SettingCardWrapperProps> = ({
+  loading,
+  error,
+  employees,
+  searchQuery,
+  onSearchChange,
+  onSearchSubmit,
+}) => (
   <div className="setting-card-wrapper">
     <SettingsCardTitle />
     <DividerLine />
-    <NavigationWrapper searchQuery={searchQuery} onSearchChange={onSearchChange} onSearchSubmit={onSearchSubmit} />
+    <NavigationWrapper
+      searchQuery={searchQuery}
+      onSearchChange={onSearchChange}
+      onSearchSubmit={onSearchSubmit}
+    />
     <DividerLine />
-    <EmployeeListWrapper loading={loading} error={error} employees={employees} />
+    <EmployeeListWrapper
+      loading={loading}
+      error={error}
+      employees={employees}
+    />
   </div>
 );
 

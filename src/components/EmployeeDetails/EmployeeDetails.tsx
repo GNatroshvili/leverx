@@ -419,7 +419,7 @@ const EmployeeDetails: React.FC = () => {
 
   return (
     <div className="container">
-      <div className="employee-details-wrapper">
+      <div className="employee-details-wrapper fade-slide-in">
         <img
           src={LeftArrow}
           alt="left-arrow-icon"

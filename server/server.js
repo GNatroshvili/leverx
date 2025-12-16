@@ -1,5 +1,3 @@
-
-
 import express from "express";
 import bcrypt from "bcrypt";
 import cors from "cors";
@@ -9,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 import Database from "better-sqlite3";
 import { fileURLToPath } from "url";
 import process from "process";
-
 
 const app = express();
 const PORT = 3000;
@@ -81,14 +78,14 @@ db.exec(`
 // add isAdmin and role columns to existing table if they don't exist
 try {
   db.exec(`ALTER TABLE employees ADD COLUMN isAdmin INTEGER DEFAULT 0`);
-  console.log('Added isAdmin column to employees table');
+  console.log("Added isAdmin column to employees table");
 } catch {
   // column already exists
 }
 
 try {
   db.exec(`ALTER TABLE employees ADD COLUMN role TEXT DEFAULT 'employee'`);
-  console.log('Added role column to employees table');
+  console.log("Added role column to employees table");
 } catch {
   // column already exists
 }
@@ -97,13 +94,15 @@ console.log("SQLite database initialized");
 
 // seed employees from JSON file if employees table is empty
 const EMPLOYEES_PATH = path.join(__dirname, "employees.json");
-const employeeCount = db.prepare("SELECT COUNT(*) as count FROM employees").get();
+const employeeCount = db
+  .prepare("SELECT COUNT(*) as count FROM employees")
+  .get();
 
 if (employeeCount.count === 0) {
   try {
     const employeesJson = fs.readFileSync(EMPLOYEES_PATH, "utf8");
     const employeesData = JSON.parse(employeesJson);
-    
+
     const insertEmployee = db.prepare(`
       INSERT INTO employees (
         _id, isRemoteWork, user_avatar, first_name, last_name,
@@ -117,7 +116,7 @@ if (employeeCount.count === 0) {
         isRegisteredUser, isAdmin, role, createdAt
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    
+
     const insertMany = db.transaction((employees) => {
       for (const emp of employees) {
         insertEmployee.run(
@@ -154,12 +153,12 @@ if (employeeCount.count === 0) {
           emp.visa?.[1]?.end_date || null,
           0,
           0,
-          'employee',
+          "employee",
           new Date().toISOString()
         );
       }
     });
-    
+
     insertMany(employeesData);
     console.log(`Seeded ${employeesData.length} employees from employees.json`);
   } catch (error) {
@@ -183,17 +182,21 @@ function dbRowToEmployee(row) {
     department: row.department || "N/A",
     building: row.building || "N/A",
     room: row.room || "N/A",
-    date_birth: row.date_birth_year ? {
-      year: row.date_birth_year,
-      month: row.date_birth_month,
-      day: row.date_birth_day
-    } : null,
+    date_birth: row.date_birth_year
+      ? {
+          year: row.date_birth_year,
+          month: row.date_birth_month,
+          day: row.date_birth_day,
+        }
+      : null,
     desk_number: row.desk_number || "N/A",
-    manager: row.manager_first_name ? {
-      id: row.manager_id,
-      first_name: row.manager_first_name,
-      last_name: row.manager_last_name
-    } : { id: null, first_name: "N/A", last_name: "" },
+    manager: row.manager_first_name
+      ? {
+          id: row.manager_id,
+          first_name: row.manager_first_name,
+          last_name: row.manager_last_name,
+        }
+      : { id: null, first_name: "N/A", last_name: "" },
     phone: row.phone || "N/A",
     email: row.email || "N/A",
     skype: row.skype || "N/A",
@@ -202,7 +205,7 @@ function dbRowToEmployee(row) {
     visa: buildVisaArray(row),
     isRegisteredUser: row.isRegisteredUser === 1,
     isAdmin: row.isAdmin === 1,
-    role: row.role || 'employee'
+    role: row.role || "employee",
   };
 }
 
@@ -214,7 +217,7 @@ function buildVisaArray(row) {
       issuing_country: row.visa1_issuing_country,
       type: row.visa1_type,
       start_date: row.visa1_start_date,
-      end_date: row.visa1_end_date
+      end_date: row.visa1_end_date,
     });
   }
   if (row.visa2_issuing_country) {
@@ -222,7 +225,7 @@ function buildVisaArray(row) {
       issuing_country: row.visa2_issuing_country,
       type: row.visa2_type,
       start_date: row.visa2_start_date,
-      end_date: row.visa2_end_date
+      end_date: row.visa2_end_date,
     });
   }
   return visas;
@@ -248,13 +251,13 @@ app.post("/sign-up", async (req, res) => {
         message: "All fields are required",
       });
     }
-    if (typeof firstName !== 'string' || firstName.trim().length < 2) {
+    if (typeof firstName !== "string" || firstName.trim().length < 2) {
       return res.status(400).json({
         success: false,
         message: "First name must be at least 2 characters.",
       });
     }
-    if (typeof lastName !== 'string' || lastName.trim().length < 2) {
+    if (typeof lastName !== "string" || lastName.trim().length < 2) {
       return res.status(400).json({
         success: false,
         message: "Last name must be at least 2 characters.",
@@ -278,12 +281,15 @@ app.post("/sign-up", async (req, res) => {
     if (!passwordRegex.test(password)) {
       return res.status(400).json({
         success: false,
-        message: "Password must be at least 8 characters and contain at least one uppercase letter.",
+        message:
+          "Password must be at least 8 characters and contain at least one uppercase letter.",
       });
     }
 
     // check if user already exists
-    const existingUser = db.prepare("SELECT * FROM users WHERE email = ?").get(email);
+    const existingUser = db
+      .prepare("SELECT * FROM users WHERE email = ?")
+      .get(email);
     if (existingUser) {
       return res.status(409).json({
         success: false,
@@ -303,7 +309,15 @@ app.post("/sign-up", async (req, res) => {
       INSERT INTO users (email, password, firstName, lastName, phone, createdAt, employeeId)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
-    const userResult = userStmt.run(email, hashedPassword, firstName, lastName, phone, createdAt, employeeId);
+    const userResult = userStmt.run(
+      email,
+      hashedPassword,
+      firstName,
+      lastName,
+      phone,
+      createdAt,
+      employeeId
+    );
 
     // also insert into employees table with default values and email
     const employeeStmt = db.prepare(`
@@ -321,7 +335,7 @@ app.post("/sign-up", async (req, res) => {
       email,
       1,
       0,
-      'employee',
+      "employee",
       createdAt
     );
 
@@ -394,9 +408,11 @@ app.post("/sign-in", async (req, res) => {
     }
 
     // fetch employee data to get role and admin status
-    const employee = db.prepare("SELECT * FROM employees WHERE email = ?").get(email);
+    const employee = db
+      .prepare("SELECT * FROM employees WHERE email = ?")
+      .get(email);
     const isAdmin = employee ? employee.isAdmin === 1 : false;
-    const role = employee ? employee.role || 'employee' : 'employee';
+    const role = employee ? employee.role || "employee" : "employee";
 
     console.log(`User logged in: ${email} (Role: ${role}, Admin: ${isAdmin})`);
 
@@ -426,7 +442,11 @@ app.post("/sign-in", async (req, res) => {
 
 // GET /auth/users - get all registered users (for debugging, remove in production)
 app.get("/auth/users", (req, res) => {
-  const users = db.prepare("SELECT id, email, firstName, lastName, phone, createdAt, employeeId FROM users").all();
+  const users = db
+    .prepare(
+      "SELECT id, email, firstName, lastName, phone, createdAt, employeeId FROM users"
+    )
+    .all();
 
   res.json({
     success: true,
@@ -438,24 +458,25 @@ app.get("/auth/users", (req, res) => {
 app.get("/users", (req, res) => {
   try {
     const { search } = req.query;
-    
+
     let query = "SELECT * FROM employees";
     let params = [];
-    
+
     // add search filter if search query is provided
     if (search && search.trim()) {
       const searchTerm = `%${search.trim().toLowerCase()}%`;
       query += ` WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(first_name || ' ' || last_name) LIKE ?`;
       params = [searchTerm, searchTerm, searchTerm];
     }
-    
+
     query += " ORDER BY createdAt DESC";
-    
-    const rows = params.length > 0 
-      ? db.prepare(query).all(...params)
-      : db.prepare(query).all();
+
+    const rows =
+      params.length > 0
+        ? db.prepare(query).all(...params)
+        : db.prepare(query).all();
     const employees = rows.map(dbRowToEmployee);
-    
+
     res.json({
       success: true,
       employees: employees,
@@ -504,7 +525,7 @@ app.put("/users/:id/role", (req, res) => {
     const { role, isAdmin, requestingUserEmail } = req.body;
 
     // validate role value
-    if (role && !['employee', 'manager'].includes(role)) {
+    if (role && !["employee", "manager"].includes(role)) {
       return res.status(400).json({
         success: false,
         message: "Invalid role. Must be 'employee' or 'manager'",
@@ -512,7 +533,11 @@ app.put("/users/:id/role", (req, res) => {
     }
 
     // validate isAdmin value
-    if (isAdmin !== undefined && isAdmin !== null && typeof isAdmin !== 'boolean') {
+    if (
+      isAdmin !== undefined &&
+      isAdmin !== null &&
+      typeof isAdmin !== "boolean"
+    ) {
       return res.status(400).json({
         success: false,
         message: "Invalid isAdmin value. Must be boolean",
@@ -520,7 +545,9 @@ app.put("/users/:id/role", (req, res) => {
     }
 
     // check if requesting user is admin
-    const requestingEmployee = db.prepare("SELECT * FROM employees WHERE email = ?").get(requestingUserEmail);
+    const requestingEmployee = db
+      .prepare("SELECT * FROM employees WHERE email = ?")
+      .get(requestingUserEmail);
     if (!requestingEmployee || requestingEmployee.isAdmin !== 1) {
       return res.status(403).json({
         success: false,
@@ -529,7 +556,9 @@ app.put("/users/:id/role", (req, res) => {
     }
 
     // check if target employee exists
-    const targetEmployee = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const targetEmployee = db
+      .prepare("SELECT * FROM employees WHERE _id = ?")
+      .get(id);
     if (!targetEmployee) {
       return res.status(404).json({
         success: false,
@@ -544,7 +573,7 @@ app.put("/users/:id/role", (req, res) => {
           isAdmin = COALESCE(?, isAdmin)
       WHERE _id = ?
     `);
-    
+
     updateStmt.run(
       role || null,
       isAdmin !== undefined ? (isAdmin ? 1 : 0) : null,
@@ -552,10 +581,14 @@ app.put("/users/:id/role", (req, res) => {
     );
 
     // fetch updated employee
-    const updatedRow = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const updatedRow = db
+      .prepare("SELECT * FROM employees WHERE _id = ?")
+      .get(id);
     const updatedEmployee = dbRowToEmployee(updatedRow);
 
-    console.log(`Role updated for ${targetEmployee.email}: role=${updatedEmployee.role}, isAdmin=${updatedEmployee.isAdmin}`);
+    console.log(
+      `Role updated for ${targetEmployee.email}: role=${updatedEmployee.role}, isAdmin=${updatedEmployee.isAdmin}`
+    );
 
     res.json({
       success: true,
@@ -577,7 +610,11 @@ app.put("/users/:id", (req, res) => {
     const { id } = req.params;
     const { updates, requestingUserEmail } = req.body;
 
-    if (!updates || typeof updates !== 'object' || Object.keys(updates).length === 0) {
+    if (
+      !updates ||
+      typeof updates !== "object" ||
+      Object.keys(updates).length === 0
+    ) {
       return res.status(400).json({
         success: false,
         message: "No updates provided",
@@ -585,7 +622,9 @@ app.put("/users/:id", (req, res) => {
     }
 
     // get requesting user
-    const requestingEmployee = db.prepare("SELECT * FROM employees WHERE email = ?").get(requestingUserEmail);
+    const requestingEmployee = db
+      .prepare("SELECT * FROM employees WHERE email = ?")
+      .get(requestingUserEmail);
     if (!requestingEmployee) {
       return res.status(403).json({
         success: false,
@@ -594,7 +633,9 @@ app.put("/users/:id", (req, res) => {
     }
 
     // get target employee
-    const targetEmployee = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const targetEmployee = db
+      .prepare("SELECT * FROM employees WHERE _id = ?")
+      .get(id);
     if (!targetEmployee) {
       return res.status(404).json({
         success: false,
@@ -604,7 +645,7 @@ app.put("/users/:id", (req, res) => {
 
     // check permissions
     const isAdmin = requestingEmployee.isAdmin === 1;
-    const isHR = requestingEmployee.role === 'manager';
+    const isHR = requestingEmployee.role === "manager";
     const isSubordinate = targetEmployee.manager_id === requestingEmployee._id;
 
     if (!isAdmin && !(isHR && isSubordinate)) {
@@ -616,21 +657,35 @@ app.put("/users/:id", (req, res) => {
 
     // build update query dynamically
     const allowedFields = [
-      'first_name', 'last_name', 
-      'first_native_name', 'middle_native_name', 'last_native_name',
-      'date_birth_year', 'date_birth_month', 'date_birth_day',
-      'department', 'building', 'room', 'desk_number', 
-      'phone', 'email', 'skype', 'cnumber', 'citizenship',
-      'manager_id'
+      "first_name",
+      "last_name",
+      "first_native_name",
+      "middle_native_name",
+      "last_native_name",
+      "date_birth_year",
+      "date_birth_month",
+      "date_birth_day",
+      "department",
+      "building",
+      "room",
+      "desk_number",
+      "phone",
+      "email",
+      "skype",
+      "cnumber",
+      "citizenship",
+      "manager_id",
     ];
     const updateFields = [];
     const updateValues = [];
 
     // if manager_id is being updated, also update manager names
-    if (Object.prototype.hasOwnProperty.call(updates, 'manager_id')) {
+    if (Object.prototype.hasOwnProperty.call(updates, "manager_id")) {
       const managerId = updates.manager_id;
       if (managerId) {
-        const manager = db.prepare("SELECT first_name, last_name FROM employees WHERE _id = ?").get(managerId);
+        const manager = db
+          .prepare("SELECT first_name, last_name FROM employees WHERE _id = ?")
+          .get(managerId);
         if (manager) {
           updates.manager_first_name = manager.first_name;
           updates.manager_last_name = manager.last_name;
@@ -643,7 +698,11 @@ app.put("/users/:id", (req, res) => {
     }
 
     // add manager name fields to allowed fields
-    const allAllowedFields = [...allowedFields, 'manager_first_name', 'manager_last_name'];
+    const allAllowedFields = [
+      ...allowedFields,
+      "manager_first_name",
+      "manager_last_name",
+    ];
 
     for (const [key, value] of Object.entries(updates)) {
       if (allAllowedFields.includes(key)) {
@@ -662,15 +721,21 @@ app.put("/users/:id", (req, res) => {
     // add employee ID to values
     updateValues.push(id);
 
-    const updateQuery = `UPDATE employees SET ${updateFields.join(', ')} WHERE _id = ?`;
+    const updateQuery = `UPDATE employees SET ${updateFields.join(
+      ", "
+    )} WHERE _id = ?`;
     const updateStmt = db.prepare(updateQuery);
     updateStmt.run(...updateValues);
 
     // fetch updated employee
-    const updatedRow = db.prepare("SELECT * FROM employees WHERE _id = ?").get(id);
+    const updatedRow = db
+      .prepare("SELECT * FROM employees WHERE _id = ?")
+      .get(id);
     const updatedEmployee = dbRowToEmployee(updatedRow);
 
-    console.log(`Employee data updated for ${targetEmployee.email} by ${requestingUserEmail}`);
+    console.log(
+      `Employee data updated for ${targetEmployee.email} by ${requestingUserEmail}`
+    );
 
     res.json({
       success: true,

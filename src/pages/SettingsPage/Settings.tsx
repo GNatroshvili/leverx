@@ -102,7 +102,7 @@ const Settings: React.FC = () => {
     e.preventDefault();
     const trimmedQuery = searchQuery.trim();
     setCurrentSearch(trimmedQuery);
-    
+
     // update URL with search query
     if (trimmedQuery) {
       setSearchParams({ search: trimmedQuery });
@@ -113,37 +113,49 @@ const Settings: React.FC = () => {
 
   const currentIsAdmin = checkIsAdmin();
 
-  const employeeCards = employees.map((emp, i) => {
-    const firstName = (emp.first_name ||
-      (emp as any).firstName ||
-      "") as string;
-    const lastName = (emp.last_name || (emp as any).lastName || "") as string;
-    const avatarRaw = (emp.user_avatar ||
-      (emp as any).photo ||
-      "/assets/default-avatar.jpg") as string;
-    const avatar = avatarRaw.startsWith("http")
-      ? avatarRaw
-      : avatarRaw.replace(/^\.?\//, "/");
-    const role = emp.role || "employee";
-    const isAdmin = !!emp.isAdmin;
-    const employeeId = (emp._id || (emp as any).id) as string;
-    const canEdit = currentIsAdmin && !!stored && stored.email !== emp.email;
-    return (
-      <EmployeeCardWrapper
-        key={employeeId}
-        avatar={avatar}
-        firstName={firstName}
-        lastName={lastName}
-        role={role}
-        isAdmin={isAdmin}
-        canEdit={canEdit}
-        onSetEmployee={() => updateEmployeeRole(employeeId, "employee", null)}
-        onSetManager={() => updateEmployeeRole(employeeId, "manager", null)}
-        onToggleAdmin={() => updateEmployeeRole(employeeId, null, !isAdmin)}
-        showDivider={i < employees.length - 1}
-      />
-    );
-  });
+  const employeeCards = (
+    <div
+      key={currentSearch}
+      className="settings-employee-list-content fade-slide-in"
+    >
+      {employees.map((emp, i) => {
+        const firstName = (emp.first_name ||
+          (emp as any).firstName ||
+          "") as string;
+        const lastName = (emp.last_name ||
+          (emp as any).lastName ||
+          "") as string;
+        const avatarRaw = (emp.user_avatar ||
+          (emp as any).photo ||
+          "/assets/default-avatar.jpg") as string;
+        const avatar = avatarRaw.startsWith("http")
+          ? avatarRaw
+          : avatarRaw.replace(/^\.?\//, "/");
+        const role = emp.role || "employee";
+        const isAdmin = !!emp.isAdmin;
+        const employeeId = (emp._id || (emp as any).id) as string;
+        const canEdit =
+          currentIsAdmin && !!stored && stored.email !== emp.email;
+        return (
+          <EmployeeCardWrapper
+            key={employeeId}
+            avatar={avatar}
+            firstName={firstName}
+            lastName={lastName}
+            role={role}
+            isAdmin={isAdmin}
+            canEdit={canEdit}
+            onSetEmployee={() =>
+              updateEmployeeRole(employeeId, "employee", null)
+            }
+            onSetManager={() => updateEmployeeRole(employeeId, "manager", null)}
+            onToggleAdmin={() => updateEmployeeRole(employeeId, null, !isAdmin)}
+            showDivider={i < employees.length - 1}
+          />
+        );
+      })}
+    </div>
+  );
 
   // map stored user to Header's expected currentUser shape
   const headerUser = stored

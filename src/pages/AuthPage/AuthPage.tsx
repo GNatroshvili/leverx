@@ -146,9 +146,7 @@ const AuthPage: React.FC = () => {
         dispatch(setSignupError(data.message || "Sign up failed"));
       }
     } catch {
-      dispatch(
-        setSignupError("An error occurred during sign up")
-      );
+      dispatch(setSignupError("An error occurred during sign up"));
     }
   };
 
@@ -161,34 +159,35 @@ const AuthPage: React.FC = () => {
             activeTab={activeTab}
             setActiveTab={(tab) => dispatch(setActiveTab(tab))}
           />
-          {activeTab === "signin" && (
-            <SignInForm
-              signinEmail={signinEmail}
-              setSigninEmail={(v) => dispatch(setSigninEmail(v))}
-              signinPassword={signinPassword}
-              setSigninPassword={(v) => dispatch(setSigninPassword(v))}
-              signinRemember={signinRemember}
-              setSigninRemember={(v) => dispatch(setSigninRemember(v))}
-              handleSignIn={handleSignIn}
-              signinError={signinError}
-            />
-          )}
-          {activeTab === "signup" && (
-            <SignUpForm
-              signupFirstName={signupFirstName}
-              setSignupFirstName={(v) => dispatch(setSignupFirstName(v))}
-              signupLastName={signupLastName}
-              setSignupLastName={(v) => dispatch(setSignupLastName(v))}
-              signupEmail={signupEmail}
-              setSignupEmail={(v) => dispatch(setSignupEmail(v))}
-              signupPhone={signupPhone}
-              setSignupPhone={(v) => dispatch(setSignupPhone(v))}
-              signupPassword={signupPassword}
-              setSignupPassword={(v) => dispatch(setSignupPassword(v))}
-              handleSignUp={handleSignUp}
-              signupError={signupError}
-            />
-          )}
+          <div key={activeTab} className="auth-form-content fade-slide-in">
+            {activeTab === "signin" ? (
+              <SignInForm
+                signinEmail={signinEmail}
+                setSigninEmail={(v) => dispatch(setSigninEmail(v))}
+                signinPassword={signinPassword}
+                setSigninPassword={(v) => dispatch(setSigninPassword(v))}
+                signinRemember={signinRemember}
+                setSigninRemember={(v) => dispatch(setSigninRemember(v))}
+                handleSignIn={handleSignIn}
+                signinError={signinError}
+              />
+            ) : (
+              <SignUpForm
+                signupFirstName={signupFirstName}
+                setSignupFirstName={(v) => dispatch(setSignupFirstName(v))}
+                signupLastName={signupLastName}
+                setSignupLastName={(v) => dispatch(setSignupLastName(v))}
+                signupEmail={signupEmail}
+                setSignupEmail={(v) => dispatch(setSignupEmail(v))}
+                signupPhone={signupPhone}
+                setSignupPhone={(v) => dispatch(setSignupPhone(v))}
+                signupPassword={signupPassword}
+                setSignupPassword={(v) => dispatch(setSignupPassword(v))}
+                handleSignUp={handleSignUp}
+                signupError={signupError}
+              />
+            )}
+          </div>
         </div>
       </div>
     </>

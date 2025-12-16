@@ -43,16 +43,17 @@ interface AdvancedSearchParams {
 }
 
 const Main: React.FC = () => {
-      // handler to update Redux state for view mode
-      const handleSetViewMode = (mode: "grid" | "list") => {
-        dispatch(setViewMode(mode));
-      };
-    // handlers to update Redux state for search inputs
-    const handleSetSearchMode = (mode: "basic" | "advanced") => {
-      dispatch(setSearchMode(mode));
-      // optionally reset search fields when switching modes
-      if (mode === "basic") {
-        dispatch(setAdvancedSearch({
+  // handler to update Redux state for view mode
+  const handleSetViewMode = (mode: "grid" | "list") => {
+    dispatch(setViewMode(mode));
+  };
+  // handlers to update Redux state for search inputs
+  const handleSetSearchMode = (mode: "basic" | "advanced") => {
+    dispatch(setSearchMode(mode));
+    // optionally reset search fields when switching modes
+    if (mode === "basic") {
+      dispatch(
+        setAdvancedSearch({
           name: "",
           email: "",
           phone: "",
@@ -60,19 +61,20 @@ const Main: React.FC = () => {
           building: "",
           room: "",
           department: "",
-        }));
-      } else {
-        dispatch(setBasicSearchQuery(""));
-      }
-    };
+        })
+      );
+    } else {
+      dispatch(setBasicSearchQuery(""));
+    }
+  };
 
-    const handleSetBasicSearchQuery = (query: string) => {
-      dispatch(setBasicSearchQuery(query));
-    };
+  const handleSetBasicSearchQuery = (query: string) => {
+    dispatch(setBasicSearchQuery(query));
+  };
 
-    const handleSetAdvancedSearch = (params: any) => {
-      dispatch(setAdvancedSearch(params));
-    };
+  const handleSetAdvancedSearch = (params: any) => {
+    dispatch(setAdvancedSearch(params));
+  };
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
