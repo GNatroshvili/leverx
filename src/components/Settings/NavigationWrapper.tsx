@@ -2,11 +2,15 @@ import React from "react";
 import searchIcon from "../../public/assets/search-icon.png";
 
 interface NavigationWrapperProps {
+  searchQuery: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchSubmit: (e: React.FormEvent | React.KeyboardEvent) => void;
 }
 
 const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
+  searchQuery,
   onSearchChange,
+  onSearchSubmit,
 }) => (
   <div className="navigation-wrapper">
     <div>
@@ -14,8 +18,14 @@ const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
         <input
           type="text"
           className="settings-search-input"
-          placeholder="Type to search"
+          placeholder="Type to search and press Enter"
+          value={searchQuery}
           onChange={onSearchChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              onSearchSubmit(e);
+            }
+          }}
         />
         <img
           src={searchIcon}

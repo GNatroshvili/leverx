@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import { getStoredUser, isAdmin as checkIsAdmin } from "../../utils/auth";
 import type { Employee, User } from "../../utils/auth";
@@ -15,14 +16,21 @@ import { setEmployees, setFilteredEmployees } from "../../store/mainPageSlice";
 
 const Settings: React.FC = () => {
   const stored = getStoredUser() as User | null;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [currentSearch, setCurrentSearch] = React.useState("");
 
-  const { data, isLoading, error } = useGetUsersQuery();
+  const { data, isLoading, error } = useGetUsersQuery(currentSearch);
   const dispatch = useDispatch();
   const employees = useSelector((state: RootState) => state.mainPage.employees);
-  const allEmployees = useSelector(
-    (state: RootState) => state.mainPage.filteredEmployees
-  );
   const [updateUserRole] = useUpdateUserRoleMutation();
+
+  // initialize search from URL params
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    setSearchQuery(search);
+    setCurrentSearch(search);
+  }, [searchParams]);
 
   useEffect(() => {
     if (data && data.success) {
@@ -87,25 +95,20 @@ const Settings: React.FC = () => {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const q = e.target.value.trim().toLowerCase();
-    if (!q) {
-      dispatch(setEmployees([...allEmployees]));
-      return;
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent | React.KeyboardEvent) => {
+    e.preventDefault();
+    const trimmedQuery = searchQuery.trim();
+    setCurrentSearch(trimmedQuery);
+    
+    // update URL with search query
+    if (trimmedQuery) {
+      setSearchParams({ search: trimmedQuery });
+    } else {
+      setSearchParams({});
     }
-    dispatch(
-      setEmployees(
-        allEmployees.filter((emp) => {
-          const first = (emp.first_name || (emp as any).firstName || "")
-            .toString()
-            .toLowerCase();
-          const last = (emp.last_name || (emp as any).lastName || "")
-            .toString()
-            .toLowerCase();
-          const full = `${first} ${last}`.trim();
-          return first.includes(q) || last.includes(q) || full.includes(q);
-        })
-      )
-    );
   };
 
   const currentIsAdmin = checkIsAdmin();
@@ -172,7 +175,9 @@ const Settings: React.FC = () => {
               : null
           }
           employees={employeeCards}
+          searchQuery={searchQuery}
           onSearchChange={handleSearchChange}
+          onSearchSubmit={handleSearchSubmit}
         />
       </div>
     </>

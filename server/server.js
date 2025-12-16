@@ -1,14 +1,23 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const cors = require("cors");
-const path = require("path");
-const fs = require("fs");
-const { v4: uuidv4 } = require("uuid");
-const Database = require("better-sqlite3");
+
+
+import express from "express";
+import bcrypt from "bcrypt";
+import cors from "cors";
+import path from "path";
+import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
+import Database from "better-sqlite3";
+import { fileURLToPath } from "url";
+import process from "process";
+
 
 const app = express();
 const PORT = 3000;
 const SALT_ROUNDS = 10;
+
+// polyfill __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // initialize SQLite database
 const DB_PATH = path.join(__dirname, "users.db");
@@ -73,14 +82,14 @@ db.exec(`
 try {
   db.exec(`ALTER TABLE employees ADD COLUMN isAdmin INTEGER DEFAULT 0`);
   console.log('Added isAdmin column to employees table');
-} catch (e) {
+} catch {
   // column already exists
 }
 
 try {
   db.exec(`ALTER TABLE employees ADD COLUMN role TEXT DEFAULT 'employee'`);
   console.log('Added role column to employees table');
-} catch (e) {
+} catch {
   // column already exists
 }
 
@@ -428,7 +437,23 @@ app.get("/auth/users", (req, res) => {
 // GET /users - get all employees from database
 app.get("/users", (req, res) => {
   try {
-    const rows = db.prepare("SELECT * FROM employees ORDER BY createdAt DESC").all();
+    const { search } = req.query;
+    
+    let query = "SELECT * FROM employees";
+    let params = [];
+    
+    // add search filter if search query is provided
+    if (search && search.trim()) {
+      const searchTerm = `%${search.trim().toLowerCase()}%`;
+      query += ` WHERE LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(first_name || ' ' || last_name) LIKE ?`;
+      params = [searchTerm, searchTerm, searchTerm];
+    }
+    
+    query += " ORDER BY createdAt DESC";
+    
+    const rows = params.length > 0 
+      ? db.prepare(query).all(...params)
+      : db.prepare(query).all();
     const employees = rows.map(dbRowToEmployee);
     
     res.json({
@@ -602,7 +627,7 @@ app.put("/users/:id", (req, res) => {
     const updateValues = [];
 
     // if manager_id is being updated, also update manager names
-    if (updates.hasOwnProperty('manager_id')) {
+    if (Object.prototype.hasOwnProperty.call(updates, 'manager_id')) {
       const managerId = updates.manager_id;
       if (managerId) {
         const manager = db.prepare("SELECT first_name, last_name FROM employees WHERE _id = ?").get(managerId);
@@ -662,11 +687,13 @@ app.put("/users/:id", (req, res) => {
 });
 
 // gracefully close the database on exit
-process.on("SIGINT", () => {
-  db.close();
-  console.log("\nDatabase connection closed");
-  process.exit(0);
-});
+if (typeof process !== "undefined" && process.on) {
+  process.on("SIGINT", () => {
+    db.close();
+    console.log("\nDatabase connection closed");
+    process.exit(0);
+  });
+}
 
 // start server
 app.listen(PORT, () => {
