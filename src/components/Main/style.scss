@@ -51,6 +51,16 @@
       display: none;
     }
 
+    .search-mode-content {
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 1;
+    }
+
+    .fade-slide-in {
+      animation: fadeSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     .search-options-wrapper {
       display: flex;
       justify-content: space-between;
@@ -65,6 +75,7 @@
         font-size: var(--font-size-sm);
         font-weight: 500;
         padding-bottom: var(--spacing-lg);
+        cursor: pointer;
       }
 
       .basic-btn {
@@ -75,6 +86,7 @@
         height: 52px;
         padding-bottom: var(--spacing-lg);
         border-bottom: 4px solid var(--color-secondary);
+        cursor: pointer;
       }
 
       .advanced-btn {

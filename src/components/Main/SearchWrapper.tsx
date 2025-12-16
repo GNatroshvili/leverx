@@ -29,22 +29,27 @@ const SearchWrapper: React.FC<SearchWrapperProps> = ({
   handleAdvancedSearch,
 }) => (
   <div className="search-wrapper">
-    <SearchOptionsWrapper searchMode={searchMode} setSearchMode={setSearchMode} />
-    {searchMode === "basic" ? (
-      <BasicSearchInput
-        basicSearchQuery={basicSearchQuery}
-        setBasicSearchQuery={setBasicSearchQuery}
-        handleBasicSearch={handleBasicSearch}
-      />
-    ) : (
-      <AdvancedSearchInput
-        advancedSearch={advancedSearch}
-        setAdvancedSearch={setAdvancedSearch}
-        buildings={buildings}
-        departments={departments}
-        handleAdvancedSearch={handleAdvancedSearch}
-      />
-    )}
+    <SearchOptionsWrapper
+      searchMode={searchMode}
+      setSearchMode={setSearchMode}
+    />
+    <div key={searchMode} className="search-mode-content fade-slide-in">
+      {searchMode === "basic" ? (
+        <BasicSearchInput
+          basicSearchQuery={basicSearchQuery}
+          setBasicSearchQuery={setBasicSearchQuery}
+          handleBasicSearch={handleBasicSearch}
+        />
+      ) : (
+        <AdvancedSearchInput
+          advancedSearch={advancedSearch}
+          setAdvancedSearch={setAdvancedSearch}
+          buildings={buildings}
+          departments={departments}
+          handleAdvancedSearch={handleAdvancedSearch}
+        />
+      )}
+    </div>
   </div>
 );
 
