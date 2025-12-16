@@ -276,26 +276,34 @@ const Main: React.FC = () => {
             viewMode={viewMode}
             setViewMode={handleSetViewMode}
           />
-          {viewMode === "grid" ? (
-            filteredEmployees.length === 0 ? (
-              <EmptyEmployeesWrapper />
-            ) : (
-              <EmployeeCardsWrapper
-                employees={filteredEmployees}
-                onEmployeeClick={handleEmployeeClick}
-              />
-            )
-          ) : filteredEmployees.length === 0 ? (
-            <EmptyEmployeesWrapper />
-          ) : (
-            <>
-              <EmployeeHeader />
-              <EmployeeListCardsWrapper
-                employees={filteredEmployees}
-                onEmployeeClick={handleEmployeeClick}
-              />
-            </>
-          )}
+          {/* Animated transition between grid and list views */}
+          <div className="employee-view-transition">
+            <div
+              key={viewMode}
+              className={`employee-view-content fade-slide-in`}
+            >
+              {viewMode === "grid" ? (
+                filteredEmployees.length === 0 ? (
+                  <EmptyEmployeesWrapper />
+                ) : (
+                  <EmployeeCardsWrapper
+                    employees={filteredEmployees}
+                    onEmployeeClick={handleEmployeeClick}
+                  />
+                )
+              ) : filteredEmployees.length === 0 ? (
+                <EmptyEmployeesWrapper />
+              ) : (
+                <>
+                  <EmployeeHeader />
+                  <EmployeeListCardsWrapper
+                    employees={filteredEmployees}
+                    onEmployeeClick={handleEmployeeClick}
+                  />
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>
