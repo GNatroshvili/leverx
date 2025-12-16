@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useGetUsersQuery } from "../../store/api";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
-import { API_BASE_URL, getStoredUser } from "../../utils/auth";
+import { getStoredUser } from "../../utils/auth";
 import type { Employee } from "../../utils/auth";
 import EmployeeManage from "../../components/Main/EmployeeManage";
 import EmptyEmployeesWrapper from "../../components/Main/EmptyEmployeesWrapper";
@@ -30,7 +30,6 @@ import {
   setAdvancedSearch,
 } from "../../store/mainPageSlice";
 
-type ViewMode = "grid" | "list";
 type SearchMode = "basic" | "advanced";
 
 interface AdvancedSearchParams {

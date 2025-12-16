@@ -29,7 +29,7 @@ const EmployeeDetails: React.FC = () => {
   const { currentEmployee, isEditMode, canEdit, managers, formData } =
     useSelector((state: RootState) => state.employeeDetails);
 
-  const { data, isLoading, error } = useGetUsersQuery();
+  const { data } = useGetUsersQuery();
   const [updateUser] = useUpdateUserMutation();
 
   useEffect(() => {
@@ -387,7 +387,7 @@ const EmployeeDetails: React.FC = () => {
       } else {
         alert(result.message || "Failed to save changes");
       }
-    } catch (error) {
+    } catch {
       alert("Failed to save changes. Please try again.");
     }
   };

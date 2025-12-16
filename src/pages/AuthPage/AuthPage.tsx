@@ -82,7 +82,7 @@ const AuthPage: React.FC = () => {
       } else {
         dispatch(setSigninError("Invalid credentials"));
       }
-    } catch (error) {
+    } catch {
       dispatch(setSigninError("Invalid credentials"));
     }
   };
@@ -145,11 +145,9 @@ const AuthPage: React.FC = () => {
       } else {
         dispatch(setSignupError(data.message || "Sign up failed"));
       }
-    } catch (error: any) {
+    } catch {
       dispatch(
-        setSignupError(
-          error?.data?.message || "An error occurred during sign up"
-        )
+        setSignupError("An error occurred during sign up")
       );
     }
   };
