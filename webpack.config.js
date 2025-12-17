@@ -2,9 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv");
+
+// Load environment variables from .env
+dotenv.config();
 
 module.exports = {
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   entry: "./src/index.tsx",
   output: {
     filename: "bundle.js",
@@ -24,11 +29,11 @@ module.exports = {
               presets: [
                 "@babel/preset-env",
                 "@babel/preset-react",
-                "@babel/preset-typescript"
-              ]
-            }
-          }
-        ]
+                "@babel/preset-typescript",
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -59,9 +64,13 @@ module.exports = {
       filename: "index.html",
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: "src/public/assets", to: "assets" },
-      ],
+      patterns: [{ from: "src/public/assets", to: "assets" }],
+    }),
+    new webpack.DefinePlugin({
+      "process.env": Object.keys(process.env).reduce((acc, key) => {
+        acc[key] = JSON.stringify(process.env[key]);
+        return acc;
+      }, {}),
     }),
   ],
   devServer: {
