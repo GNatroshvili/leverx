@@ -132,6 +132,39 @@
     align-items: center;
     justify-content: space-between;
     padding-left: 20px;
+
+    @media only screen and (max-width: 720px) {
+      flex-direction: column;
+      align-items: stretch;
+      padding-right: 20px;
+      gap: 10px;
+
+      > div:first-child {
+        width: 100%;
+      }
+
+      .settings-search-wrapper {
+        width: 100%;
+      }
+
+      .address-book-role-wrapper {
+        .address-book-title {
+          display: none;
+        }
+        .vertical-divider {
+          display: none;
+        }
+      }
+      .admin-column-wrapper {
+        .admin-title {
+          display: none;
+        }
+        .vertical-divider {
+          display: none;
+        }
+      }
+    }
+
     .address-book-role-wrapper {
       display: flex;
       align-items: center;
@@ -197,6 +230,35 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      @media only screen and (max-width: 720px) {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 0;
+
+        .emp-avatar-wrapper {
+          width: 100%;
+        }
+
+        .emp-hr-btn-wrapper {
+          width: 100%;
+          justify-content: space-between;
+
+          .emp-btn {
+            flex: 1;
+          }
+        }
+
+        .emp-admin-btn-wrapper {
+          width: 100%;
+
+          .admin-btn {
+            width: 100%;
+          }
+        }
+      }
+
       .emp-avatar-wrapper {
         display: flex;
         align-items: center;
