@@ -69,6 +69,7 @@ export const clearStoredUser = (): void => {
 };
 
 export const isAuthenticated = (): boolean => {
+  console.log(!!getStoredUser());
   return !!getStoredUser();
 };
 
