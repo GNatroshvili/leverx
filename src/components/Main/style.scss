@@ -39,6 +39,20 @@
   }
 }
 
+/* Icon images used in Main page */
+.icon-img,
+img[alt="support-icon"],
+img[alt="logout-icon"],
+img[alt="briefcase-icon"],
+img[alt="door-icon"],
+img#grid-icon,
+img#list-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: inline-block;
+}
+
 .main-page-wrapper {
   display: flex;
   gap: var(--spacing-lg);

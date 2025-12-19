@@ -122,30 +122,31 @@
             }
           }
 
-          .auth-btn {
-            width: 100%;
-            height: 48px;
-            padding: 14px 20px;
-            background-color: #007bff;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-align: center;
-            border: none;
-            transition: background-color 0.3s ease;
-            margin-top: 12px;
+            .auth-btn {
+              width: 100%;
+              height: 48px;
+              padding: 14px 20px;
+              background-color: #17407b; // Improved contrast
+              color: #fff;
+              text-decoration: none;
+              border-radius: 6px;
+              font-size: 1rem;
+              font-weight: 700;
+              cursor: pointer;
+              text-align: center;
+              border: none;
+              transition: background-color 0.3s ease;
+              margin-top: 12px;
 
-            &:hover {
-              background-color: #1450af;
-            }
+              &:hover {
+                background-color: #1450af;
+              }
 
-            @media (prefers-color-scheme: dark) {
-              color: #ffffff;
+              @media (prefers-color-scheme: dark) {
+                background-color: #0a2847;
+                color: #fff;
+              }
             }
-          }
         }
 
         .form-row {

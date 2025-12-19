@@ -50,7 +50,9 @@ const EmployeeDetailedInfoWrapper: React.FC<
               <input
                 type="text"
                 value={formData.department}
-                onChange={(e) => handleInputChange("department", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("department", e.target.value)
+                }
                 placeholder="Enter department"
                 className="edit-input"
               />
@@ -155,7 +157,9 @@ const EmployeeDetailedInfoWrapper: React.FC<
             {isEditMode ? (
               <select
                 value={formData.manager_id}
-                onChange={(e) => handleInputChange("manager_id", e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("manager_id", e.target.value)
+                }
                 className="edit-input select-input"
               >
                 <option value="">No Manager</option>
@@ -296,10 +300,13 @@ const EmployeeDetailedInfoWrapper: React.FC<
             icon="/assets/visa.png"
             iconAlt="visa-icon"
             label="Visa 1"
-            iconClassName="visa-size"
+            iconClassName="icon-size"
           >
             <p id="details-visa-1">
-              {currentEmployee.visa && currentEmployee.visa[0] && currentEmployee.visa[0].issuing_country && currentEmployee.visa[0].type
+              {currentEmployee.visa &&
+              currentEmployee.visa[0] &&
+              currentEmployee.visa[0].issuing_country &&
+              currentEmployee.visa[0].type
                 ? `${currentEmployee.visa[0].issuing_country} - ${currentEmployee.visa[0].type}`
                 : "N/A"}
             </p>
@@ -311,8 +318,17 @@ const EmployeeDetailedInfoWrapper: React.FC<
             label="Visa 1 validity period"
           >
             <p id="details-visa-1-period">
-              {currentEmployee.visa && currentEmployee.visa[0] && currentEmployee.visa[0].start_date && currentEmployee.visa[0].end_date
-                ? `${formatDate(currentEmployee.visa[0].start_date)} - ${formatDate(currentEmployee.visa[0].end_date)}${isVisaExpired(currentEmployee.visa[0].end_date) ? " (expired)" : ""}`
+              {currentEmployee.visa &&
+              currentEmployee.visa[0] &&
+              currentEmployee.visa[0].start_date &&
+              currentEmployee.visa[0].end_date
+                ? `${formatDate(
+                    currentEmployee.visa[0].start_date
+                  )} - ${formatDate(currentEmployee.visa[0].end_date)}${
+                    isVisaExpired(currentEmployee.visa[0].end_date)
+                      ? " (expired)"
+                      : ""
+                  }`
                 : "N/A"}
             </p>
           </DataLineWrapper>
@@ -323,7 +339,10 @@ const EmployeeDetailedInfoWrapper: React.FC<
             label="Visa 2"
           >
             <p id="details-visa-2">
-              {currentEmployee.visa && currentEmployee.visa[1] && currentEmployee.visa[1].issuing_country && currentEmployee.visa[1].type
+              {currentEmployee.visa &&
+              currentEmployee.visa[1] &&
+              currentEmployee.visa[1].issuing_country &&
+              currentEmployee.visa[1].type
                 ? `${currentEmployee.visa[1].issuing_country} - ${currentEmployee.visa[1].type}`
                 : "N/A"}
             </p>
@@ -335,8 +354,17 @@ const EmployeeDetailedInfoWrapper: React.FC<
             label="Visa 2 validity period"
           >
             <p id="details-visa-2-period">
-              {currentEmployee.visa && currentEmployee.visa[1] && currentEmployee.visa[1].start_date && currentEmployee.visa[1].end_date
-                ? `${formatDate(currentEmployee.visa[1].start_date)} - ${formatDate(currentEmployee.visa[1].end_date)}${isVisaExpired(currentEmployee.visa[1].end_date) ? " (expired)" : ""}`
+              {currentEmployee.visa &&
+              currentEmployee.visa[1] &&
+              currentEmployee.visa[1].start_date &&
+              currentEmployee.visa[1].end_date
+                ? `${formatDate(
+                    currentEmployee.visa[1].start_date
+                  )} - ${formatDate(currentEmployee.visa[1].end_date)}${
+                    isVisaExpired(currentEmployee.visa[1].end_date)
+                      ? " (expired)"
+                      : ""
+                  }`
                 : "N/A"}
             </p>
           </DataLineWrapper>

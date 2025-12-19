@@ -153,43 +153,45 @@ const AuthPage: React.FC = () => {
   return (
     <>
       <Header showUserInfo={false} />
-      <div className="auth-page-wrapper container">
-        <div className="auth-container">
-          <AuthTabs
-            activeTab={activeTab}
-            setActiveTab={(tab) => dispatch(setActiveTab(tab))}
-          />
-          <div key={activeTab} className="auth-form-content fade-slide-in">
-            {activeTab === "signin" ? (
-              <SignInForm
-                signinEmail={signinEmail}
-                setSigninEmail={(v) => dispatch(setSigninEmail(v))}
-                signinPassword={signinPassword}
-                setSigninPassword={(v) => dispatch(setSigninPassword(v))}
-                signinRemember={signinRemember}
-                setSigninRemember={(v) => dispatch(setSigninRemember(v))}
-                handleSignIn={handleSignIn}
-                signinError={signinError}
-              />
-            ) : (
-              <SignUpForm
-                signupFirstName={signupFirstName}
-                setSignupFirstName={(v) => dispatch(setSignupFirstName(v))}
-                signupLastName={signupLastName}
-                setSignupLastName={(v) => dispatch(setSignupLastName(v))}
-                signupEmail={signupEmail}
-                setSignupEmail={(v) => dispatch(setSignupEmail(v))}
-                signupPhone={signupPhone}
-                setSignupPhone={(v) => dispatch(setSignupPhone(v))}
-                signupPassword={signupPassword}
-                setSignupPassword={(v) => dispatch(setSignupPassword(v))}
-                handleSignUp={handleSignUp}
-                signupError={signupError}
-              />
-            )}
+      <main>
+        <div className="auth-page-wrapper container">
+          <div className="auth-container">
+            <AuthTabs
+              activeTab={activeTab}
+              setActiveTab={(tab) => dispatch(setActiveTab(tab))}
+            />
+            <div key={activeTab} className="auth-form-content fade-slide-in">
+              {activeTab === "signin" ? (
+                <SignInForm
+                  signinEmail={signinEmail}
+                  setSigninEmail={(v) => dispatch(setSigninEmail(v))}
+                  signinPassword={signinPassword}
+                  setSigninPassword={(v) => dispatch(setSigninPassword(v))}
+                  signinRemember={signinRemember}
+                  setSigninRemember={(v) => dispatch(setSigninRemember(v))}
+                  handleSignIn={handleSignIn}
+                  signinError={signinError}
+                />
+              ) : (
+                <SignUpForm
+                  signupFirstName={signupFirstName}
+                  setSignupFirstName={(v) => dispatch(setSignupFirstName(v))}
+                  signupLastName={signupLastName}
+                  setSignupLastName={(v) => dispatch(setSignupLastName(v))}
+                  signupEmail={signupEmail}
+                  setSignupEmail={(v) => dispatch(setSignupEmail(v))}
+                  signupPhone={signupPhone}
+                  setSignupPhone={(v) => dispatch(setSignupPhone(v))}
+                  signupPassword={signupPassword}
+                  setSignupPassword={(v) => dispatch(setSignupPassword(v))}
+                  handleSignUp={handleSignUp}
+                  signupError={signupError}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 };

@@ -26,11 +26,12 @@
       gap: 6px;
 
       .company-name {
-        color: #8fafe6;
-
-        @media (prefers-color-scheme: dark) {
-          color: #6a95d4;
-        }
+          color: #17407b; // Improved contrast
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          @media (prefers-color-scheme: dark) {
+            color: #b3d1ff;
+          }
       }
 
       .page-service {

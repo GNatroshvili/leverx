@@ -634,7 +634,12 @@
             }
 
             .blue-text {
-              color: #007bff;
+              color: #17407b; // Improved contrast for accessibility
+              font-weight: 600;
+              letter-spacing: 0.2px;
+              @media (prefers-color-scheme: dark) {
+                color: #b3d1ff;
+              }
             }
           }
         }
